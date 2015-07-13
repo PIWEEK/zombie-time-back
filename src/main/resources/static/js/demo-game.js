@@ -5,7 +5,7 @@ var demoGame = {
         connect: function(rcvMessage, username, game, password) {
            var socket = new SockJS('/message');
            demoGame.comms.stompClient = Stomp.over(socket);
-           demoGame.comms.stompClient.connect({'X-Username':username, 'X-Password':password}, function(frame) {
+           demoGame.comms.stompClient.connect({'x-username':username, 'x-password':password}, function(frame) {
                console.log('Connected: ' + frame);
                demoGame.comms.stompClient.subscribe('/topic/zombietime_'+game, rcvMessage, {});
            }, function(error){
