@@ -2,10 +2,10 @@ var demoGame = {
     comms : {
         stompClient: null,
 
-        connect: function(rcvMessage, username, game) {
+        connect: function(rcvMessage, username, game, password) {
            var socket = new SockJS('/message');
            demoGame.comms.stompClient = Stomp.over(socket);
-           demoGame.comms.stompClient.connect({'X-Username':username}, function(frame) {
+           demoGame.comms.stompClient.connect({'X-Username':username, 'X-Password':password}, function(frame) {
                console.log('Connected: ' + frame);
                demoGame.comms.stompClient.subscribe('/topic/zombietime_'+game, rcvMessage, {});
            }, function(error){
@@ -28,12 +28,14 @@ var demoGame = {
     gui : {
         username: "",
         game:"",
+        password:"",
         login: function(){
             demoGame.gui.username = $("#username").val();
             demoGame.gui.game = $("#game").val();
+            demoGame.gui.password = $("#password").val();
             $("#login").hide();
             $("#chat").show();
-            demoGame.comms.connect(demoGame.gui.receiveMessage, demoGame.gui.username,demoGame.gui.game);
+            demoGame.comms.connect(demoGame.gui.receiveMessage, demoGame.gui.username,demoGame.gui.game, demoGame.gui.password);
         },
 
         receiveMessage: function(message) {
