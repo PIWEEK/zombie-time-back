@@ -63,52 +63,33 @@ $('.panel-thumbnail>a').click(function(e){
 });
 
 
+/* join game dialog */
+$('.join-game').click(function(e){
 
+    e.preventDefault();
+    var idx = $(this).parents('.panel').parent().index();
+  	var id = parseInt(idx);
 
+  	var gameName = $(this).find(".game-title").text();
+  	$('#joinGameModal').find(".game-title").text(gameName);
 
-/* google maps */
-google.maps.visualRefresh = true;
+  	var imgSrc = $(this).find(".img-responsive").attr('src');
+    $('#joinGameModal').find(".img-responsive").attr('src', imgSrc);
 
-var map;
-function initialize() {
-	var geocoder = new google.maps.Geocoder();
-	var address = $('#map-input').text(); /* change the map-input to your address */
-	var mapOptions = {
-    	zoom: 15,
-    	mapTypeId: google.maps.MapTypeId.ROADMAP,
-     	scrollwheel: false
-	};
-	map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
-	
-  	if (geocoder) {
-      geocoder.geocode( { 'address': address}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-          if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
-          map.setCenter(results[0].geometry.location);
+    var playersSize = $(this).find(".players-size").text();
+    $('#joinGameModal').find(".players-size").text(playersSize);
 
-            var infowindow = new google.maps.InfoWindow(
-                {
-                  content: address,
-                  map: map,
-                  position: results[0].geometry.location,
-                });
+    var gameSlots = $(this).find(".game-slots").text();
+    $('#joinGameModal').find(".game-slots").text(gameSlots);
 
-            var marker = new google.maps.Marker({
-                position: results[0].geometry.location,
-                map: map, 
-                title:address
-            }); 
+    var gameDifficulty = $(this).find(".game-difficulty").text();
+    $('#joinGameModal').find(".game-difficulty").text(gameDifficulty);
 
-          } else {
-          	alert("No results found");
-          }
-        }
-      });
-	}
-}
-google.maps.event.addDomListener(window, 'load', initialize);
+    var gameId = $(this).find(".game-id").val();
+    $('#joinGameModal').find(".game-id").val(gameId);
 
-/* end google maps */
-
+  	$('#joinGameModal').modal('show'); // show the modal
+  	return false;
+});
 
 });

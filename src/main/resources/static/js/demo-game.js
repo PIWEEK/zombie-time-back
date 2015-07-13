@@ -32,9 +32,8 @@ var demoGame = {
         password:"",
         login: function(){
             demoGame.gui.username = $("#username").val();
-            demoGame.gui.game = $("#game").val();
+            demoGame.gui.game = $("#gameId").val();
             demoGame.gui.password = $("#password").val();
-            $("#login").hide();
             $("#chat").show();
             demoGame.comms.connect(demoGame.gui.receiveMessage, demoGame.gui.username,demoGame.gui.game, demoGame.gui.password);
         },
@@ -63,13 +62,11 @@ var demoGame = {
 
 
 $( document ).ready(function() {
-    $("#loginForm").submit(function( event ) {
-        event.preventDefault();
-        demoGame.gui.login();
-    });
 
     $("#messageForm").submit(function( event ) {
         event.preventDefault();
         demoGame.gui.sendMessage();
     });
+    demoGame.gui.login();
+
 });

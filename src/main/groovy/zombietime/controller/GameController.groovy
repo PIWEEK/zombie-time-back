@@ -29,19 +29,47 @@ class GameController {
         return "home"
     }
 
+    @RequestMapping(value = "/game", method = RequestMethod.POST)
+    public String joinGame(@RequestParam("id") String gameId,
+                           @RequestParam("username") String username,
+                           @RequestParam("password") String password,
+                           Model model
+    ) {
+
+        def game = gameRepository.get(gameId)
+
+        if (!game || game.hasStarted || game.players.size() >= game.slots) {
+            return index(model)
+        }
+
+        model.addAttribute("gameId", gameId)
+        model.addAttribute("username", username)
+        model.addAttribute("password", password)
+        model.addAttribute("gameName", game.name)
+        return "game"
+    }
+
 
     @RequestMapping(value = "/games", method = RequestMethod.POST)
-    public @ResponseBody
-    String createGame(@RequestParam("gameName") String gameName,
+    String createGame(@RequestParam("userName") String userName,
+                      @RequestParam("gameName") String gameName,
                       @RequestParam("gamePassword") String gamePassword,
                       @RequestParam("gameSlots") Integer gameSlots,
                       @RequestParam("gameDifficulty") String gameDifficulty,
-                      @RequestParam("gameMission") String gameMission
+                      @RequestParam("gameMission") String gameMission,
+                      Model model
     ) {
         def uuid = UUID.randomUUID().toString()
         Game game = new Game(id: uuid, name: gameName, password: gamePassword, slots: gameSlots, difficulty: gameDifficulty, mission: gameMission)
         gameRepository.create(game)
-        return "Game created: $uuid"
+
+
+
+        model.addAttribute("gameId", uuid)
+        model.addAttribute("username", userName)
+        model.addAttribute("password", gamePassword)
+        model.addAttribute("gameName", gameName)
+        return "game"
     }
 
     @MessageMapping("/message")

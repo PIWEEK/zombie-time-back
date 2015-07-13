@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Demo Game</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
     <script src="js/sockjs-0.3.4.js"></script>
@@ -39,33 +39,9 @@
 </head>
 <body>
 <div class="container">
-    <div id="login" class="jumbotron">
-        <form id="loginForm">
-            <h1>Demo Game</h1>
 
-            <h2>Put your name and game id</h2>
-
-            <p class="lead">
-                <input id="username" autofocus="" required="" placeholder="User name" class="form-control">
-            </p>
-
-            <p class="lead">
-                <input id="game" autofocus="" required="" placeholder="Game" class="form-control"
-                       value="54530b64-ab11-4cf2-9eb9-066755d16508">
-            </p>
-
-            <p class="lead">
-                <input id="password" type="password" autofocus="" placeholder="Game password"
-                       class="form-control">
-            </p>
-
-            <p class="center">
-                <input type="submit" class="btn btn-lg btn-success" value="Enter"/>
-            </p>
-        </form>
-    </div>
     <div id="chat" class="jumbotron">
-        <h2><img id="avatar"/>Demo Game</h2>
+        <h2>Game <span th:text="${gameName}"/></h2>
 
         <div id="participants" class="right">
         </div>
@@ -77,12 +53,15 @@
         <p>
 
         <form id="messageForm">
-            <input id="text" type="text" placeholder="Send your message" class="form-control">
+            <input id="text" type="text" placeholder="Send your message" class="form-control"/>
         </form>
         </p>
     </div>
 
 </div>
 
+<input type="hidden" id="username" th:value="${username}"/>
+<input type="hidden" id="gameId" th:value="${gameId}"/>
+<input type="hidden" id="password" th:value="${password}"/>
 </body>
 </html>

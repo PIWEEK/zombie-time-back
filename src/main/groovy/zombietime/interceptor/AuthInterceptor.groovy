@@ -47,6 +47,11 @@ class AuthInterceptor extends ChannelInterceptorAdapter {
             throw new IllegalArgumentException("No permission")
         }
 
+        if (isSubscribeCommand(headers)) {
+            //User join game
+            game.players << user
+        }
+
         return message
     }
 

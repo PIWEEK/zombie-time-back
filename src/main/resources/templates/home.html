@@ -1,336 +1,422 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-    <head>
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-        <meta charset="utf-8" />
-        <title>Zombie Time!</title>
-        <meta name="generator" content="Bootply" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"></link>
-        <!--[if lt IE 9]>
-            <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
-        <link href="css/styles.css" rel="stylesheet"></link>
-    </head>
-    <body>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta charset="utf-8"/>
+    <title>Zombie Time!</title>
+    <meta name="generator" content="Bootply"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"></link>
+    <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="css/styles.css" rel="stylesheet"></link>
+</head>
+<body>
 <!-- Wrap all page content here -->
 <div id="wrap">
 
 
-<header class="masthead">
+    <header class="masthead">
 
-    <!-- Carousel
-    ================================================== -->
-    <div id="myCarousel" class="carousel slide">
-      <!-- Indicators -->
-      <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-      </ol>
-      <div class="carousel-inner">
-        <div class="item active">
-          <img src="/img/zombie1.jpg" />
-          <div class="container">
-            <div class="carousel-caption">
-              <h2>The Game</h2>
-              <p></p>
+        <!-- Carousel
+        ================================================== -->
+        <div id="myCarousel" class="carousel slide">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="item active">
+                    <img src="/img/zombie1.jpg"/>
+
+                    <div class="container">
+                        <div class="carousel-caption">
+                            <h2>The Game</h2>
+
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="/img/zombie1.jpg"/>
+
+                    <div class="container">
+                        <div class="carousel-caption">
+                            <h2>The Survivors</h2>
+
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="/img/zombie1.jpg"/>
+
+                    <div class="container">
+                        <div class="carousel-caption">
+                            <h2>The Zombies</h2>
+
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+            <!-- /.carousel-inner -->
+            <div class="logo"></div>
+            <!-- Controls -->
+            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
         </div>
-        <div class="item">
-          <img src="/img/zombie1.jpg" />
-          <div class="container">
-            <div class="carousel-caption">
-              <h2>The Survivors</h2>
-              <p></p>
+        <!-- /.carousel -->
+
+    </header>
+
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-custom navbar-inverse navbar-static-top" id="nav">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
             </div>
-          </div>
-        </div>
-        <div class="item">
-          <img src="/img/zombie1.jpg" />
-          <div class="container">
-            <div class="carousel-caption">
-              <h2>The Zombies</h2>
-              <p></p>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav nav-justified">
+                    <li><a href="#section1">Home</a></li>
+                    <li><a href="#section2">Open Games</a></li>
+                    <li><a href="#section3">Create a Game</a></li>
+                    <li><a href="#section4">How to play</a></li>
+                    <li><a href="#section5">Credits</a></li>
+                </ul>
             </div>
-          </div>
+            <!--/.nav-collapse -->
         </div>
-      </div><!-- /.carousel-inner -->
-      <div class="logo"></div>
-      <!-- Controls -->
-      <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left"></span>
-      </a>
-      <a class="right carousel-control" href="#myCarousel" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right"></span>
-      </a>
+        <!--/.container -->
     </div>
-    <!-- /.carousel -->
+    <!--/.navbar -->
 
-</header>
+    <!-- Begin page content -->
+    <div class="divider" id="section1"></div>
 
-
-<!-- Fixed navbar -->
-<div class="navbar navbar-custom navbar-inverse navbar-static-top" id="nav">
     <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-      </div>
-      <div class="collapse navbar-collapse">
-        <ul class="nav navbar-nav nav-justified">
-          <li><a href="#section1">Home</a></li>
-          <li><a href="#section2">Open Games</a></li>
-          <li><a href="#section3">Create a Game</a></li>
-          <li><a href="#section4">How to play</a></li>
-          <li><a href="#section5">Credits</a></li>
-        </ul>
-      </div><!--/.nav-collapse -->
-    </div><!--/.container -->
-</div><!--/.navbar -->
+        <div class="col-sm-10 col-sm-offset-1">
+            <div class="page-header text-center">
+                <h1>Zombie Time!</h1>
+            </div>
 
-<!-- Begin page content -->
-<div class="divider" id="section1"></div>
+            <p class="lead text-center">
+                Will you survive?
+            </p>
 
-<div class="container">
-  <div class="col-sm-10 col-sm-offset-1">
-    <div class="page-header text-center">
-      <h1>Zombie Time!</h1>
+            <hr/>
+
+            <div class="divider"></div>
+
+        </div>
     </div>
-
-    <p class="lead text-center">
-      Will you survive? <span th:text="'Hello, ' + ${name} + '!'" />
-    </p>
-
-    <hr />
 
     <div class="divider"></div>
 
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<section class="bg-1">
-  <div class="col-sm-6 col-sm-offset-3 text-center"></div>
-</section>
+    <section class="bg-1">
+        <div class="col-sm-6 col-sm-offset-3 text-center"></div>
+    </section>
 
 
-<div class="divider" id="section2"></div>
+    <div class="divider" id="section2"></div>
 
-<section class="bg-3">
-  <div class="col-sm-6 col-sm-offset-3 text-center"><h2 style="padding:20px;background-color:rgba(5,5,5,.8)">Current Games</h2></div>
-</section>
+    <section class="bg-3">
+        <div class="col-sm-6 col-sm-offset-3 text-center"><h2 style="padding:20px;background-color:rgba(5,5,5,.8)">
+            Current Games</h2></div>
+    </section>
 
-<div class="divider"></div>
+    <div class="divider"></div>
 
-<div class="bg-4">
-  <div class="container">
+    <div class="bg-4">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-sm-4 col-xs-6" th:each="game : ${games}">
+                    <a class="join-game" href="#">
+                        <input type="hidden" class="game-id" value="" th:value="${game.id}"/>
+
+                        <div class="panel panel-default">
+                            <div class="panel-thumbnail">
+
+                                <img src="" th:attr="src=${'/img/mission'+game.mission+'.png'}" class="img-responsive"/>
+                            </div>
+                            <div class="panel-body">
+                                <p class="game-title" th:text="${ game.name }"></p>
+
+                                <p>Players: <span class="players-size" th:text="${ game.players.size() }"/>/<span
+                                        class="game-slots" th:text="${ game.slots }"/>
+                                </p>
+
+                                <p>Difficulty: <span class="game-difficulty" th:text="${ game.difficulty }"/></p>
+
+                            </div>
+                        </div>
+                    </a>
+                    <!--/panel-->
+                </div>
+
+            </div>
+            <!--/row-->
+        </div>
+        <!--/container-->
+    </div>
+
+    <div class="divider" id="section3"></div>
+
     <div class="row">
 
-       <div class="col-sm-4 col-xs-6"  th:each="game : ${games}">
-         <div class="panel panel-default">
-          <div class="panel-thumbnail">
-              <a href="#" th:href="${'/game?id=' + game.id}">
-                  <img src="" th:attr="src=${'/img/mission'+game.mission+'.png'}" class="img-responsive" />
-              </a>
-          </div>
-          <div class="panel-body">
-            <p class="game-title" th:text="${ game.name }"></p>
-            <p>Players: <span th:text="${ game.players.size() }" />/<span th:text="${ game.slots }" /></p>
-            <p>Difficulty: <span th:text="${ game.difficulty }" /></p>
-            <p><a href="#" th:href="${'/game?id=' + game.id}">Join!</a></p>
-          </div>
-        </div><!--/panel-->
-       </div>
+        <hr/>
 
-    </div><!--/row-->
-  </div><!--/container-->
-</div>
+        <div class="col-sm-7 col-sm-offset-3">
+            <form action="/games" method="POST">
+                <div class="row form-group">
+                    <div class="col-md-12 col-md-offset-3">
+                        <h1>Create a Game</h1>
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="text" required="required" class="form-control" id="userName" name="userName"
+                               placeholder="User Name"/>
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="text" required="required" class="form-control" id="gameName" name="gameName"
+                               placeholder="Game Name"/>
+                    </div>
+                    <div class="col-xs-3">
+                        <input type="text" required="required" class="form-control" id="password" name="gamePassword"
+                               placeholder="Game password"/>
+                    </div>
+                </div>
 
-<div class="divider" id="section3"></div>
+                <div class="row form-group">
+                    <div class="col-xs-5">
+                        <select class="form-control" name="gameSlots">
+                            <option value="1">1 Slot</option>
+                            <option value="2">2 Slot</option>
+                            <option value="3">3 Slot</option>
+                            <option value="4" selected="selected">4 Slot</option>
+                        </select>
+                    </div>
 
-<div class="row">
+                    <div class="col-xs-6">
+                        <select class="form-control" name="gameDifficulty">
+                            <option value="Low">Difficult Low (Zombie Time! every 60 seconds)</option>
+                            <option value="Medium">Difficult Medium (Zombie Time! every 45 seconds)</option>
+                            <option value="Hard">Difficult Hard (Zombie Time! every 30 seconds)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row form-group">
 
-  <hr />
+                    <div class="col-xs-11">
+                        <select class="form-control" name="gameMission">
+                            <option value="1">Mission1: Run to the car</option>
+                            <option value="2">Mission2: Get the weapons!</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-10">
+                        <input type="submit" class="btn btn-default pull-right" value="Create game"></input>
+                    </div>
+                </div>
+            </form>
 
-  <div class="col-sm-7 col-sm-offset-3">
-    <form action="/games" method="POST">
-      <div class="row form-group">
-        <div class="col-md-12 col-md-offset-3">
-        <h1>Create a Game</h1>
         </div>
-        <div class="col-xs-7">
-          <input type="text" required="required" class="form-control" id="gameName" name="gameName" placeholder="Game Name" />
-        </div>
-        <div class="col-xs-4">
-          <input type="text" class="form-control" id="password" name="gamePassword" placeholder="Game password" />
-        </div>
-      </div>
 
-      <div class="row form-group">
-          <div class="col-xs-5">
-          <select class="form-control" name="gameSlots">
-              <option value="1">1 Slot</option>
-              <option value="2">2 Slot</option>
-              <option value="3">3 Slot</option>
-              <option value="4" selected="selected">4 Slot</option>
-          </select>
-          </div>
+    </div>
+    <!--/row-->
 
-          <div class="col-xs-6">
-          <select class="form-control" name="gameDifficulty">
-              <option value="Low">Difficult Low (Zombie Time! every 60 seconds)</option>
-              <option value="Medium">Difficult Medium (Zombie Time! every 45 seconds)</option>
-              <option value="Hard">Difficult Hard (Zombie Time! every 30 seconds)</option>
-          </select>
-          </div>
-      </div>
-      <div class="row form-group">
+    <div class="divider" id="section4"></div>
 
-          <div class="col-xs-11">
-          <select class="form-control" name="gameMission">
-              <option value="1">Mission1: Run to the car</option>
-              <option value="2">Mission2: Get the weapons!</option>
-          </select>
-          </div>
-      </div>
-      <div class="row form-group">
-          <div class="col-xs-10">
-            <input type="submit" class="btn btn-default pull-right" value="Create game"></input>
-          </div>
-      </div>
-    </form>
+    <div class="row">
 
-  </div>
+        <hr/>
 
-</div><!--/row-->
-
-<div class="divider" id="section4"></div>
-
-<div class="row">
-
-  <hr />
-
-  <div class="col-sm-7 col-sm-offset-3">
-      <div class="col-md-12 col-md-offset-3">
-        <h1>How to play</h1>
-       </div>
-
-
-      <div class="row form-group">
-
-          <div class="col-md-11">
-                Instructions...
+        <div class="col-sm-7 col-sm-offset-3">
+            <div class="col-md-12 col-md-offset-3">
+                <h1>How to play</h1>
             </div>
-      </div>
-
-      <div class="divider"></div>
-
-    </div><!--/col-->
-</div><!--/container-->
 
 
+            <div class="row form-group">
 
-<div class="divider" id="section6"></div>
+                <div class="col-md-11">
+                    Instructions...
+                </div>
+            </div>
 
-<div class="row">
+            <div class="divider"></div>
 
-  <hr />
-
-  <div class="col-sm-7 col-sm-offset-3">
-
-      <div class="row form-group">
-        <div class="col-md-12 col-md-offset-3">
-        <h1>Credits</h1>
         </div>
-        <div class="col-md-12">
-        <h2>Team</h2>
-        </div>
-        <div class="col-md-12 ">
-          <a target="_blank" href="https://twitter.com/_pabloalba_">Pablo Alba (backend developer)</a>
-        </div>
-        <div class="col-md-12 ">
-          <a target="_blank" href="https://twitter.com/mgdelacroix">Miguel de la Cruz (frontend developer)</a>
-        </div>
-        <div class="col-md-12">
-          <a target="_blank" href="https://twitter.com/_laurapareja_">Laura Pareja (ilustrator)</a>
-        </div>
-        <div class="col-md-12">
-          <a target="_blank" href="https://twitter.com/yamila_moreno">Yamila Moreno (backend developer)</a>
-        </div>
-        <div class="col-md-12">
-        <h2>Special thanks</h2>
-        </div>
-        <div class="col-md-12 ">
-          <a target="_blank" href="zombicide.sigil.biz">Sigil.biz (use of custom art)</a>
-        </div>
-        <div class="col-md-12 ">
-          <a target="_blank" href="bootply.com">Bootply.com (web template)</a>
-        </div>
-      </div>
-  </div>
+        <!--/col-->
+    </div>
+    <!--/container-->
 
-</div><!--/row-->
 
-<div class="container">
-    <div class="col-sm-8 col-sm-offset-2 text-center">
+    <div class="divider" id="section6"></div>
 
-      <ul class="list-inline center-block">
-        <li><a target="_blank" href="https://github.com/PIWEEK/zombie-time-back"><img class="github" src="https://assets-cdn.github.com/images/modules/logos_page/Octocat.png" />zombietime-back on github</a></li>
-        <li><a target="_blank" href="https://github.com/PIWEEK/zombie-time-front"><img class="github" src="https://assets-cdn.github.com/images/modules/logos_page/Octocat.png" />zombietime-front on github</a></li>
-      </ul>
+    <div class="row">
 
-    </div><!--/col-->
-</div><!--/container-->
+        <hr/>
 
-</div><!--/wrap-->
+        <div class="col-sm-7 col-sm-offset-3">
+
+            <div class="row form-group">
+                <div class="col-md-12 col-md-offset-3">
+                    <h1>Credits</h1>
+                </div>
+                <div class="col-md-12">
+                    <h2>Team</h2>
+                </div>
+                <div class="col-md-12 ">
+                    <a target="_blank" href="https://twitter.com/_pabloalba_">Pablo Alba (backend developer)</a>
+                </div>
+                <div class="col-md-12 ">
+                    <a target="_blank" href="https://twitter.com/mgdelacroix">Miguel de la Cruz (frontend developer)</a>
+                </div>
+                <div class="col-md-12">
+                    <a target="_blank" href="https://twitter.com/_laurapareja_">Laura Pareja (ilustrator)</a>
+                </div>
+                <div class="col-md-12">
+                    <a target="_blank" href="https://twitter.com/yamila_moreno">Yamila Moreno (backend developer)</a>
+                </div>
+                <div class="col-md-12">
+                    <h2>Special thanks</h2>
+                </div>
+                <div class="col-md-12 ">
+                    <a target="_blank" href="zombicide.sigil.biz">Sigil.biz (use of custom art)</a>
+                </div>
+                <div class="col-md-12 ">
+                    <a target="_blank" href="bootply.com">Bootply.com (web template)</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--/row-->
+
+    <div class="container">
+        <div class="col-sm-8 col-sm-offset-2 text-center">
+
+            <ul class="list-inline center-block">
+                <li><a target="_blank" href="https://github.com/PIWEEK/zombie-time-back"><img class="github"
+                                                                                              src="https://assets-cdn.github.com/images/modules/logos_page/Octocat.png"/>zombietime-back
+                    on github</a></li>
+                <li><a target="_blank" href="https://github.com/PIWEEK/zombie-time-front"><img class="github"
+                                                                                               src="https://assets-cdn.github.com/images/modules/logos_page/Octocat.png"/>zombietime-front
+                    on github</a></li>
+            </ul>
+
+        </div>
+        <!--/col-->
+    </div>
+    <!--/container-->
+
+</div>
+<!--/wrap-->
 
 <div id="footer">
-  <div class="container">
-    <p class="text-muted">ZombieTime is opensource with an Apache LicenseVersion 2.0</p>
-  </div>
+    <div class="container">
+        <p class="text-muted">ZombieTime is opensource with an Apache LicenseVersion 2.0</p>
+    </div>
 </div>
 
 <ul class="nav pull-right scroll-top">
-  <li><a href="#" title="Scroll to top"><i class="glyphicon glyphicon-chevron-up"></i></a></li>
+    <li><a href="#" title="Scroll to top"><i class="glyphicon glyphicon-chevron-up"></i></a></li>
 </ul>
 
 
 <div class="modal" id="myModal" role="dialog">
-  <div class="modal-dialog">
-  <div class="modal-content">
-    <div class="modal-header">
-        <button class="close" type="button" data-dismiss="modal">×</button>
-        <h3 class="modal-title"></h3>
-    </div>
-    <div class="modal-body">
-        <div id="modalCarousel" class="carousel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal">×</button>
+                <h3 class="modal-title"></h3>
+            </div>
+            <div class="modal-body">
+                <div id="modalCarousel" class="carousel">
 
-          <div class="carousel-inner">
+                    <div class="carousel-inner">
 
-          </div>
+                    </div>
 
-          <a class="carousel-control left" href="#modaCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
-          <a class="carousel-control right" href="#modalCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+                    <a class="carousel-control left" href="#modaCarousel" data-slide="prev"><i
+                            class="glyphicon glyphicon-chevron-left"></i></a>
+                    <a class="carousel-control right" href="#modalCarousel" data-slide="next"><i
+                            class="glyphicon glyphicon-chevron-right"></i></a>
 
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
-    <div class="modal-footer">
-        <button class="btn btn-default" data-dismiss="modal">Close</button>
-    </div>
-   </div>
-  </div>
 </div>
 
 
-    <!-- script references -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/scripts.js"></script>
-    </body>
+<div class="modal" id="joinGameModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal">×</button>
+                <h3 class="modal-title">Join game <span class="game-title"></span></h3>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <img class="img-responsive" src=""/>
+                </div>
+
+                <form action="/game" method="POST">
+                    <input class="game-id" type="hidden" name="id"/>
+
+                    <div class="row form-group">
+                        <div class="col-xs-7">
+                            Players: <span class="players-size"/>/<span class="game-slots"/>
+                        </div>
+                        <div class="col-xs-6">
+                            Difficulty: <span class="game-difficulty"/>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-xs-7">
+                            <input type="text" required="required" class="form-control" name="username"
+                                   placeholder="User Name"/>
+                        </div>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control" id="password" name="password"
+                                   placeholder="Game password"/>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-xs-7">
+                            <input type="submit" class="btn btn-default pull-right" value="Join game"></input>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- script references -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/scripts.js"></script>
+</body>
 </html>

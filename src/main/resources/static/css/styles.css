@@ -243,11 +243,22 @@ section {
 }
 
 
-.game-title {
-    font-weight:bold;
-    color: red;
-}
+//Zombietime
+
+
 
 .github {
     width: 30px;
 }
+
+.join-game, .join-game:hover {
+    text-decoration: none;
+}
+
+
+
+.join-game .game-title {
+    font-weight:bold;
+    color: red;
+}
+
