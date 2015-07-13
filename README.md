@@ -2,24 +2,18 @@
 
 Zombie Time! is a multiplayer web tabletop game where a bunch of survivors try to survive to a zombie apocalypse while achieving some common and personal objectives.
 
-## Development environment
+## Run server
 
-To install the project dependencies, run
+To install the project dependencies and run teh server, run
 
 ```shell
-npm install
+./gradlew bootRun
 ```
 
-To start the development server, run
+and then load the `http://localhost:8080` URL.
+
+Finally, to create the distribution-ready version of the project in the `build` folder, run
 
 ```shell
-npm run watch
-```
-
-and then load the `http://localhost:3000` URL.
-
-Finally, to create the distribution-ready version of the project in the `dist` folder, run
-
-```shell
-npm run dist
+./gradlew build
 ```
