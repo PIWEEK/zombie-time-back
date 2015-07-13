@@ -1,5 +1,6 @@
 package zombietime.controller
 
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import zombietime.domain.Game
@@ -21,33 +22,27 @@ class GameController {
     @Autowired
     private GameRepository gameRepository
 
-/*
-    @RequestMapping(value = "/create-game", method = RequestMethod.GET)
-    public @ResponseBody
-    String showCreateGame() {
 
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String index(Model model) {
+        model.addAttribute("games", gameRepository.list())
+        return "home"
     }
-*/
 
-    @RequestMapping(value = "/create-game", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/games", method = RequestMethod.POST)
     public @ResponseBody
-    String createGame(@RequestParam("name") String name, @RequestParam("password") String password) {
+    String createGame(@RequestParam("gameName") String gameName,
+                      @RequestParam("gamePassword") String gamePassword,
+                      @RequestParam("gameSlots") Integer gameSlots,
+                      @RequestParam("gameDifficulty") String gameDifficulty,
+                      @RequestParam("gameMission") String gameMission
+    ) {
         def uuid = UUID.randomUUID().toString()
-        Game game = new Game(id: uuid, name: name, password: password)
+        Game game = new Game(id: uuid, name: gameName, password: gamePassword, slots: gameSlots, difficulty: gameDifficulty, mission: gameMission)
         gameRepository.create(game)
         return "Game created: $uuid"
     }
-
-    @RequestMapping(value = "/games", method = RequestMethod.GET)
-    public @ResponseBody
-    String listGames() {
-        StringBuffer list = new StringBuffer("<html><body><h1>Games</h1><ul>")
-        gameRepository.list().each { game ->
-            list.append("<li>Game: ${game.name} - ${game.id}</li>")
-        }
-        list.append("</ul></body></html>")
-    }
-
 
     @MessageMapping("/message")
     public void chatMessage(@Payload Message message) {
