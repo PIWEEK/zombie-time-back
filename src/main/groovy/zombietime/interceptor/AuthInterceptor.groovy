@@ -32,7 +32,7 @@ class AuthInterceptor extends ChannelInterceptorAdapter {
             return message
         }
 
-        if (!isSubscribeCommand(headers)) {
+        if (!(isSubscribeCommand(headers) || isSend(headers))) {
             throw new IllegalArgumentException("No permission")
         }
 
@@ -62,5 +62,10 @@ class AuthInterceptor extends ChannelInterceptorAdapter {
     private boolean isConnect(StompHeaderAccessor headers) {
         StompCommand.CONNECT == headers.command
     }
+
+    private boolean isSend(StompHeaderAccessor headers) {
+        StompCommand.SEND == headers.command
+    }
+
 
 }

@@ -5,6 +5,7 @@ var demoGame = {
         connect: function(rcvMessage, username, game, password) {
            var socket = new SockJS('/message');
            demoGame.comms.stompClient = Stomp.over(socket);
+           var headers;
            demoGame.comms.stompClient.connect({'x-username':username, 'x-password':password}, function(frame) {
                console.log('Connected: ' + frame);
                demoGame.comms.stompClient.subscribe('/topic/zombietime_'+game, rcvMessage, {});
@@ -21,7 +22,7 @@ var demoGame = {
         },
 
         sendMessage: function(username, game, text) {
-            demoGame.comms.stompClient.send("/app/message", {}, JSON.stringify({'game':game, 'action': text, 'x':0, 'y':1}));
+            demoGame.comms.stompClient.send("/topic/zombietime_"+game, {}, JSON.stringify({'game':game, 'action': text, 'x':0, 'y':1}));
         }
     },
     /////////////////////////////////////////////////////////////////////////
