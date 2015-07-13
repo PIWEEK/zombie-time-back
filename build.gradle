@@ -8,7 +8,6 @@ buildscript {
 }
 
 apply plugin: 'groovy'
-apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 
@@ -25,25 +24,18 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 String groovyVersion = '2.4.3'
-String springIntegrationVersion = '4.1.0.M1'
 
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-integration'
-    compile "org.springframework.integration:spring-integration-core:${springIntegrationVersion}"
-    compile "org.springframework.integration:spring-integration-amqp:${springIntegrationVersion}"
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-websocket'
     compile 'org.springframework.boot:spring-boot-starter-actuator'
-    compile("org.springframework.boot:spring-boot-starter-jdbc")
     compile("org.springframework:spring-messaging")
     compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
     testCompile 'cglib:cglib-nodep:3.1'
-
-    compile 'org.projectreactor:reactor-core:1.1.6.RELEASE'
-    compile 'org.projectreactor:reactor-net:1.1.6.RELEASE'
 
 }
 
