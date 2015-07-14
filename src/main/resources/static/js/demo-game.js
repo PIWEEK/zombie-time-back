@@ -26,7 +26,11 @@ var demoGame = {
         },
 
         sendMessage: function(username, game, text) {
-            demoGame.comms.stompClient.send("/topic/zombietime_"+game, {}, JSON.stringify({'game':game, 'action': text, 'x':0, 'y':1}));
+            demoGame.comms.stompClient.send("/app/message", {}, JSON.stringify({'game':game, 'type':'CHAT', 'data': text, 'x':0, 'y':0}));
+        },
+
+        sendSelectUserMessage: function(username, game, slug, leader) {
+            demoGame.comms.stompClient.send("/app/message", {}, JSON.stringify({'game':game, 'type':'SELECT_SURVIVOR', 'data': slug, 'data2':leader, 'x':0, 'y':0}));
         }
     },
     /////////////////////////////////////////////////////////////////////////
@@ -44,7 +48,7 @@ var demoGame = {
 
         receiveMessage: function(message) {
             var jsonMsg = JSON.parse(message.body);
-            demoGame.gui.showMessage(jsonMsg.game, jsonMsg.action);
+            demoGame.gui.showMessage(jsonMsg.type, jsonMsg.data);
         },
 
         sendMessage: function(){
@@ -53,10 +57,10 @@ var demoGame = {
             demoGame.comms.sendMessage(demoGame.gui.username, demoGame.gui.game, text);
         },
 
-        showMessage: function(game, action){
+        showMessage: function(type, data){
             var message;
 
-            message = $("<div class='message right'><span>[" + game + "] - " + action +"&nbsp;</span><span></div>");
+            message = $("<div class='message right'><span>[" + type + "] - " + data +"&nbsp;</span><span></div>");
 
             $("#history").append(message);
             $("#history").scrollTop ($("#history")[0].scrollHeight);
@@ -72,5 +76,21 @@ $( document ).ready(function() {
         demoGame.gui.sendMessage();
     });
     demoGame.gui.login();
+
+    $("#selectPablo").click(function( event ) {
+        demoGame.comms.sendSelectUserMessage(demoGame.gui.username, demoGame.gui.game, 'pablo', true);
+    });
+    $("#selectLaura").click(function( event ) {
+        demoGame.comms.sendSelectUserMessage(demoGame.gui.username, demoGame.gui.game, 'laura', true);
+    });
+
+
+    $("#selectMiguel").click(function( event ) {
+        demoGame.comms.sendSelectUserMessage(demoGame.gui.username, demoGame.gui.game, 'miguel', false);
+    });
+
+    $("#selectYami").click(function( event ) {
+        demoGame.comms.sendSelectUserMessage(demoGame.gui.username, demoGame.gui.game, 'yami', false);
+    });
 
 });

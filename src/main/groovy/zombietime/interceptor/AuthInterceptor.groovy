@@ -12,6 +12,7 @@ import org.springframework.messaging.MessageChannel
 import org.springframework.messaging.simp.stomp.StompCommand
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor
 import org.springframework.messaging.support.ChannelInterceptorAdapter
+import zombietime.service.GameService
 
 @Slf4j
 @Component
@@ -21,6 +22,9 @@ class AuthInterceptor extends ChannelInterceptorAdapter {
 
     @Autowired
     GameRepository gameRepository
+
+    @Autowired
+    GameService gameService
 
 
     @Override
@@ -38,19 +42,23 @@ class AuthInterceptor extends ChannelInterceptorAdapter {
 
         User user = userRepository.get(headers.getSessionId())
 
-        def destination = headers.getHeader("simpDestination")
-        Game game = gameRepository.get(destination.substring(18))
-
-        if ((!user) ||
-                (!game) ||
-                ((user.gamePassword != game.password))) {
+        if (!user) {
             throw new IllegalArgumentException("No permission")
         }
 
         if (isSubscribeCommand(headers)) {
+            def destination = headers.getHeader("simpDestination")
+            def gameId = destination.substring(18)
+            Game game = gameRepository.get(gameId)
+
+            if ((!game) || (user.gamePassword != game.password)) {
+                throw new IllegalArgumentException("No permission")
+            }
+
             //User join game
-            game.players << user
+            gameService.addUserToGame(user, game)
         }
+
 
         return message
     }

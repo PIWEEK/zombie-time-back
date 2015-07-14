@@ -3,13 +3,18 @@ package zombietime.service
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import zombietime.domain.Game
+import zombietime.domain.Message
 import zombietime.domain.Mission
 import zombietime.domain.MissionStatus
 import zombietime.domain.Point
+import zombietime.domain.User
 import zombietime.domain.ZombieStatus
 import zombietime.repository.GameRepository
 import zombietime.repository.MissionRepository
+import zombietime.repository.SurvivorRepository
+import zombietime.repository.UserRepository
 import zombietime.repository.ZombieRepository
+import zombietime.utils.Utils
 
 @Service
 class GameService {
@@ -22,6 +27,15 @@ class GameService {
 
     @Autowired
     private ZombieRepository zombieRepository
+
+    @Autowired
+    private MessageService messageService
+
+    @Autowired
+    private SurvivorRepository survivorRepository
+
+    @Autowired
+    private UserRepository userRepository
 
 
     List<Game> listOpenGames() {
@@ -40,18 +54,18 @@ class GameService {
         gameRepository.create(game)
 
         //Create Mission status
-        createMissionStatus(missionSlug, zombieTimeInterval)
+        game.missionStatus = createMissionStatus(missionSlug, game)
 
 
         return game
     }
 
 
-    MissionStatus createMissionStatus(String missionSlug, Integer zombieTimeInterval) {
+    MissionStatus createMissionStatus(String missionSlug, Game game) {
 
 
         Mission mission = missionRepository.get(missionSlug)
-        def missionStatus = new MissionStatus(mission: mission, zombieTimeInterval: zombieTimeInterval)
+        def missionStatus = new MissionStatus(mission: mission, game: game)
         def zombie = zombieRepository.get('zombie1')
 
         //add zombies
@@ -72,5 +86,67 @@ class GameService {
         return missionStatus
 
 
+    }
+
+
+    void removeUserFromGames(User user) {
+        def toRemove = []
+        gameRepository.list().each { game ->
+            if (user in game.players) {
+                game.players.remove(user)
+                if (game.players.size() == 0) {
+                    toRemove << game.id
+                }
+                messageService.sendDisconnectMessage(game, user)
+            }
+        }
+
+        toRemove.each {
+            gameRepository.remove(it)
+        }
+    }
+
+
+    void addUserToGame(User user, Game game) {
+        game.players << user
+        messageService.sendConnectMessage(game)
+    }
+
+
+    void processMessage(Message message, User user) {
+        def game = gameRepository.get(message.game)
+        if (game) {
+            if (user in game.players) {
+                switch (message.type) {
+                    case Utils.MESSAGE_TYPE_CHAT:
+                        processChatMessage(message)
+                        return
+                    case Utils.MESSAGE_TYPE_SELECT_SURVIVOR:
+                        processSelectSurvivorMessage(message, game, user)
+                        return
+                }
+            }
+        }
+    }
+
+    void processChatMessage(Message message) {
+        //echo
+        messageService.sendMessage(message)
+    }
+
+
+    void processSelectSurvivorMessage(Message message, Game game, User player) {
+
+        def survivor = survivorRepository.get(message.data)
+        boolean leader = (message.data2 == 'true')
+        def survivorStatus = survivor.createStatus()
+        survivorStatus.player = player
+        survivorStatus.leader = leader
+
+
+        def oldSurvivor = game.missionStatus.survivors.find { (it.player == player) && (it.leader == leader) }
+        game.missionStatus.survivors.remove(oldSurvivor)
+        game.missionStatus.survivors << survivorStatus
+        messageService.sendFullGameMessage(game)
     }
 }

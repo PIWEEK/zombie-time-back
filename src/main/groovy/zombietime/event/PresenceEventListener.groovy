@@ -8,6 +8,8 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent
 import zombietime.domain.User
 import zombietime.repository.GameRepository
 import zombietime.repository.UserRepository
+import zombietime.service.GameService
+import zombietime.service.MessageService
 
 
 class PresenceEventListener implements ApplicationListener<ApplicationEvent> {
@@ -15,7 +17,7 @@ class PresenceEventListener implements ApplicationListener<ApplicationEvent> {
     static final String HEADER_PASSWORD = 'x-password'
 
     UserRepository userRepository
-    GameRepository gameRepository
+    GameService gameService
 
 
     public void onApplicationEvent(ApplicationEvent event) {
@@ -46,7 +48,7 @@ class PresenceEventListener implements ApplicationListener<ApplicationEvent> {
 
         if (user) {
             //TODO: What if the game is running?
-            gameRepository.removeUserFromGames(user)
+            gameService.removeUserFromGames(user)
         }
     }
 
