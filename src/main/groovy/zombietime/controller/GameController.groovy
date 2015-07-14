@@ -1,11 +1,13 @@
 package zombietime.controller
 
+import org.springframework.messaging.MessageHeaders
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import zombietime.domain.Game
 import zombietime.domain.Message
+import zombietime.repository.UserRepository
 import zombietime.service.GameService
 import zombietime.service.MessageService
 import org.springframework.beans.factory.annotation.Autowired
@@ -13,6 +15,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
+
+import javax.servlet.http.HttpSession
 
 
 @Controller
@@ -22,6 +26,9 @@ class GameController {
 
     @Autowired
     private GameService gameService
+
+    @Autowired
+    private UserRepository userRepository
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -76,14 +83,11 @@ class GameController {
     }
 
     @MessageMapping("/message")
-    public void chatMessage(@Payload Message message) {
-        Message mess = new Message(
-                game: message.game,
-                action: message.action,
-                x: message.x,
-                y: message.y
-        )
-        messageService.sendMessage(message)
+    public void processMessage(@Payload Message message, MessageHeaders headers) {
+        def user = userRepository.get(headers.simpSessionId)
+        if (user) {
+            gameService.processMessage(message, user)
+        }
     }
 
 }

@@ -2,11 +2,11 @@ package zombietime.domain
 
 class MissionStatus {
     Mission mission
+    Game game
     List<SurvivorStatus> survivors = []
     List<ZombieStatus> zombies = []
     List<Status> remainingObjects = []
     Integer time = 900
-    Integer zombieTimeInterval = 60
 
 
     Map asMap() {
@@ -14,7 +14,7 @@ class MissionStatus {
                 survivors         : survivors*.asMap(),
                 zombies           : zombies*.asMap(),
                 time              : time,
-                zombieTimeInterval: zombieTimeInterval,
+                zombieTimeInterval: game.zombieTimeInterval,
                 map               : [
                         width     : mission.mapWidth,
                         height    : mission.mapHeight,

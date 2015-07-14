@@ -7,15 +7,20 @@ class SurvivorStatus {
     Integer remainingInventory
     Integer remainingDefense
 
+    Boolean leader
+
     Survivor survivor
+    User player
 
     Point point = new Point(x: 0, y: 0)
 
 
     Map asMap() {
         return [
-                name              : survivor.name,
+                player            : player.username,
+                slug              : survivor.slug,
                 avatar            : survivor.avatar,
+                leader            : leader,
                 remainingLife     : remainingLife,
                 remainingActions  : remainingActions,
                 remainingInventory: remainingInventory,
