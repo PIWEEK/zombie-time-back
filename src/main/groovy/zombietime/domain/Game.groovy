@@ -6,7 +6,10 @@ class Game {
     String password
     Integer slots = 4
     List<User> players = []
-    String difficulty = "Medium"
-    String mission = "1"
+    Integer zombieTimeInterval = 60
+    Integer mission = 1
     boolean hasStarted = false
+
+
+    MissionStatus missionStatus
 }

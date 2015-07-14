@@ -159,7 +159,8 @@
                                         class="game-slots" th:text="${ game.slots }"/>
                                 </p>
 
-                                <p>Difficulty: <span class="game-difficulty" th:text="${ game.difficulty }"/></p>
+                                <p>Zombie Time every <span class="game-difficulty" th:text="${ game.difficulty }"/>
+                                    seconds</p>
 
                             </div>
                         </div>
@@ -210,10 +211,10 @@
                     </div>
 
                     <div class="col-xs-6">
-                        <select class="form-control" name="gameDifficulty">
-                            <option value="Low">Difficult Low (Zombie Time! every 60 seconds)</option>
-                            <option value="Medium">Difficult Medium (Zombie Time! every 45 seconds)</option>
-                            <option value="Hard">Difficult Hard (Zombie Time! every 30 seconds)</option>
+                        <select class="form-control" name="gameZombieTimeInterval">
+                            <option value="60">Difficult Normal (Zombie Time! every 60 seconds)</option>
+                            <option value="45">Difficult Hard (Zombie Time! every 45 seconds)</option>
+                            <option value="30">Difficult Extreme (Zombie Time! every 30 seconds)</option>
                         </select>
                     </div>
                 </div>

@@ -55,12 +55,12 @@ class GameController {
                       @RequestParam("gameName") String gameName,
                       @RequestParam("gamePassword") String gamePassword,
                       @RequestParam("gameSlots") Integer gameSlots,
-                      @RequestParam("gameDifficulty") String gameDifficulty,
-                      @RequestParam("gameMission") String gameMission,
+                      @RequestParam("gameZombieTimeInterval") Integer gameZombieTimeInterval,
+                      @RequestParam("gameMission") Integer gameMission,
                       Model model
     ) {
 
-        Game game = gameService.create(gameName, gamePassword, gameSlots, gameDifficulty, gameMission)
+        Game game = gameService.create(gameName, gamePassword, gameSlots, gameZombieTimeInterval, gameMission)
 
         model.addAttribute("gameId", game.id)
         model.addAttribute("username", userName)

@@ -6,7 +6,7 @@ class Zombie {
     String slug
     Integer avatar
 
-    Integer life
-    Integer damage
+    Integer life = 1
+    Integer damage = 1
 
 }

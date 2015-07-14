@@ -1,7 +1,8 @@
 package zombietime.repository
 
 import org.springframework.stereotype.Component
-import org.springframework.stereotype.Service
+import zombietime.domain.Game
+import zombietime.domain.Mission
 import zombietime.domain.Zombie
 
 import java.util.concurrent.ConcurrentHashMap

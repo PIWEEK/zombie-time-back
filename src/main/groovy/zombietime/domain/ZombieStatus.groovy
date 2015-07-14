@@ -2,7 +2,7 @@ package zombietime.domain
 
 class ZombieStatus {
 
-    Integer id
+    Point point
     Integer remainingLife
     Integer remainingDamage
 
