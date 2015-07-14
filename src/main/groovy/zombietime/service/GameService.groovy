@@ -34,13 +34,13 @@ class GameService {
         return gameRepository.get(gameId)
     }
 
-    Game create(String gameName, String gamePassword, Integer gameSlots, Integer zombieTimeInterval, Integer missionId) {
+    Game create(String gameName, String gamePassword, Integer gameSlots, Integer zombieTimeInterval, String missionSlug) {
         def uuid = UUID.randomUUID().toString()
-        Game game = new Game(id: uuid, name: gameName, password: gamePassword, slots: gameSlots, zombieTimeInterval: zombieTimeInterval, mission: missionId)
+        Game game = new Game(id: uuid, name: gameName, password: gamePassword, slots: gameSlots, zombieTimeInterval: zombieTimeInterval, mission: missionSlug)
         gameRepository.create(game)
 
         //Create Mission status
-        createMissionStatus(missionId, zombieTimeInterval)
+        createMissionStatus(missionSlug, zombieTimeInterval)
 
 
         return game

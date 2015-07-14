@@ -10,7 +10,11 @@ var demoGame = {
                console.log('Connected: ' + frame);
                demoGame.comms.stompClient.subscribe('/topic/zombietime_'+game, rcvMessage, {});
            }, function(error){
-                alert(error.headers.message);
+                if (error.headers !== undefined) {
+                    alert(error.headers.message);
+                } else {
+                    alert(errors);
+                }
            });
         },
 

@@ -159,7 +159,8 @@
                                         class="game-slots" th:text="${ game.slots }"/>
                                 </p>
 
-                                <p>Zombie Time every <span class="game-difficulty" th:text="${ game.difficulty }"/>
+                                <p>Zombie Time every <span class="game-difficulty"
+                                                           th:text="${ game.zombieTimeInterval }"/>
                                     seconds</p>
 
                             </div>
@@ -222,8 +223,8 @@
 
                     <div class="col-xs-11">
                         <select class="form-control" name="gameMission">
-                            <option value="1">Mission1: Run to the car</option>
-                            <option value="2">Mission2: Get the weapons!</option>
+                            <option value="01">Mission1: Run to the car</option>
+                            <option value="02">Mission2: Get the weapons!</option>
                         </select>
                     </div>
                 </div>
@@ -384,11 +385,11 @@
                     <input class="game-id" type="hidden" name="id"/>
 
                     <div class="row form-group">
-                        <div class="col-xs-7">
+                        <div class="col-xs-4 col-xs-offset-2">
                             Players: <span class="players-size"/>/<span class="game-slots"/>
                         </div>
-                        <div class="col-xs-6">
-                            Difficulty: <span class="game-difficulty"/>
+                        <div class="col-xs-5">
+                            Zombie Time every <span class="game-difficulty"/> seconds
                         </div>
                     </div>
                     <div class="row form-group">
@@ -410,6 +411,22 @@
 
             </div>
 
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="errorModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal">×</button>
+                <h3 class="modal-title">You can't join the game</h3>
+            </div>
+            <div class="modal-body">
+                Sorry, the password was wrong or the game is full
+                <input type="hidden" id="errorJoinGame" th:value="${#vars['flash.error']}"/>
+            </div>
         </div>
     </div>
 </div>

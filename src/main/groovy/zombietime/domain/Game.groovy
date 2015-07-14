@@ -7,7 +7,7 @@ class Game {
     Integer slots = 4
     List<User> players = []
     Integer zombieTimeInterval = 60
-    Integer mission = 1
+    String mission = '01'
     boolean hasStarted = false
 
 

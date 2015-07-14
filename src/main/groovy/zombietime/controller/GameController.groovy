@@ -3,6 +3,7 @@ package zombietime.controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import zombietime.domain.Game
 import zombietime.domain.Message
 import zombietime.service.GameService
@@ -33,13 +34,18 @@ class GameController {
     public String joinGame(@RequestParam("id") String gameId,
                            @RequestParam("username") String username,
                            @RequestParam("password") String password,
-                           Model model
+                           Model model,
+                           RedirectAttributes redirectAttributes
     ) {
 
         def game = gameService.get(gameId)
 
-        if (!game || game.hasStarted || game.players.size() >= game.slots) {
-            return index(model)
+        if (!game ||
+                game.hasStarted ||
+                game.players.size() >= game.slots ||
+                ((game.password) && (game.password != password))) {
+            redirectAttributes.addFlashAttribute("flash.error", "true");
+            return "redirect:/#section2"
         }
 
         model.addAttribute("gameId", gameId)
@@ -56,7 +62,7 @@ class GameController {
                       @RequestParam("gamePassword") String gamePassword,
                       @RequestParam("gameSlots") Integer gameSlots,
                       @RequestParam("gameZombieTimeInterval") Integer gameZombieTimeInterval,
-                      @RequestParam("gameMission") Integer gameMission,
+                      @RequestParam("gameMission") String gameMission,
                       Model model
     ) {
 
