@@ -1,0 +1,20 @@
+[
+    {
+        "name": "Leather jacket",
+        "slug": "leather-jacket",
+        "avatar": 1,
+        "level": 1
+    },
+    {
+        "name": "Biker suit",
+        "slug": "biker-suit",
+        "avatar": 1,
+        "level": 1
+    },
+    {
+        "name": "SWAT suit",
+        "slug": "swat-suit",
+        "avatar": 1,
+        "level": 1
+    }
+]
