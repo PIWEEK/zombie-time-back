@@ -1,7 +1,8 @@
 package zombietime.domain
 
-class LongRangeWeaponStatus {
+class LongRangeWeaponStatus implements Status {
 
+    Integer id
     Integer remainingAmmo
 
     LongRangeWeapon longRangeWeapon

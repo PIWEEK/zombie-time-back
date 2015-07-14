@@ -1,7 +1,8 @@
 package zombietime.domain
 
-class ShortRangeWeaponStatus {
+class ShortRangeWeaponStatus implements Status {
 
+    Integer id
     Integer remainingAttacks
 
     ShortRangeWeapon shortRangeWeapon
