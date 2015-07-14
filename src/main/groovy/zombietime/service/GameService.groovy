@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service
 import zombietime.domain.Game
 import zombietime.domain.Mission
 import zombietime.domain.MissionStatus
+import zombietime.domain.Point
 import zombietime.domain.ZombieStatus
 import zombietime.repository.GameRepository
 import zombietime.repository.MissionRepository
@@ -46,16 +47,18 @@ class GameService {
     }
 
 
-    MissionStatus createMissionStatus(Integer missionId, Integer zombieTimeInterval) {
-        Mission mission = missionRepository.get(missionId)
+    MissionStatus createMissionStatus(String missionSlug, Integer zombieTimeInterval) {
+
+
+        Mission mission = missionRepository.get(missionSlug)
         def missionStatus = new MissionStatus(mission: mission, zombieTimeInterval: zombieTimeInterval)
-        def zombie = zombieRepository.get()
+        def zombie = zombieRepository.get('zombie1')
 
         //add zombies
         mission.startZombiePoints.each { point ->
             missionStatus.zombies << new ZombieStatus(
                     zombie: zombie,
-                    point: point,
+                    point: new Point(x: point.x, y: point.y),
                     remainingLife: zombie.life,
                     remainingDamage: zombie.damage
             )
@@ -63,8 +66,10 @@ class GameService {
 
         //add items and weapons
         mission.objects.each { item ->
-            missionStatus.remainObjects << item.createStatus()
+            missionStatus.remainingObjects << item.createStatus()
         }
+
+        return missionStatus
 
 
     }

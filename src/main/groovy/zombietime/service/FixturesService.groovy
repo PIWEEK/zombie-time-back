@@ -1,6 +1,15 @@
 package zombietime.service
 
+import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
+import zombietime.domain.Mission
+import zombietime.domain.MissionStatus
+import zombietime.domain.Point
+import zombietime.domain.Survivor
+import zombietime.domain.SurvivorStatus
+import zombietime.domain.VictoryCondition
+import zombietime.repository.MissionRepository
+
 import javax.annotation.PostConstruct
 
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,18 +25,22 @@ import zombietime.repository.ItemRepository
 @Service
 class FixturesService {
 
-        @Autowired
-        SurvivorRepository survivorRepository
-        @Autowired
-        ZombieRepository zombieRepository
-        @Autowired
-        DefenseRepository defenseRepository
-        @Autowired
-        LongRangeWeaponRepository longRangeWeaponRepository
-        @Autowired
-        ShortRangeWeaponRepository shortRangeWeaponRepository
-        @Autowired
-        ItemRepository itemRepository
+    @Autowired
+    SurvivorRepository survivorRepository
+    @Autowired
+    ZombieRepository zombieRepository
+    @Autowired
+    DefenseRepository defenseRepository
+    @Autowired
+    LongRangeWeaponRepository longRangeWeaponRepository
+    @Autowired
+    ShortRangeWeaponRepository shortRangeWeaponRepository
+    @Autowired
+    ItemRepository itemRepository
+    @Autowired
+    MissionRepository missionRepository
+    @Autowired
+    GameService gameService
 
     @PostConstruct
     def loadFixtures() {
@@ -40,13 +53,13 @@ class FixturesService {
         result = jsonSlurper.parseText(survivors.text)
         for (survivor in result) {
             survivorRepository.create(
-                name: survivor.name,
-                slug: survivor.slug,
-                avatar: survivor.avatar,
-                life: survivor.life,
-                actions: survivor.actions,
-                inventory: survivor.inventory,
-                defense: survivor.defense
+                    name: survivor.name,
+                    slug: survivor.slug,
+                    avatar: survivor.avatar,
+                    life: survivor.life,
+                    actions: survivor.actions,
+                    inventory: survivor.inventory,
+                    defense: survivor.defense
             )
         }
 
@@ -55,11 +68,11 @@ class FixturesService {
         result = jsonSlurper.parseText(zombies.text)
         for (zombie in result) {
             zombieRepository.create(
-                name: zombie.name,
-                slug: zombie.slug,
-                avatar: zombie.avatar,
-                life: zombie.life,
-                damage: zombie.damage
+                    name: zombie.name,
+                    slug: zombie.slug,
+                    avatar: zombie.avatar,
+                    life: zombie.life,
+                    damage: zombie.damage
             )
         }
 
@@ -68,10 +81,10 @@ class FixturesService {
         result = jsonSlurper.parseText(defenses.text)
         for (defense in result) {
             defenseRepository.create(
-                name: defense.name,
-                slug: defense.slug,
-                avatar: defense.avatar,
-                level: defense.level
+                    name: defense.name,
+                    slug: defense.slug,
+                    avatar: defense.avatar,
+                    level: defense.level
             )
         }
 
@@ -80,10 +93,10 @@ class FixturesService {
         result = jsonSlurper.parseText(longrweapons.text)
         for (longrweapon in result) {
             longRangeWeaponRepository.create(
-                name: longrweapon.name,
-                slug: longrweapon.slug,
-                avatar: longrweapon.avatar,
-                ammo: longrweapon.ammo
+                    name: longrweapon.name,
+                    slug: longrweapon.slug,
+                    avatar: longrweapon.avatar,
+                    ammo: longrweapon.ammo
             )
         }
 
@@ -92,10 +105,10 @@ class FixturesService {
         result = jsonSlurper.parseText(shortrweapons.text)
         for (shortrweapon in result) {
             shortRangeWeaponRepository.create(
-                name: shortrweapon.name,
-                slug: shortrweapon.slug,
-                avatar: shortrweapon.avatar,
-                attacks: shortrweapon.attacks
+                    name: shortrweapon.name,
+                    slug: shortrweapon.slug,
+                    avatar: shortrweapon.avatar,
+                    attacks: shortrweapon.attacks
             )
         }
 
@@ -104,10 +117,10 @@ class FixturesService {
         result = jsonSlurper.parseText(ammos.text)
         for (ammo in result) {
             itemRepository.create(
-                name: ammo.name,
-                slug: ammo.slug,
-                avatar: ammo.avatar,
-                ammo: ammo.ammo
+                    name: ammo.name,
+                    slug: ammo.slug,
+                    avatar: ammo.avatar,
+                    ammo: ammo.ammo
             )
         }
 
@@ -116,10 +129,10 @@ class FixturesService {
         result = jsonSlurper.parseText(gases.text)
         for (gas in result) {
             itemRepository.create(
-                name: gas.name,
-                slug: gas.slug,
-                avatar: gas.avatar,
-                gas: gas.gas
+                    name: gas.name,
+                    slug: gas.slug,
+                    avatar: gas.avatar,
+                    gas: gas.gas
             )
         }
 
@@ -128,10 +141,10 @@ class FixturesService {
         result = jsonSlurper.parseText(harmonics.text)
         for (harmonic in result) {
             itemRepository.create(
-                name: harmonic.name,
-                slug: harmonic.slug,
-                avatar: harmonic.avatar,
-                noise: harmonic.noise
+                    name: harmonic.name,
+                    slug: harmonic.slug,
+                    avatar: harmonic.avatar,
+                    noise: harmonic.noise
             )
         }
 
@@ -140,10 +153,10 @@ class FixturesService {
         result = jsonSlurper.parseText(medicines.text)
         for (medicine in result) {
             itemRepository.create(
-                name: medicine.name,
-                slug: medicine.slug,
-                avatar: medicine.avatar,
-                life: medicine.life
+                    name: medicine.name,
+                    slug: medicine.slug,
+                    avatar: medicine.avatar,
+                    life: medicine.life
             )
         }
 
@@ -152,14 +165,78 @@ class FixturesService {
         result = jsonSlurper.parseText(skates.text)
         for (skate in result) {
             itemRepository.create(
-                name: skate.name,
-                slug: skate.slug,
-                avatar: skate.avatar,
-                movement: skate.movement,
-                persistent: skate.persistent
+                    name: skate.name,
+                    slug: skate.slug,
+                    avatar: skate.avatar,
+                    movement: skate.movement,
+                    persistent: skate.persistent
+            )
+        }
+
+        // Missions
+        File missions = new File('src/main/resources/fixtures/missions.json')
+        result = jsonSlurper.parseText(missions.text)
+        for (mission in result) {
+
+            def objects = mission.objects.collect { _findElementBySlug(it) }
+
+            def startSurvivalPoints = []
+            mission.startSurvivalPoints.each {
+                startSurvivalPoints << new Point(x: it.x, y: it.y)
+            }
+
+            def startZombiePoints = []
+            mission.startZombiePoints.each {
+                startZombiePoints << new Point(x: it.x, y: it.y)
+            }
+
+            def entryZombiePoints = []
+            mission.entryZombiePoints.each {
+                entryZombiePoints << new Point(x: it.x, y: it.y)
+            }
+
+            def victoryConditions = []
+            mission.victoryConditions.each { vc ->
+                victoryConditions << new VictoryCondition(
+                        numPlayers: vc.numPlayers,
+                        point: new Point(x: vc.point.x, y: vc.point.y),
+                        objects: vc.objects.collect { _findElementBySlug(it) }
+                )
+            }
+
+
+            Mission m = missionRepository.create(
+                    mission.slug,
+                    mission.map.width,
+                    mission.map.height,
+                    mission.map.floorTiles,
+                    mission.map.wallTiles,
+                    mission.map.itemTiles,
+                    objects,
+                    startSurvivalPoints,
+                    startZombiePoints,
+                    entryZombiePoints,
+                    victoryConditions
             )
         }
 
     }
+
+
+    Object _findElementBySlug(String slug) {
+        def element = defenseRepository.get(slug)
+        if (!element) {
+            element = longRangeWeaponRepository.get(slug)
+        }
+        if (!element) {
+            element = shortRangeWeaponRepository.get(slug)
+        }
+        if (!element) {
+            element = itemRepository.get(slug)
+        }
+
+        return element
+    }
+
 
 }

@@ -48,4 +48,8 @@ class Item {
     def addsAction() {
         return action > 0
     }
+
+    ItemStatus createStatus() {
+        return new ItemStatus(item: this)
+    }
 }

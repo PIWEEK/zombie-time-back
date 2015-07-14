@@ -1,13 +1,12 @@
 package zombietime.domain
 
-import groovy.json.JsonSlurper
-
 class Mission {
+    String slug
     Integer mapWidth = 0
     Integer mapHeight = 0
     List<Integer> mapFloorTiles = []
     List<Integer> mapWallTiles = []
-    List<Integer> mapItemsTiles = []
+    List<Integer> mapItemTiles = []
 
     List<Object> objects = []
 
@@ -17,17 +16,5 @@ class Mission {
 
     List<VictoryCondition> victoryConditions = []
 
-
-    static Mission createMissionFromJsonString(String missionDataString) {
-        Mission mission = Mission()
-        def slurper = new JsonSlurper()
-        def missionData = slurper.parseText(missionDataString)
-
-        mission.mapWidth = missionData.map.width
-        mission.mapHeight = missionData.map.height
-
-
-        return mission
-    }
 
 }

@@ -3,5 +3,13 @@ package zombietime.domain
 class VictoryCondition {
     Integer numPlayers
     Point point
-    List<Object> objects
+    List<Status> objects
+
+    Map asMap() {
+        return [
+                numPlayers: numPlayers,
+                point     : point.asMap(),
+                objects   : objects*.slug
+        ]
+    }
 }
