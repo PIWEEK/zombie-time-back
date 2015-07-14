@@ -5,14 +5,14 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import zombietime.domain.Game
 import zombietime.domain.Message
-import zombietime.repository.GameRepository
+import zombietime.service.GameService
 import zombietime.service.MessageService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseBody
+
 
 @Controller
 class GameController {
@@ -20,12 +20,12 @@ class GameController {
     private MessageService messageService
 
     @Autowired
-    private GameRepository gameRepository
+    private GameService gameService
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
-        model.addAttribute("games", gameRepository.list())
+        model.addAttribute("games", gameService.listOpenGames())
         return "home"
     }
 
@@ -36,7 +36,7 @@ class GameController {
                            Model model
     ) {
 
-        def game = gameRepository.get(gameId)
+        def game = gameService.get(gameId)
 
         if (!game || game.hasStarted || game.players.size() >= game.slots) {
             return index(model)
@@ -59,16 +59,13 @@ class GameController {
                       @RequestParam("gameMission") String gameMission,
                       Model model
     ) {
-        def uuid = UUID.randomUUID().toString()
-        Game game = new Game(id: uuid, name: gameName, password: gamePassword, slots: gameSlots, difficulty: gameDifficulty, mission: gameMission)
-        gameRepository.create(game)
 
+        Game game = gameService.create(gameName, gamePassword, gameSlots, gameDifficulty, gameMission)
 
-
-        model.addAttribute("gameId", uuid)
+        model.addAttribute("gameId", game.id)
         model.addAttribute("username", userName)
         model.addAttribute("password", gamePassword)
-        model.addAttribute("gameName", gameName)
+        model.addAttribute("gameName", game.name)
         return "game"
     }
 
