@@ -6,6 +6,7 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor
 import org.springframework.web.socket.messaging.SessionConnectEvent
 import org.springframework.web.socket.messaging.SessionDisconnectEvent
 import zombietime.domain.User
+import zombietime.repository.GameRepository
 import zombietime.repository.UserRepository
 
 
@@ -14,6 +15,7 @@ class PresenceEventListener implements ApplicationListener<ApplicationEvent> {
     static final String HEADER_PASSWORD = 'x-password'
 
     UserRepository userRepository
+    GameRepository gameRepository
 
 
     public void onApplicationEvent(ApplicationEvent event) {
@@ -39,11 +41,12 @@ class PresenceEventListener implements ApplicationListener<ApplicationEvent> {
     private void handleSessionDisconnect(SessionDisconnectEvent event) {
         SimpMessageHeaderAccessor headers = SimpMessageHeaderAccessor.wrap(event.getMessage())
         String sessionId = headers.getSessionId()
-        String user = userRepository.get(sessionId)
+        User user = userRepository.get(sessionId)
         userRepository.remove(sessionId)
 
         if (user) {
-            //TODO: Remove user from game
+            //TODO: What if the game is running?
+            gameRepository.removeUserFromGames(user)
         }
     }
 

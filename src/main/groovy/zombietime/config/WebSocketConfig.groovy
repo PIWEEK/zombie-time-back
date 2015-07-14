@@ -5,6 +5,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.messaging.simp.config.ChannelRegistration
 import zombietime.event.PresenceEventListener
 import zombietime.interceptor.AuthInterceptor
+import zombietime.repository.GameRepository
 import zombietime.repository.UserRepository
 import zombietime.service.MessageService
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,6 +23,9 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Autowired
     UserRepository userRepository
+
+    @Autowired
+    GameRepository gameRepository
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
@@ -41,7 +45,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Bean
     public PresenceEventListener presenceEventListener(SimpMessagingTemplate messagingTemplate) {
-        return new PresenceEventListener(userRepository: userRepository)
+        return new PresenceEventListener(userRepository: userRepository, gameRepository: gameRepository)
     }
 
 }
