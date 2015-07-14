@@ -3,18 +3,19 @@ package zombietime.domain
 class Item {
 
     String name
+    String slug
     Integer avatar
 
-    Integer life
-    Integer gas
-    Integer ammo
-    Integer movement
-    Integer noise
-    Integer defense
-    Integer inventory
-    Integer action
+    Integer life = 0
+    Integer gas = 0
+    Integer ammo = 0
+    Integer movement = 0
+    Integer noise = 0
+    Integer defense = 0
+    Integer inventory = 0
+    Integer action = 0
 
-    Boolean persistent
+    boolean persistent = false
 
     def addsLife() {
         return life > 0

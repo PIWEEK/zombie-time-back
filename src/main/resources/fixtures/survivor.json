@@ -1,0 +1,56 @@
+[
+    {
+        "name": "Pablo",
+        "slug": "pablo",
+        "avatar": 1,
+        "life": 1,
+        "actions": 1,
+        "inventory": 1,
+        "defense": 1
+    },
+    {
+        "name": "Miguel",
+        "slug": "miguel",
+        "avatar": 1,
+        "life": 1,
+        "actions": 1,
+        "inventory": 1,
+        "defense": 1
+    },
+    {
+        "name": "Laura",
+        "slug": "laura",
+        "avatar": 1,
+        "life": 1,
+        "actions": 1,
+        "inventory": 1,
+        "defense": 1
+    },
+    {
+        "name": "yami",
+        "slug": "yami",
+        "avatar": 1,
+        "life": 1,
+        "actions": 1,
+        "inventory": 1,
+        "defense": 1
+    },
+    {
+        "name": "Xenia",
+        "slug": "xenia",
+        "avatar": 1,
+        "life": 1,
+        "actions": 1,
+        "inventory": 1,
+        "defense": 1
+    },
+    {
+        "name": "Alex",
+        "slug": "alex",
+        "avatar": 1,
+        "life": 1,
+        "actions": 1,
+        "inventory": 1,
+        "defense": 1
+    }
+]

@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Ammunition",
+        "slug": "ammunition",
+        "avatar": 1,
+        "life": 0,
+        "gas": 0,
+        "ammo": 1,
+        "movement": 0,
+        "noise": 0,
+        "defense": 0,
+        "inventory": 0,
+        "action": 0,
+        "persistent": false
+    }
+]

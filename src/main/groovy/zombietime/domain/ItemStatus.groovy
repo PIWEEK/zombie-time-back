@@ -1,7 +1,8 @@
 package zombietime.domain
 
-class ItemStatus {
+class ItemStatus implements Status {
 
+    Integer id
     Item item
 
 }

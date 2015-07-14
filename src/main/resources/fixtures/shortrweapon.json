@@ -1,0 +1,20 @@
+[
+    {
+        "name": "Baseball bat",
+        "slug": "baseball-bat",
+        "avatar": 1,
+        "attacks": 1
+    },
+    {
+        "name": "Axe",
+        "slug": "axe",
+        "avatar": 1,
+        "attacks": 1
+    },
+    {
+        "name": "Knife",
+        "slug": "knife",
+        "avatar": 1,
+        "attacks": 1
+    }
+]
