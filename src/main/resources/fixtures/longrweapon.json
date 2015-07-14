@@ -2,25 +2,25 @@
     {
         "name": "Long bow",
         "slug": "long-bow",
-        "avatar": 1,
+        "avatar": 329,
         "ammo": 1
     },
     {
         "name": "Riffle",
         "slug": "riffle",
-        "avatar": 1,
+        "avatar": 332,
         "ammo": 1
     },
     {
         "name": "Molotov cocktail",
         "slug": "molotov-cocktail",
-        "avatar": 1,
+        "avatar": 331,
         "ammo": 1
     },
     {
         "name": "Gun",
         "slug": "gun",
-        "avatar": 1,
+        "avatar": 325,
         "ammo": 1
     }
 ]

@@ -2,21 +2,21 @@
     {
         "name": "Zombie1",
         "slug": "zombie1",
-        "avatar": 1,
+        "avatar": 337,
         "life": 1,
         "damage": 1
     },
     {
         "name": "Zombie2",
         "slug": "zombie2",
-        "avatar": 1,
+        "avatar": 338,
         "life": 1,
         "damage": 1
     },
     {
         "name": "Zombie3",
         "slug": "zombie3",
-        "avatar": 1,
+        "avatar": 339,
         "life": 1,
         "damage": 1
     }

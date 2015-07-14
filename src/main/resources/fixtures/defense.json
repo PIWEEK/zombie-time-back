@@ -2,19 +2,19 @@
     {
         "name": "Leather jacket",
         "slug": "leather-jacket",
-        "avatar": 1,
+        "avatar": 328,
         "level": 1
     },
     {
         "name": "Biker suit",
         "slug": "biker-suit",
-        "avatar": 1,
+        "avatar": 334,
         "level": 1
     },
     {
         "name": "SWAT suit",
         "slug": "swat-suit",
-        "avatar": 1,
+        "avatar": 335,
         "level": 1
     }
 ]
