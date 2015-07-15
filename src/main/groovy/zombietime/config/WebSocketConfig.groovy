@@ -35,10 +35,6 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
         config.setApplicationDestinationPrefixes("/app")
     }
 
-    @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/message").withSockJS()
-    }
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
@@ -48,6 +44,11 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     @Bean
     public PresenceEventListener presenceEventListener(SimpMessagingTemplate messagingTemplate) {
         return new PresenceEventListener(userRepository: userRepository, gameService: gameService)
+    }
+
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/message").setAllowedOrigins("*").withSockJS()
     }
 
 }
