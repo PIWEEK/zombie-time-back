@@ -8,6 +8,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import zombietime.domain.Game
 import zombietime.domain.Message
 import zombietime.repository.UserRepository
+import zombietime.service.GameMessageService
 import zombietime.service.GameService
 import zombietime.service.MessageService
 import org.springframework.beans.factory.annotation.Autowired
@@ -26,6 +27,9 @@ class GameController {
 
     @Autowired
     private GameService gameService
+
+    @Autowired
+    private GameMessageService gameMessageService
 
     @Autowired
     private UserRepository userRepository
@@ -86,7 +90,7 @@ class GameController {
     public void processMessage(@Payload Message message, MessageHeaders headers) {
         def user = userRepository.get(headers.simpSessionId)
         if (user) {
-            gameService.processMessage(message, user)
+            gameMessageService.processMessage(message, user)
         }
     }
 

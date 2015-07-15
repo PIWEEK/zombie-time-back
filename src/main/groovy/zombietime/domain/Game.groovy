@@ -9,6 +9,7 @@ class Game {
     Integer zombieTimeInterval = 60
     String mission = '01'
     boolean hasStarted = false
+    User playerTurn
 
 
     MissionStatus missionStatus

@@ -25,12 +25,8 @@ var demoGame = {
             }
         },
 
-        sendMessage: function(username, game, text) {
-            demoGame.comms.stompClient.send("/app/message", {}, JSON.stringify({'game':game, 'type':'CHAT', 'data': {'text':text}}));
-        },
-
-        sendSelectUserMessage: function(username, game, slug, leader) {
-            demoGame.comms.stompClient.send("/app/message", {}, JSON.stringify({'game':game, 'type':'SELECT_SURVIVOR', 'data': {'survivor':slug, 'leader':leader}}));
+        sendMessage: function(type, username, game, data) {
+            demoGame.comms.stompClient.send("/app/message", {}, JSON.stringify({'game':game, 'type':type, 'data': data}));
         }
     },
     /////////////////////////////////////////////////////////////////////////
@@ -52,9 +48,62 @@ var demoGame = {
         },
 
         sendMessage: function(){
-            var text = $("#text").val();
-            $("#text").val("");
-            demoGame.comms.sendMessage(demoGame.gui.username, demoGame.gui.game, text);
+            var data = {};
+
+            var name;
+            var value;
+
+            var type = $("#type").val();
+
+            name = $("#name1").val();
+            value = $("#value1").val();
+
+            if (name !== "") {
+                data[name] = value
+            }
+
+            name = $("#name2").val();
+            value = $("#value2").val();
+
+            if (name !== "") {
+                data[name] = value
+            }
+
+            name = $("#name3").val();
+            value = $("#value3").val();
+
+            if (name !== "") {
+                data[name] = value
+            }
+
+            name = $("#name4").val();
+            value = $("#value4").val();
+
+            if (name !== "") {
+                data[name] = value
+            }
+
+            name = $("#name5").val();
+            value = $("#value5").val();
+
+            if (name !== "") {
+                data[name] = value
+            }
+
+
+
+            $("#name1").val("");
+            $("#value1").val("");
+            $("#name2").val("");
+            $("#value2").val("");
+            $("#name3").val("");
+            $("#value3").val("");
+            $("#name4").val("");
+            $("#value4").val("");
+            $("#name5").val("");
+            $("#value5").val("");
+
+            demoGame.comms.sendMessage(type, demoGame.gui.username, demoGame.gui.game, data);
         },
 
         showMessage: function(type, user, data){
@@ -64,7 +113,7 @@ var demoGame = {
                 info = data.text;
             }
 
-            message = $("<div class='message right'><span>[" + user + "] - " + info +"&nbsp;</span><span></div>");
+            message = $("<div class='message right'><span>[" + type + "] - &lt;" + user + "&gt; - " + info +"&nbsp;</span><span></div>");
 
             $("#history").append(message);
             $("#history").scrollTop ($("#history")[0].scrollHeight);
@@ -81,20 +130,6 @@ $( document ).ready(function() {
     });
     demoGame.gui.login();
 
-    $("#selectPablo").click(function( event ) {
-        demoGame.comms.sendSelectUserMessage(demoGame.gui.username, demoGame.gui.game, 'pablo', true);
-    });
-    $("#selectLaura").click(function( event ) {
-        demoGame.comms.sendSelectUserMessage(demoGame.gui.username, demoGame.gui.game, 'laura', true);
-    });
 
-
-    $("#selectMiguel").click(function( event ) {
-        demoGame.comms.sendSelectUserMessage(demoGame.gui.username, demoGame.gui.game, 'miguel', false);
-    });
-
-    $("#selectYami").click(function( event ) {
-        demoGame.comms.sendSelectUserMessage(demoGame.gui.username, demoGame.gui.game, 'yami', false);
-    });
 
 });

@@ -1,14 +1,11 @@
 package zombietime.service
 
-import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import zombietime.domain.Mission
-import zombietime.domain.MissionStatus
 import zombietime.domain.Point
-import zombietime.domain.Survivor
-import zombietime.domain.SurvivorStatus
 import zombietime.domain.VictoryCondition
 import zombietime.repository.MissionRepository
+import zombietime.repository.TileRepository
 
 import javax.annotation.PostConstruct
 
@@ -40,7 +37,7 @@ class FixturesService {
     @Autowired
     MissionRepository missionRepository
     @Autowired
-    GameService gameService
+    TileRepository tileRepository
 
     @PostConstruct
     def loadFixtures() {
@@ -170,6 +167,19 @@ class FixturesService {
                     avatar: skate.avatar,
                     movement: skate.movement,
                     persistent: skate.persistent
+            )
+        }
+
+        // tiles
+        File tiles = new File('src/main/resources/fixtures/tiles.json')
+        result = jsonSlurper.parseText(tiles.text)
+        for (tile in result) {
+            tileRepository.create(
+                    num: tile.num,
+                    up: tile.up,
+                    right: tile.right,
+                    down: tile.down,
+                    left: tile.left
             )
         }
 

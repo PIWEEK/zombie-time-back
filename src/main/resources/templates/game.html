@@ -53,14 +53,46 @@
         <p>
 
         <form id="messageForm">
-            <input id="text" type="text" placeholder="Send your message" class="form-control"/>
+            <select id="type">
+                <option>SELECT_SURVIVOR</option>
+                <option>PLAYER_READY</option>
+                <option>MOVE</option>
+                <option>ATACK</option>
+                <option>NOISE</option>
+                <option>SEARCH</option>
+                <option>SEARCH_MORE</option>
+                <option>GET_OBJECT</option>
+                <option>GIVE_OBJECT</option>
+                <option>USE_OBJECT</option>
+                <option>EQUIP</option>
+                <option>END_TURN</option>
+                <option>CHAT</option>
+            </select>
+            <table>
+                <tr>
+                    <td><input id="name1" type="text" placeholder="Data name" class="form-control"/></td>
+                    <td><input id="value1" type="text" placeholder="Data value" class="form-control"/></td>
+                </tr>
+                <tr>
+                    <td><input id="name2" type="text" placeholder="Data name" class="form-control"/></td>
+                    <td><input id="value2" type="text" placeholder="Data value" class="form-control"/></td>
+                </tr>
+                <tr>
+                    <td><input id="name3" type="text" placeholder="Data name" class="form-control"/></td>
+                    <td><input id="value3" type="text" placeholder="Data value" class="form-control"/></td>
+                </tr>
+                <tr>
+                    <td><input id="name4" type="text" placeholder="Data name" class="form-control"/></td>
+                    <td><input id="value4" type="text" placeholder="Data value" class="form-control"/></td>
+                </tr>
+                <tr>
+                    <td><input id="name5" type="text" placeholder="Data name" class="form-control"/></td>
+                    <td><input id="value5" type="text" placeholder="Data value" class="form-control"/></td>
+                </tr>
+            </table>
+            <input type="submit"/>
+
         </form>
-        </p>
-        <p>
-            <input type="button" value="Select Pablo (leader)" id="selectPablo"/>
-            <input type="button" value="Select Yami (follower)" id="selectYami"/>
-            <input type="button" value="Select Laura (leader)" id="selectLaura"/>
-            <input type="button" value="Select Miguel (follower)" id="selectMiguel"/>
         </p>
     </div>
 

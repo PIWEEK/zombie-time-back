@@ -50,6 +50,29 @@ class MessageService {
         ))
     }
 
+    void sendStartGameMessage(Game game) {
+        sendMessage(new Message(
+                game: game.id,
+                user: '',
+                type: MessageType.START_GAME,
+                data: [:]
+        ))
+    }
+
+    void sendAnimationMoveMessage(Game game, String id, Integer start, Integer end) {
+        sendMessage(new Message(
+                game: game.id,
+                user: '',
+                type: MessageType.ANIMATION_MOVE,
+                data: [
+                        id   : id,
+                        start: start,
+                        end  : end
+                ]
+        ))
+    }
+
+
     void sendConnectMessage(Game game) {
         Timer timer = new Timer()
         TimerTask action = new TimerTask() {
@@ -60,5 +83,6 @@ class MessageService {
 
         timer.schedule(action, 5000)
     }
+
 
 }

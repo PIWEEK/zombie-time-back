@@ -16,6 +16,11 @@ class SurvivorStatus {
     Point point = new Point(x: 0, y: 0)
 
 
+    Integer getFlatPoint(Game game) {
+        return point.getFlatPoint(game.missionStatus.mission.mapWidth)
+    }
+
+
     Map asMap(Integer mapWidth) {
         return [
                 id                : id,

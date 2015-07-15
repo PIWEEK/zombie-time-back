@@ -32,12 +32,6 @@ class GameService {
     @Autowired
     private MessageService messageService
 
-    @Autowired
-    private SurvivorRepository survivorRepository
-
-    @Autowired
-    private UserRepository userRepository
-
 
     List<Game> listOpenGames() {
         def games = gameRepository.list()
@@ -114,40 +108,4 @@ class GameService {
     }
 
 
-    void processMessage(Message message, User user) {
-        def game = gameRepository.get(message.game)
-        if (game) {
-            if (user in game.players) {
-                switch (message.type) {
-                    case MessageType.CHAT:
-                        processChatMessage(message, game, user)
-                        return
-                    case MessageType.SELECT_SURVIVOR:
-                        processSelectSurvivorMessage(message, game, user)
-                        return
-                }
-            }
-        }
-    }
-
-    void processChatMessage(Message message, Game game, User player) {
-        //echo
-        messageService.sendChatMessage(game, player, message.data.text)
-    }
-
-
-    void processSelectSurvivorMessage(Message message, Game game, User player) {
-
-        def survivor = survivorRepository.get(message.data.survivor)
-        boolean leader = (message.data.leader == 'true')
-        def survivorStatus = survivor.createStatus()
-        survivorStatus.player = player
-        survivorStatus.leader = leader
-
-
-        def oldSurvivor = game.missionStatus.survivors.find { (it.player == player) && (it.leader == leader) }
-        game.missionStatus.survivors.remove(oldSurvivor)
-        game.missionStatus.survivors << survivorStatus
-        messageService.sendFullGameMessage(game)
-    }
 }
