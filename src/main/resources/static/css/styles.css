@@ -237,6 +237,14 @@ section {
     background-color:#e6e6e6;
 }
 
+.bg-5 {
+    background: url('/img/team.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
 .panel .img-responsive {
     min-height:270px;
     max-height:270px;
@@ -246,11 +254,6 @@ section {
 //Zombietime
 
 
-
-.github {
-    width: 30px;
-}
-
 .join-game, .join-game:hover {
     text-decoration: none;
 }
@@ -259,6 +262,10 @@ section {
 
 .join-game .game-title {
     font-weight:bold;
-    color: red;
+    color: gray;
+}
+
+.github {
+    width: 30px;
 }
 

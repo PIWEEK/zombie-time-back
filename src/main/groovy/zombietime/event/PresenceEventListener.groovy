@@ -49,7 +49,6 @@ class PresenceEventListener implements ApplicationListener<ApplicationEvent> {
         userRepository.remove(sessionId)
 
         if (user) {
-            disconnectUser
             //TODO: What if the game is running?
             gameService.removeUserFromGames(user)
         }
