@@ -8,6 +8,11 @@ class SurvivorStatus {
     Integer remainingInventory
     Integer remainingDefense
 
+    Status weapon
+    Status defense
+
+    List<Status> inventory = []
+
     Boolean leader
 
     Survivor survivor
@@ -32,7 +37,10 @@ class SurvivorStatus {
                 remainingActions  : remainingActions,
                 remainingInventory: remainingInventory,
                 remainingDefense  : remainingDefense,
-                point             : point.getFlatPoint(mapWidth)
+                point             : point.getFlatPoint(mapWidth),
+                weapon            : weapon.asMap(),
+                defense           : defense ? defense.asMap() : [:],
+                inventory         : inventory ? inventory*.asMap() : []
         ]
     }
 

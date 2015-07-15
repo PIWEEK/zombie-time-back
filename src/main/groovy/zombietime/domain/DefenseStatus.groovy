@@ -7,4 +7,14 @@ class DefenseStatus {
 
     Defense defense
 
+    Map asMap() {
+        return [
+                id          : id,
+                name        : defense.name,
+                avatar      : defense.avatar,
+                maxLevel    : defense.level,
+                currentLevel: remainingLevel
+        ]
+    }
+
 }

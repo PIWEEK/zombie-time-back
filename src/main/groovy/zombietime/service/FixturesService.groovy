@@ -93,7 +93,9 @@ class FixturesService {
                     name: longrweapon.name,
                     slug: longrweapon.slug,
                     avatar: longrweapon.avatar,
-                    ammo: longrweapon.ammo
+                    ammo: longrweapon.ammo,
+                    damage: longrweapon.damage,
+                    noise: longrweapon.noise
             )
         }
 
@@ -105,7 +107,9 @@ class FixturesService {
                     name: shortrweapon.name,
                     slug: shortrweapon.slug,
                     avatar: shortrweapon.avatar,
-                    attacks: shortrweapon.attacks
+                    attacks: shortrweapon.attacks,
+                    damage: shortrweapon.damage,
+                    noise: shortrweapon.noise
             )
         }
 

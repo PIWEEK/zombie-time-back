@@ -8,7 +8,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import zombietime.domain.Game
 import zombietime.domain.Message
 import zombietime.repository.UserRepository
-import zombietime.service.GameMessageService
+import zombietime.service.GameEngineService
 import zombietime.service.GameService
 import zombietime.service.MessageService
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,9 +16,6 @@ import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
-
-import javax.servlet.http.HttpSession
-
 
 @Controller
 class GameController {
@@ -29,7 +26,7 @@ class GameController {
     private GameService gameService
 
     @Autowired
-    private GameMessageService gameMessageService
+    private GameEngineService gameEngineService
 
     @Autowired
     private UserRepository userRepository
@@ -90,7 +87,7 @@ class GameController {
     public void processMessage(@Payload Message message, MessageHeaders headers) {
         def user = userRepository.get(headers.simpSessionId)
         if (user) {
-            gameMessageService.processMessage(message, user)
+            gameEngineService.processMessage(message, user)
         }
     }
 

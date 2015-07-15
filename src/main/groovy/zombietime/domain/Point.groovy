@@ -12,7 +12,7 @@ class Point {
         def y = Math.floor(flatPoint / mapWidth)
         return new Point(
                 y: y,
-                x: flatPoint - y
+                x: flatPoint - (y * mapWidth)
         )
     }
 }

@@ -44,9 +44,12 @@ class PresenceEventListener implements ApplicationListener<ApplicationEvent> {
         SimpMessageHeaderAccessor headers = SimpMessageHeaderAccessor.wrap(event.getMessage())
         String sessionId = headers.getSessionId()
         User user = userRepository.get(sessionId)
+
+
         userRepository.remove(sessionId)
 
         if (user) {
+            disconnectUser
             //TODO: What if the game is running?
             gameService.removeUserFromGames(user)
         }

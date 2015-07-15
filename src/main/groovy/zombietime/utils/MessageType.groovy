@@ -30,6 +30,7 @@ enum MessageType {
     //CHAT
     ANIMATION_LIGHTBOX,
     ANIMATION_MOVE,
+    FIND_ITEM,
     FULL_GAME,
     ZOMBIE_TIME,
     ZOMBIE_ATTACK,

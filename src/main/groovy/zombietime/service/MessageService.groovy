@@ -6,6 +6,7 @@ import zombietime.domain.Message
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.stereotype.Service
+import zombietime.domain.Status
 import zombietime.domain.User
 import zombietime.utils.MessageType
 
@@ -42,6 +43,7 @@ class MessageService {
 
     void sendFullGameMessage(Game game) {
         def data = game.missionStatus.asMap()
+        data.playerTurn = game.playerTurn ? game.playerTurn.username : ''
         sendMessage(new Message(
                 game: game.id,
                 user: '',
@@ -59,7 +61,16 @@ class MessageService {
         ))
     }
 
-    void sendAnimationMoveMessage(Game game, String id, Integer start, Integer end) {
+    void sendFindItemsMessage(Game game, User user, List<Status> items) {
+        sendMessage(new Message(
+                game: game.id,
+                user: user.username,
+                type: MessageType.FIND_ITEM,
+                data: items*.asMap()
+        ))
+    }
+
+    void sendMoveAnimationMessage(Game game, String id, Integer start, Integer end) {
         sendMessage(new Message(
                 game: game.id,
                 user: '',

@@ -9,14 +9,18 @@ import zombietime.domain.Survivor
 import zombietime.domain.SurvivorStatus
 import zombietime.domain.Tile
 import zombietime.domain.User
+import zombietime.repository.DefenseRepository
 import zombietime.repository.GameRepository
+import zombietime.repository.ItemRepository
+import zombietime.repository.LongRangeWeaponRepository
+import zombietime.repository.ShortRangeWeaponRepository
 import zombietime.repository.SurvivorRepository
 import zombietime.repository.TileRepository
 import zombietime.repository.UserRepository
 import zombietime.utils.MessageType
 
 @Service
-class GameMessageService {
+class GameEngineService {
 
     @Autowired
     private GameRepository gameRepository
@@ -29,6 +33,18 @@ class GameMessageService {
 
     @Autowired
     private TileRepository tileRepository
+
+    @Autowired
+    private DefenseRepository defenseRepository
+
+    @Autowired
+    private ItemRepository itemRepository
+
+    @Autowired
+    private ShortRangeWeaponRepository shortRangeWeaponRepository
+
+    @Autowired
+    private LongRangeWeaponRepository longRangeWeaponRepository
 
 
     void processMessage(Message message, User user) {
@@ -47,6 +63,12 @@ class GameMessageService {
                 case MessageType.MOVE:
                     processMoveMessage(game, user, message.data)
                     return
+                case MessageType.SEARCH:
+                    processSearchMessage(game, user, message.data)
+                    return
+                case MessageType.SEARCH_MORE:
+                    processSearchMoreMessage(game, user, message.data)
+                    return
             }
         }
     }
@@ -59,15 +81,24 @@ class GameMessageService {
 
     void processSelectSurvivorMessage(Game game, User player, Map data) {
         if (!game.hasStarted) {
-            def survivor = survivorRepository.get(data.survivor)
+
             boolean leader = (data.leader == 'true')
+            def oldSurvivor = game.missionStatus.survivors.find { (it.player == player) && (it.leader == leader) }
+            game.missionStatus.survivors.remove(oldSurvivor)
+
+
+            def survivor = survivorRepository.get(data.survivor)
             def survivorStatus = survivor.createStatus()
             survivorStatus.player = player
             survivorStatus.leader = leader
+            survivorStatus.weapon = _findElementBySlug('fist').createStatus()
+
+            def startPoint = game.missionStatus.mission.startSurvivalPoints[game.players.size() % game.missionStatus.mission.startSurvivalPoints.size()]
 
 
-            def oldSurvivor = game.missionStatus.survivors.find { (it.player == player) && (it.leader == leader) }
-            game.missionStatus.survivors.remove(oldSurvivor)
+            survivorStatus.point.x = startPoint.x
+            survivorStatus.point.y = startPoint.y
+
             game.missionStatus.survivors << survivorStatus
             messageService.sendFullGameMessage(game)
         }
@@ -100,12 +131,12 @@ class GameMessageService {
             Integer width = game.missionStatus.mission.mapWidth
 
             Integer startFlatPoint = survivor.point.getFlatPoint(width)
-            Integer endFlatPoint = data.point
+            Integer endFlatPoint = Integer.parseInt(data.point)
 
             Point startPoint = survivor.point
             Point endPoint = Point.getPointFromFlatPoint(endFlatPoint, width)
 
-            if (_canMove(fame, startPoint, endPoint, startFlatPoint, endFlatPoint)) {
+            if (_canMove(game, startPoint, endPoint, startFlatPoint, endFlatPoint)) {
                 survivor.remainingActions--
                 messageService.sendMoveAnimationMessage(game, survivor.id, startFlatPoint, endFlatPoint)
                 survivor.point = endPoint
@@ -115,6 +146,40 @@ class GameMessageService {
 
         }
     }
+
+    void processSearchMessage(Game game, User player, Map data) {
+        def survivor = _getPlayerCurrentSurvivor(game, player)
+        if (game.hasStarted &&
+                game.playerTurn == player &&
+                survivor.remainingActions > 0
+        ) {
+
+
+            Point startPoint = survivor.point
+
+            if (_canSearch(game, startPoint)) {
+                survivor.remainingActions--
+                def item = game.missionStatus.remainingObjects.first()
+                messageService.sendFindItemsMessage(game, survivor.id, [item])
+            }
+        }
+    }
+
+    void processSearchMoreMessage(Game game, User player, Map data) {
+        def survivor = _getPlayerCurrentSurvivor(game, player)
+        if (game.hasStarted &&
+                game.playerTurn == player
+        ) {
+            Point startPoint = survivor.point
+
+            if (_canSearch(game, startPoint)) {
+                def item1 = game.missionStatus.remainingObjects[0]
+                def item2 = game.missionStatus.remainingObjects[1]
+                messageService.sendFindItemsMessage(game, survivor.id, [item1, item2])
+            }
+        }
+    }
+
 
     boolean _canMove(Game game, Point startPoint, Point endPoint, Integer startFlatPoint, Integer endFlatPoint) {
 
@@ -160,6 +225,22 @@ class GameMessageService {
 
     SurvivorStatus _getPlayerCurrentSurvivor(Game game, User player) {
         return game.missionStatus.survivors.find { it.player == player && it.leader == true }
+    }
+
+
+    Object _findElementBySlug(String slug) {
+        def element = defenseRepository.get(slug)
+        if (!element) {
+            element = longRangeWeaponRepository.get(slug)
+        }
+        if (!element) {
+            element = shortRangeWeaponRepository.get(slug)
+        }
+        if (!element) {
+            element = itemRepository.get(slug)
+        }
+
+        return element
     }
 
 

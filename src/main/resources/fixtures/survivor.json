@@ -1,56 +1,56 @@
 [
-    {
-        "name": "Pablo",
-        "slug": "pablo",
-        "avatar": 308,
-        "life": 1,
-        "actions": 1,
-        "inventory": 1,
-        "defense": 1
-    },
-    {
-        "name": "Miguel",
-        "slug": "miguel",
-        "avatar": 307,
-        "life": 1,
-        "actions": 1,
-        "inventory": 1,
-        "defense": 1
-    },
-    {
-        "name": "Laura",
-        "slug": "laura",
-        "avatar": 306,
-        "life": 1,
-        "actions": 1,
-        "inventory": 1,
-        "defense": 1
-    },
-    {
-        "name": "yami",
-        "slug": "yami",
-        "avatar": 310,
-        "life": 1,
-        "actions": 1,
-        "inventory": 1,
-        "defense": 1
-    },
-    {
-        "name": "Xenia",
-        "slug": "xenia",
-        "avatar": 309,
-        "life": 1,
-        "actions": 1,
-        "inventory": 1,
-        "defense": 1
-    },
-    {
-        "name": "Alex",
-        "slug": "alex",
-        "avatar": 305,
-        "life": 1,
-        "actions": 1,
-        "inventory": 1,
-        "defense": 1
-    }
+  {
+    "name": "Pablo",
+    "slug": "pablo",
+    "avatar": 308,
+    "life": 3,
+    "actions": 10,
+    "inventory": 3,
+    "defense": 0
+  },
+  {
+    "name": "Miguel",
+    "slug": "miguel",
+    "avatar": 307,
+    "life": 3,
+    "actions": 3,
+    "inventory": 3,
+    "defense": 0
+  },
+  {
+    "name": "Laura",
+    "slug": "laura",
+    "avatar": 306,
+    "life": 3,
+    "actions": 3,
+    "inventory": 3,
+    "defense": 0
+  },
+  {
+    "name": "yami",
+    "slug": "yami",
+    "avatar": 310,
+    "life": 3,
+    "actions": 3,
+    "inventory": 3,
+    "defense": 0
+  },
+  {
+    "name": "Xenia",
+    "slug": "xenia",
+    "avatar": 309,
+    "life": 3,
+    "actions": 3,
+    "inventory": 3,
+    "defense": 0
+  },
+  {
+    "name": "Alex",
+    "slug": "alex",
+    "avatar": 305,
+    "life": 3,
+    "actions": 3,
+    "inventory": 3,
+    "defense": 0
+  }
 ]

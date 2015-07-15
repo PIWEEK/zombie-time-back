@@ -7,4 +7,15 @@ class LongRangeWeaponStatus implements Status {
 
     LongRangeWeapon longRangeWeapon
 
+    Map asMap() {
+        return [
+                id         : id,
+                currentAmmo: remainingAmmo,
+                maxAmmo    : longRangeWeapon.ammo,
+                name       : longRangeWeapon.name,
+                avatar     : longRangeWeapon.avatar,
+                damage     : longRangeWeapon.damage
+        ]
+    }
+
 }

@@ -78,6 +78,8 @@ class GameService {
             missionStatus.remainingObjects << item.createStatus()
         }
 
+        missionStatus.remainingObjects.sort { Math.random() }
+
         return missionStatus
 
 

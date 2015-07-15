@@ -5,6 +5,7 @@ class Item {
     String name
     String slug
     Integer avatar
+    String description
 
     Integer life = 0
     Integer gas = 0
