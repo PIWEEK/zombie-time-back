@@ -41,7 +41,7 @@ class SurvivorStatus {
                 baseActions     : survivor.actions,
                 baseInventory   : survivor.inventory,
                 baseDefense     : survivor.defense,
-                point           : point.getFlatPoint(mapWidth),
+                point           : leader ? point.getFlatPoint(mapWidth) : -1,
                 weapon          : weapon.asMap(),
                 defense         : defense ? defense.asMap() : [:],
                 inventory       : inventory ? inventory*.asMap() : []
