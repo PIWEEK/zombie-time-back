@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service
 import zombietime.domain.Game
 import zombietime.domain.Message
 import zombietime.domain.Point
-import zombietime.domain.Survivor
 import zombietime.domain.SurvivorStatus
 import zombietime.domain.Tile
 import zombietime.domain.User
@@ -16,7 +15,6 @@ import zombietime.repository.LongRangeWeaponRepository
 import zombietime.repository.ShortRangeWeaponRepository
 import zombietime.repository.SurvivorRepository
 import zombietime.repository.TileRepository
-import zombietime.repository.UserRepository
 import zombietime.utils.MessageType
 
 @Service
@@ -160,7 +158,8 @@ class GameEngineService {
             if (_canSearch(game, startPoint)) {
                 survivor.remainingActions--
                 def item = game.missionStatus.remainingObjects.first()
-                messageService.sendFindItemsMessage(game, survivor.id, [item])
+                game.token = UUID.randomUUID()
+                messageService.sendFindItemsMessage(game, survivor.id, [item], game.token)
             }
         }
     }
@@ -168,7 +167,8 @@ class GameEngineService {
     void processSearchMoreMessage(Game game, User player, Map data) {
         def survivor = _getPlayerCurrentSurvivor(game, player)
         if (game.hasStarted &&
-                game.playerTurn == player
+                game.playerTurn == player &&
+                game.token == data.token
         ) {
             Point startPoint = survivor.point
 
@@ -176,6 +176,7 @@ class GameEngineService {
                 def item1 = game.missionStatus.remainingObjects[0]
                 def item2 = game.missionStatus.remainingObjects[1]
                 messageService.sendFindItemsMessage(game, survivor.id, [item1, item2])
+                game.token = ''
             }
         }
     }

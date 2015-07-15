@@ -44,6 +44,8 @@ class MessageService {
     void sendFullGameMessage(Game game) {
         def data = game.missionStatus.asMap()
         data.playerTurn = game.playerTurn ? game.playerTurn.username : ''
+        data.slots = game.slots
+        data.numPlayers = game.players.size()
         sendMessage(new Message(
                 game: game.id,
                 user: '',
@@ -61,12 +63,12 @@ class MessageService {
         ))
     }
 
-    void sendFindItemsMessage(Game game, User user, List<Status> items) {
+    void sendFindItemsMessage(Game game, User user, List<Status> items, String token) {
         sendMessage(new Message(
                 game: game.id,
                 user: user.username,
                 type: MessageType.FIND_ITEM,
-                data: items*.asMap()
+                data: [items: items*.asMap(), token: token]
         ))
     }
 

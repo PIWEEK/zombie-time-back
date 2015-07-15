@@ -10,7 +10,9 @@ class Game {
     String mission = '01'
     boolean hasStarted = false
     User playerTurn
+    String token
 
 
     MissionStatus missionStatus
+
 }

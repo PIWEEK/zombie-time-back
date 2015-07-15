@@ -28,19 +28,23 @@ class SurvivorStatus {
 
     Map asMap(Integer mapWidth) {
         return [
-                id                : id,
-                player            : player.username,
-                slug              : survivor.slug,
-                avatar            : survivor.avatar,
-                leader            : leader,
-                remainingLife     : remainingLife,
-                remainingActions  : remainingActions,
-                remainingInventory: remainingInventory,
-                remainingDefense  : remainingDefense,
-                point             : point.getFlatPoint(mapWidth),
-                weapon            : weapon.asMap(),
-                defense           : defense ? defense.asMap() : [:],
-                inventory         : inventory ? inventory*.asMap() : []
+                id              : id,
+                player          : player.username,
+                slug            : survivor.slug,
+                avatar          : survivor.avatar,
+                leader          : leader,
+                currentLife     : remainingLife,
+                currentActions  : remainingActions,
+                currentInventory: remainingInventory,
+                currentDefense  : remainingDefense,
+                baseLife        : survivor.life,
+                baseActions     : survivor.actions,
+                baseInventory   : survivor.inventory,
+                baseDefense     : survivor.defense,
+                point           : point.getFlatPoint(mapWidth),
+                weapon          : weapon.asMap(),
+                defense         : defense ? defense.asMap() : [:],
+                inventory       : inventory ? inventory*.asMap() : []
         ]
     }
 
