@@ -2,6 +2,7 @@ package zombietime.domain
 
 class SurvivorStatus {
 
+    String id = UUID.randomUUID()
     Integer remainingLife
     Integer remainingActions
     Integer remainingInventory
@@ -17,6 +18,7 @@ class SurvivorStatus {
 
     Map asMap() {
         return [
+                id                : id,
                 player            : player.username,
                 slug              : survivor.slug,
                 avatar            : survivor.avatar,

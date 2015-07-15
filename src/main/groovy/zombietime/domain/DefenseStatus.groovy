@@ -2,7 +2,7 @@ package zombietime.domain
 
 class DefenseStatus {
 
-    Integer id
+    String id = UUID.randomUUID()
     Integer remainingLevel
 
     Defense defense

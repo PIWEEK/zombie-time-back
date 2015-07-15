@@ -1,11 +1,11 @@
 package zombietime.domain
 
+import zombietime.utils.MessageType
+
 class Message {
-    String game = ''
-    String type = ''
-    Integer x = 0
-    Integer y = 0
-    String data = ''
-    String data2 = ''
+    String game
+    String user
+    MessageType type
+    Map data
     Long timeStamp = System.currentTimeMillis()
 }

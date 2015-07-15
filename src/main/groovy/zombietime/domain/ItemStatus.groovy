@@ -2,7 +2,7 @@ package zombietime.domain
 
 class ItemStatus implements Status {
 
-    Integer id
+    String id = UUID.randomUUID()
     Item item
 
 }

@@ -2,7 +2,7 @@ package zombietime.domain
 
 class ShortRangeWeaponStatus implements Status {
 
-    Integer id
+    String id = UUID.randomUUID()
     Integer remainingAttacks
 
     ShortRangeWeapon shortRangeWeapon

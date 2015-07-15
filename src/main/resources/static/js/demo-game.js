@@ -26,11 +26,11 @@ var demoGame = {
         },
 
         sendMessage: function(username, game, text) {
-            demoGame.comms.stompClient.send("/app/message", {}, JSON.stringify({'game':game, 'type':'CHAT', 'data': text, 'x':0, 'y':0}));
+            demoGame.comms.stompClient.send("/app/message", {}, JSON.stringify({'game':game, 'type':'CHAT', 'data': {'text':text}}));
         },
 
         sendSelectUserMessage: function(username, game, slug, leader) {
-            demoGame.comms.stompClient.send("/app/message", {}, JSON.stringify({'game':game, 'type':'SELECT_SURVIVOR', 'data': slug, 'data2':leader, 'x':0, 'y':0}));
+            demoGame.comms.stompClient.send("/app/message", {}, JSON.stringify({'game':game, 'type':'SELECT_SURVIVOR', 'data': {'survivor':slug, 'leader':leader}}));
         }
     },
     /////////////////////////////////////////////////////////////////////////
@@ -48,7 +48,7 @@ var demoGame = {
 
         receiveMessage: function(message) {
             var jsonMsg = JSON.parse(message.body);
-            demoGame.gui.showMessage(jsonMsg.type, jsonMsg.data);
+            demoGame.gui.showMessage(jsonMsg.type, jsonMsg.user, jsonMsg.data);
         },
 
         sendMessage: function(){
@@ -57,10 +57,14 @@ var demoGame = {
             demoGame.comms.sendMessage(demoGame.gui.username, demoGame.gui.game, text);
         },
 
-        showMessage: function(type, data){
+        showMessage: function(type, user, data){
             var message;
+            var info;
+            if (type == 'CHAT') {
+                info = data.text;
+            }
 
-            message = $("<div class='message right'><span>[" + type + "] - " + data +"&nbsp;</span><span></div>");
+            message = $("<div class='message right'><span>[" + user + "] - " + info +"&nbsp;</span><span></div>");
 
             $("#history").append(message);
             $("#history").scrollTop ($("#history")[0].scrollHeight);

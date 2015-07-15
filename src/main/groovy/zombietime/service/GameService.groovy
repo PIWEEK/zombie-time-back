@@ -14,6 +14,7 @@ import zombietime.repository.MissionRepository
 import zombietime.repository.SurvivorRepository
 import zombietime.repository.UserRepository
 import zombietime.repository.ZombieRepository
+import zombietime.utils.MessageType
 import zombietime.utils.Utils
 
 @Service
@@ -118,10 +119,10 @@ class GameService {
         if (game) {
             if (user in game.players) {
                 switch (message.type) {
-                    case Utils.MESSAGE_TYPE_CHAT:
-                        processChatMessage(message)
+                    case MessageType.CHAT:
+                        processChatMessage(message, game, user)
                         return
-                    case Utils.MESSAGE_TYPE_SELECT_SURVIVOR:
+                    case MessageType.SELECT_SURVIVOR:
                         processSelectSurvivorMessage(message, game, user)
                         return
                 }
@@ -129,16 +130,16 @@ class GameService {
         }
     }
 
-    void processChatMessage(Message message) {
+    void processChatMessage(Message message, Game game, User player) {
         //echo
-        messageService.sendMessage(message)
+        messageService.sendChatMessage(game, player, message.data.text)
     }
 
 
     void processSelectSurvivorMessage(Message message, Game game, User player) {
 
-        def survivor = survivorRepository.get(message.data)
-        boolean leader = (message.data2 == 'true')
+        def survivor = survivorRepository.get(message.data.survivor)
+        boolean leader = (message.data.leader == 'true')
         def survivorStatus = survivor.createStatus()
         survivorStatus.player = player
         survivorStatus.leader = leader
