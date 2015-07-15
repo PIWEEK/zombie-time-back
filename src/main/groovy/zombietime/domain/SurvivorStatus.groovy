@@ -16,7 +16,7 @@ class SurvivorStatus {
     Point point = new Point(x: 0, y: 0)
 
 
-    Map asMap() {
+    Map asMap(Integer mapWidth) {
         return [
                 id                : id,
                 player            : player.username,
@@ -27,7 +27,7 @@ class SurvivorStatus {
                 remainingActions  : remainingActions,
                 remainingInventory: remainingInventory,
                 remainingDefense  : remainingDefense,
-                point             : point.asMap()
+                point             : point.getFlatPoint(mapWidth)
         ]
     }
 

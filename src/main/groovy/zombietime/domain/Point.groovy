@@ -4,10 +4,7 @@ class Point {
     Integer x
     Integer y
 
-    Map asMap() {
-        return [
-                x: x,
-                y: y
-        ]
+    Integer getFlatPoint(Integer mapWidth) {
+        return ((y * mapWidth) + x)
     }
 }

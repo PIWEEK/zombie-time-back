@@ -10,12 +10,12 @@ class ZombieStatus {
     Zombie zombie
 
 
-    Map asMap() {
+    Map asMap(Integer mapWidth) {
         return [
                 id             : id,
                 remainingLife  : remainingLife,
                 remainingDamage: remainingDamage,
-                point          : point.asMap(),
+                point          : point.getFlatPoint(mapWidth),
                 avatar         : zombie.avatar
         ]
     }

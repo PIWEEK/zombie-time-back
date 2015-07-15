@@ -5,10 +5,10 @@ class VictoryCondition {
     Point point
     List<Status> objects
 
-    Map asMap() {
+    Map asMap(Integer mapWidth) {
         return [
                 numPlayers: numPlayers,
-                point     : point.asMap(),
+                point     : point.getFlatPoint(mapWidth),
                 objects   : objects*.slug
         ]
     }

@@ -11,8 +11,8 @@ class MissionStatus {
 
     Map asMap() {
         return [
-                survivors         : survivors*.asMap(),
-                zombies           : zombies*.asMap(),
+                survivors         : survivors*.asMap(mission.mapWidth),
+                zombies           : zombies*.asMap(mission.mapWidth),
                 time              : time,
                 zombieTimeInterval: game.zombieTimeInterval,
                 map               : [
@@ -22,7 +22,7 @@ class MissionStatus {
                         wallTiles : mission.mapWallTiles,
                         itemTiles : mission.mapItemTiles
                 ],
-                victoryConditions : mission.victoryConditions*.asMap()
+                victoryConditions : mission.victoryConditions*.asMap(mission.mapWidth)
         ]
     }
 
