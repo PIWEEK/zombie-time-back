@@ -15,9 +15,11 @@ enum MessageType {
     SEARCH,
     SEARCH_MORE,
     GET_OBJECT,
+    DISCARD_OBJECT,
     GIVE_OBJECT,
     USE_OBJECT,
     EQUIP,
+    UNEQUIP,
     END_TURN,
 
     //Both

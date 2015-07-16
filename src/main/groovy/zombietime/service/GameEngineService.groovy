@@ -2,12 +2,14 @@ package zombietime.service
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import zombietime.domain.DefenseStatus
 import zombietime.domain.Game
 import zombietime.domain.Message
 import zombietime.domain.Point
 import zombietime.domain.SurvivorStatus
 import zombietime.domain.Tile
 import zombietime.domain.User
+import zombietime.domain.WeaponStatus
 import zombietime.domain.ZombieStatus
 import zombietime.repository.DefenseRepository
 import zombietime.repository.GameRepository
@@ -66,6 +68,15 @@ class GameEngineService {
                     return
                 case MessageType.GET_OBJECT:
                     processGetObjectMessage(game, user, message.data)
+                    return
+                case MessageType.DISCARD_OBJECT:
+                    processDiscardObjectMessage(game, user, message.data)
+                    return
+                case MessageType.EQUIP:
+                    processEquipObjectMessage(game, user, message.data)
+                    return
+                case MessageType.UNEQUIP:
+                    processUnEquipObjectMessage(game, user, message.data)
                     return
             }
         }
@@ -159,6 +170,7 @@ class GameEngineService {
 
             if (_canSearch(game, startPoint)) {
                 survivor.remainingActions--
+                game.missionStatus.remainingObjects = game.missionStatus.remainingObjects.sort { Math.random() }
                 def item = game.missionStatus.remainingObjects.first()
                 game.token = UUID.randomUUID()
                 _sendFullGameMessage(game)
@@ -204,6 +216,65 @@ class GameEngineService {
                 game.missionStatus.remainingObjects << item1
             }
             _sendFullGameMessage(game)
+        }
+    }
+
+    void processDiscardObjectMessage(Game game, User player, Map data) {
+        def survivor = _getPlayerCurrentSurvivor(game, player)
+        if (game.hasStarted &&
+                game.playerTurn == player
+        ) {
+            def item = survivor.inventory.find { it.id == data.item }
+            survivor.inventory.remove(item)
+            game.missionStatus.remainingObjects << item
+            _sendFullGameMessage(game)
+        }
+    }
+
+    void processEquipObjectMessage(Game game, User player, Map data) {
+        def survivor = _getPlayerCurrentSurvivor(game, player)
+        if (game.hasStarted &&
+                game.playerTurn == player
+        ) {
+            def item = survivor.inventory.find { it.id == data.item }
+            if (item instanceof WeaponStatus || item instanceof DefenseStatus) {
+                survivor.inventory.remove(item)
+                if (item instanceof WeaponStatus) {
+                    if (survivor.weapon && survivor.weapon.weapon.slug != 'fist') {
+                        survivor.inventory << survivor.weapon
+                    }
+                    survivor.weapon = item
+                }
+
+                if (item instanceof DefenseStatus) {
+                    if (survivor.defense) {
+                        survivor.inventory << survivor.defense
+                    }
+                    survivor.defense = item
+                }
+
+                _sendFullGameMessage(game)
+            }
+        }
+    }
+
+
+    void processUnEquipObjectMessage(Game game, User player, Map data) {
+        def survivor = _getPlayerCurrentSurvivor(game, player)
+        if (game.hasStarted &&
+                game.playerTurn == player
+        ) {
+            if (survivor.inventory.size() < survivor.remainingInventory) {
+                if (data.item == survivor.weapon?.id) {
+                    survivor.inventory << survivor.weapon
+                    survivor.weapon = weaponRepository.get('fist').createStatus()
+                }
+                if (data.item == survivor.defense?.id) {
+                    survivor.inventory << survivor.defense
+                    survivor.defense = null
+                }
+                _sendFullGameMessage(game)
+            }
         }
     }
 
