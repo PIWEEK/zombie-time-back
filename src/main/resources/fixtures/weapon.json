@@ -31,6 +31,7 @@
     "slug": "gun",
     "avatar": 325,
     "ammo": 5,
+    "damage": 1,
     "noise": 1,
     "longRange": true
   },
@@ -38,7 +39,7 @@
     "name": "Fist",
     "slug": "fist",
     "avatar": 336,
-    "attacks": 1000,
+    "ammo": 1000,
     "damage": 1,
     "noise": 0,
     "longRange": false
@@ -47,7 +48,7 @@
     "name": "Baseball bat",
     "slug": "baseball-bat",
     "avatar": 323,
-    "attacks": 4,
+    "ammo": 4,
     "damage": 3,
     "noise": 0,
     "longRange": false
@@ -56,7 +57,7 @@
     "name": "Axe",
     "slug": "axe",
     "avatar": 322,
-    "attacks": 3,
+    "ammo": 3,
     "damage": 4,
     "noise": 0,
     "longRange": false
@@ -65,7 +66,7 @@
     "name": "Knife",
     "slug": "knife",
     "avatar": 327,
-    "attacks": 5,
+    "ammo": 5,
     "damage": 2,
     "noise": 0,
     "longRange": false

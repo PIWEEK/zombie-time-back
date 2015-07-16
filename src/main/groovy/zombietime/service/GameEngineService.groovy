@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service
 import zombietime.domain.DefenseStatus
 import zombietime.domain.Game
 import zombietime.domain.Message
+import zombietime.domain.Noise
 import zombietime.domain.Point
 import zombietime.domain.SurvivorStatus
 import zombietime.domain.Tile
@@ -77,6 +78,12 @@ class GameEngineService {
                     return
                 case MessageType.UNEQUIP:
                     processUnEquipObjectMessage(game, user, message.data)
+                    return
+                case MessageType.ATTACK:
+                    processAttackMessage(game, user, message.data)
+                    return
+                case MessageType.NOISE:
+                    processNoiseMessage(game, user, message.data)
                     return
             }
         }
@@ -159,6 +166,61 @@ class GameEngineService {
         }
     }
 
+    void processNoiseMessage(Game game, User player, Map data) {
+        def survivor = _getPlayerCurrentSurvivor(game, player)
+        if (game.hasStarted &&
+                game.playerTurn == player &&
+                survivor.remainingActions > 0
+        ) {
+            survivor.remainingActions--
+            _addNoise(game, survivor.point.getFlatPoint(game.getWidth()), survivor.remainingNoise)
+            _sendFullGameMessage(game)
+        }
+    }
+
+    void processAttackMessage(Game game, User player, Map data) {
+        def survivor = _getPlayerCurrentSurvivor(game, player)
+
+        def attackableFlatPoints = _attackableFlatPoints(game,
+                survivor.point.getFlatPoint(game.getWidth()),
+                survivor.weapon.remainingAmmo ? survivor.weapon.weapon.longRange : false)
+
+        Integer attackPoint = Integer.parseInt(data.point)
+
+
+        if (game.hasStarted &&
+                game.playerTurn == player &&
+                survivor.remainingActions > 0 &&
+                attackPoint in attackableFlatPoints
+        ) {
+            survivor.remainingActions--
+            if (survivor.weapon.weapon.noise) {
+                _addNoise(game, survivor.point.getFlatPoint(game.getWidth()), survivor.weapon.weapon.noise)
+            }
+            int damage = survivor.weapon.remainingAmmo ? survivor.weapon.weapon.damage : 1
+            int deaths = 0
+            def zombies = _zombiesOnFlatPoint(game, attackPoint)
+            damage.times {
+                if (zombies) {
+                    def zombie = zombies.pop()
+                    game.missionStatus.zombies.remove(zombie)
+                    deaths++
+                }
+            }
+
+            if (survivor.weapon.remainingAmmo) {
+                survivor.weapon.remainingAmmo--
+            }
+
+            if (survivor.weapon.remainingAmmo == 0 && (!survivor.weapon.weapon.longRange)) {
+                survivor.weapon = weaponRepository.get('fist').createStatus()
+            }
+
+            messageService.sendAtackAnimationMessage(game, survivor.id, deaths)
+            _sendFullGameMessage(game)
+        }
+    }
+
     void processSearchMessage(Game game, User player, Map data) {
         def survivor = _getPlayerCurrentSurvivor(game, player)
         if (game.hasStarted &&
@@ -188,10 +250,12 @@ class GameEngineService {
             Point startPoint = survivor.point
 
             if (_canSearch(game, startPoint)) {
+                _addNoise(game, startPoint.getFlatPoint(game.getWidth()), 1)
                 def item1 = game.missionStatus.remainingObjects[0]
                 def item2 = game.missionStatus.remainingObjects[1]
                 messageService.sendFindItemsMessage(game, survivor.player, [item1, item2])
                 game.token = ''
+                _sendFullGameMessage(game)
             }
         }
     }
@@ -468,12 +532,21 @@ class GameEngineService {
         game.missionStatus.survivors.eachWithIndex { survivor, i ->
             def flatPoint = survivor.point.getFlatPoint(game.getWidth())
             def reacheable = _reacheableFlatPoints(game, flatPoint, survivor.remainingMovement)
-            def attackable = _attackableFlatPoints(game, flatPoint, survivor.weapon.weapon.longRange)
+            def attackable = _attackableFlatPoints(game, flatPoint, survivor.weapon.remainingAmmo ? survivor.weapon.weapon.longRange : false)
             data.survivors[i].canMoveTo = reacheable
             data.survivors[i].canAttackTo = attackable
             data.survivors[i].canSearch = (survivor.inventory.size() < survivor.remainingInventory) && _canSearch(game, survivor.point)
         }
         return data
+    }
+
+    void _addNoise(Game game, Integer flatPoint, Integer level) {
+        Noise noise = game.missionStatus.noise.find { it.flatPoint == flatPoint }
+        if (!noise) {
+            noise = new Noise(flatPoint: flatPoint, level: 0)
+            game.missionStatus.noise << noise
+        }
+        noise.level += level
     }
 
 

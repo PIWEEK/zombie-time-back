@@ -6,6 +6,7 @@ class MissionStatus {
     List<SurvivorStatus> survivors = []
     List<ZombieStatus> zombies = []
     List<Status> remainingObjects = []
+    List<Noise> noise = []
     Integer time = 900
 
 
@@ -13,6 +14,7 @@ class MissionStatus {
         return [
                 survivors         : survivors*.asMap(mission.mapWidth),
                 zombies           : zombies*.asMap(mission.mapWidth),
+                noise             : noise*.asMap(),
                 time              : time,
                 zombieTimeInterval: game.zombieTimeInterval,
                 map               : [

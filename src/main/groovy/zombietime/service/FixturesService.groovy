@@ -54,7 +54,8 @@ class FixturesService {
                     actions: survivor.actions,
                     inventory: survivor.inventory,
                     defense: survivor.defense,
-                    movement: survivor.movement
+                    movement: survivor.movement,
+                    noise: survivor.noise
             )
         }
 

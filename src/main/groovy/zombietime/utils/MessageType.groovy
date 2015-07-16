@@ -10,7 +10,7 @@ enum MessageType {
 
     //Game
     MOVE,
-    ATACK,
+    ATTACK,
     NOISE,
     SEARCH,
     SEARCH_MORE,
@@ -30,8 +30,8 @@ enum MessageType {
     //  Output messages    //
     /////////////////////////
     //CHAT
-    ANIMATION_LIGHTBOX,
     ANIMATION_MOVE,
+    ANIMATION_ATTACK,
     FIND_ITEM,
     FULL_GAME,
     ZOMBIE_TIME,

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.stereotype.Service
 import zombietime.domain.Status
+import zombietime.domain.SurvivorStatus
 import zombietime.domain.User
 import zombietime.utils.MessageType
 
@@ -77,6 +78,18 @@ class MessageService {
                         id   : id,
                         start: start,
                         end  : end
+                ]
+        ))
+    }
+
+    void sendAtackAnimationMessage(Game game, String id, Integer deaths) {
+        sendMessage(new Message(
+                game: game.id,
+                user: '',
+                type: MessageType.ANIMATION_ATTACK,
+                data: [
+                        id    : id,
+                        deaths: deaths
                 ]
         ))
     }
