@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Sick sister",
+    "description": "You need to finish the game with two medicines on your inventary",
+    "things": [
+      "gas"
+    ]
+  },
+  {
+    "name": "The best defense...",
+    "description": "You need to finish the game with a gun and an amunnition box in your possesion",
+    "things": [
+      "gas"
+    ]
+  },
+  {
+    "name": "This is dangerous",
+    "description": "You need to finish the game with a biker suit",
+    "things": [
+      "gas"
+    ]
+  },
+  {
+    "name": "Winter is coming",
+    "description": "You need to finish the game with two gas cans",
+    "things": [
+      "gas"
+    ]
+  }
+]
