@@ -94,6 +94,30 @@ class MessageService {
         ))
     }
 
+    void sendZombieAttackMessage(Game game, String id, Integer damage, Boolean death) {
+        sendMessage(new Message(
+                game: game.id,
+                user: '',
+                type: MessageType.ZOMBIE_ATTACK,
+                data: [
+                        id    : id,
+                        damage: damage,
+                        death : death
+                ]
+        ))
+    }
+
+    void sendEndGameMessage(Game game, Boolean win) {
+        sendMessage(new Message(
+                game: game.id,
+                user: '',
+                type: MessageType.END_GAME,
+                data: [
+                        win: win
+                ]
+        ))
+    }
+
 
     void sendConnectMessage(Map data) {
         Timer timer = new Timer()

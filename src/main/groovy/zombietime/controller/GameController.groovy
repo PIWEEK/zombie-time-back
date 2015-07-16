@@ -60,7 +60,8 @@ class GameController {
         model.addAttribute("username", username)
         model.addAttribute("password", password)
         model.addAttribute("gameName", game.name)
-        return "game"
+        //return "game"
+        return "redirect:http://localhost:3000?game=${gameId}&username=$username&password=$password"
     }
 
 

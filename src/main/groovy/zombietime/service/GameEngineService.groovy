@@ -44,6 +44,8 @@ class GameEngineService {
     @Autowired
     private WeaponRepository weaponRepository
 
+    Random random = new Random()
+
 
     void processMessage(Message message, User user) {
         def game = gameRepository.get(message.game)
@@ -84,6 +86,9 @@ class GameEngineService {
                     return
                 case MessageType.NOISE:
                     processNoiseMessage(game, user, message.data)
+                    return
+                case MessageType.END_TURN:
+                    processEndTurnMessage(game, user, message.data)
                     return
             }
         }
@@ -139,32 +144,104 @@ class GameEngineService {
 
     void processMoveMessage(Game game, User player, Map data) {
         def survivor = _getPlayerCurrentSurvivor(game, player)
+        int startPoint = survivor.point.getFlatPoint(game.getWidth())
+        def reacheables = _reacheableFlatPoints(game, startPoint, survivor.remainingMovement)
+        Integer movePoint = Integer.parseInt(data.point)
         if (game.hasStarted &&
                 game.playerTurn == player &&
-                survivor.remainingActions > 0
+                survivor.remainingActions > 0 &&
+                movePoint in reacheables
+        ) {
+            survivor.remainingActions--
+            messageService.sendMoveAnimationMessage(game, survivor.id, startPoint, movePoint)
+            survivor.point = Point.getPointFromFlatPoint(movePoint, game.getWidth())
+            _sendFullGameMessage(game)
+        }
+    }
+
+    void processEndTurnMessage(Game game, User player, Map data) {
+        def survivor = _getPlayerCurrentSurvivor(game, player)
+        if (game.hasStarted &&
+                game.playerTurn == player
         ) {
 
+            def leaderes = game.missionStatus.survivors.findAll { it.leader == true }
+            def nextSurvivor = leaderes[(leaderes.indexOf(survivor) + 1) % leaderes.size()]
 
-            Integer width = game.getWidth()
+            survivor.remainingActions = survivor.survivor.actions
+            def zombies = _zombiesOnFlatPoint(game, survivor.point.getFlatPoint(game.getWidth()))
 
-            Integer startFlatPoint = survivor.point.getFlatPoint(width)
-            Integer endFlatPoint = Integer.parseInt(data.point)
-
-            Point startPoint = survivor.point
-            Point endPoint = Point.getPointFromFlatPoint(endFlatPoint, width)
-
+            if (zombies) {
+                boolean death = false
+                survivor.remainingLife -= zombies.size()
 
 
-            if (_canMove(game, startPoint, endPoint, startFlatPoint, endFlatPoint)) {
-                survivor.remainingActions--
-                messageService.sendMoveAnimationMessage(game, survivor.id, startFlatPoint, endFlatPoint)
-                survivor.point = endPoint
+                if (survivor.remainingLife <= 0) {
+                    //Kill!
+                    death = true
+                    game.missionStatus.survivors.remove(survivor)
+                    def newSurvivor = game.missionStatus.survivors.find { it.player == survivor.player }
+                    if (newSurvivor) {
+                        newSurvivor.leader = true
+                        newSurvivor.point = game.missionStatus.mission.startSurvivalPoints[random.nextInt(game.missionStatus.mission.startSurvivalPoints.size())]
+                    }
+                }
+
+                messageService.sendZombieAttackMessage(game, survivor.id, zombies.size(), death)
+
+                if (game.missionStatus.survivors.count { it.leader == true } == 0) {
+                    messageService.sendEndGameMessage(game, false)
+                }
+
+            }
+            if (_victory(game)) {
+                messageService.sendEndGameMessage(game, true)
+            } else {
+                game.playerTurn = nextSurvivor.player
                 _sendFullGameMessage(game)
             }
 
 
         }
     }
+
+    boolean _victory(Game game) {
+        boolean victory = true
+        Integer totalSurvivors = game.missionStatus.survivors.size()
+        Integer notOnVPSurvivors = totalSurvivors
+        game.missionStatus.mission.victoryConditions.each { vc ->
+            println "--->Checking VP ${vc.point.x}, ${vc.point.y}"
+            def survivors = game.missionStatus.survivors.findAll {
+                vc.point.x == it.point.x && vc.point.y == it.point.y
+            }
+            notOnVPSurvivors -= survivors.size()
+
+            def groupThings = []
+            survivors.each {
+                groupThings.addAll(it.inventory*.slug)
+                groupThings << it.weapon?.slug
+                groupThings << it.defense?.slug
+            }
+
+            def needThings = []
+            needThings.addAll(vc.things)
+
+            groupThings.each {
+                needThings.remove(it)
+            }
+
+            def missingItems = vc.things - groupThings
+
+            println "--->Need: ${vc.things}"
+            println "--->Have: ${groupThings}"
+            println "--->Ok: ${missingItems.empty}"
+
+            victory = victory && missingItems.empty
+        }
+
+        return victory && (notOnVPSurvivors == 0)
+    }
+
 
     void processNoiseMessage(Game game, User player, Map data) {
         def survivor = _getPlayerCurrentSurvivor(game, player)

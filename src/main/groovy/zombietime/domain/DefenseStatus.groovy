@@ -17,4 +17,8 @@ class DefenseStatus {
         ]
     }
 
+    String getSlug() {
+        return defense.slug
+    }
+
 }

@@ -18,4 +18,9 @@ class WeaponStatus implements Status {
         ]
     }
 
+    String getSlug() {
+        return weapon.slug
+    }
+
+
 }

@@ -199,9 +199,8 @@ class FixturesService {
             def victoryConditions = []
             mission.victoryConditions.each { vc ->
                 victoryConditions << new VictoryCondition(
-                        numPlayers: vc.numPlayers,
                         point: new Point(x: vc.point.x, y: vc.point.y),
-                        objects: vc.objects.collect { _findElementBySlug(it) }
+                        things: vc.things
                 )
             }
 

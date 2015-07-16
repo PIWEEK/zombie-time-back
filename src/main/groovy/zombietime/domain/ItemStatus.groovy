@@ -15,4 +15,8 @@ class ItemStatus implements Status {
         ]
     }
 
+    String getSlug() {
+        return item.slug
+    }
+
 }
