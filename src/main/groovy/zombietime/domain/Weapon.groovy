@@ -7,5 +7,12 @@ class Weapon {
     Integer avatar
     Integer damage
     Integer noise
+    Integer ammo
+    boolean longRange
+
+
+    WeaponStatus createStatus() {
+        return new WeaponStatus(weapon: this, remainingAmmo: this.ammo)
+    }
 
 }

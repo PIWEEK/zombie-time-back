@@ -6,7 +6,8 @@
     "life": 3,
     "actions": 10,
     "inventory": 3,
-    "defense": 0
+    "defense": 0,
+    "movement": 1
   },
   {
     "name": "Miguel",
@@ -15,7 +16,8 @@
     "life": 3,
     "actions": 3,
     "inventory": 3,
-    "defense": 0
+    "defense": 0,
+    "movement": 3
   },
   {
     "name": "Laura",
@@ -24,7 +26,8 @@
     "life": 3,
     "actions": 3,
     "inventory": 3,
-    "defense": 0
+    "defense": 0,
+    "movement": 1
   },
   {
     "name": "yami",
@@ -33,7 +36,8 @@
     "life": 3,
     "actions": 3,
     "inventory": 3,
-    "defense": 0
+    "defense": 0,
+    "movement": 1
   },
   {
     "name": "Xenia",
@@ -42,7 +46,8 @@
     "life": 3,
     "actions": 3,
     "inventory": 3,
-    "defense": 0
+    "defense": 0,
+    "movement": 1
   },
   {
     "name": "Alex",
@@ -51,6 +56,7 @@
     "life": 3,
     "actions": 3,
     "inventory": 3,
-    "defense": 0
+    "defense": 0,
+    "movement": 1
   }
 ]

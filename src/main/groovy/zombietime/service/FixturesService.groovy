@@ -15,8 +15,7 @@ import org.springframework.stereotype.Service
 import zombietime.repository.SurvivorRepository
 import zombietime.repository.ZombieRepository
 import zombietime.repository.DefenseRepository
-import zombietime.repository.LongRangeWeaponRepository
-import zombietime.repository.ShortRangeWeaponRepository
+import zombietime.repository.WeaponRepository
 import zombietime.repository.ItemRepository
 
 @Service
@@ -29,9 +28,7 @@ class FixturesService {
     @Autowired
     DefenseRepository defenseRepository
     @Autowired
-    LongRangeWeaponRepository longRangeWeaponRepository
-    @Autowired
-    ShortRangeWeaponRepository shortRangeWeaponRepository
+    WeaponRepository weaponRepository
     @Autowired
     ItemRepository itemRepository
     @Autowired
@@ -56,7 +53,8 @@ class FixturesService {
                     life: survivor.life,
                     actions: survivor.actions,
                     inventory: survivor.inventory,
-                    defense: survivor.defense
+                    defense: survivor.defense,
+                    movement: survivor.movement
             )
         }
 
@@ -85,31 +83,18 @@ class FixturesService {
             )
         }
 
-        // longrweapons
-        File longrweapons = new File('src/main/resources/fixtures/longrweapon.json')
-        result = jsonSlurper.parseText(longrweapons.text)
-        for (longrweapon in result) {
-            longRangeWeaponRepository.create(
-                    name: longrweapon.name,
-                    slug: longrweapon.slug,
-                    avatar: longrweapon.avatar,
-                    ammo: longrweapon.ammo,
-                    damage: longrweapon.damage,
-                    noise: longrweapon.noise
-            )
-        }
-
-        // shortrweapons
-        File shortrweapons = new File('src/main/resources/fixtures/shortrweapon.json')
-        result = jsonSlurper.parseText(shortrweapons.text)
-        for (shortrweapon in result) {
-            shortRangeWeaponRepository.create(
-                    name: shortrweapon.name,
-                    slug: shortrweapon.slug,
-                    avatar: shortrweapon.avatar,
-                    attacks: shortrweapon.attacks,
-                    damage: shortrweapon.damage,
-                    noise: shortrweapon.noise
+        // weapons
+        File weapons = new File('src/main/resources/fixtures/weapon.json')
+        result = jsonSlurper.parseText(weapons.text)
+        for (weapon in result) {
+            weaponRepository.create(
+                    name: weapon.name,
+                    slug: weapon.slug,
+                    avatar: weapon.avatar,
+                    ammo: weapon.ammo,
+                    damage: weapon.damage,
+                    noise: weapon.noise,
+                    longRange: weapon.longRange
             )
         }
 
@@ -241,10 +226,7 @@ class FixturesService {
     Object _findElementBySlug(String slug) {
         def element = defenseRepository.get(slug)
         if (!element) {
-            element = longRangeWeaponRepository.get(slug)
-        }
-        if (!element) {
-            element = shortRangeWeaponRepository.get(slug)
+            element = weaponRepository.get(slug)
         }
         if (!element) {
             element = itemRepository.get(slug)

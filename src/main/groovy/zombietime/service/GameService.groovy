@@ -104,10 +104,7 @@ class GameService {
     }
 
 
-    void addUserToGame(User user, Game game) {
-        game.players << user
-        messageService.sendConnectMessage(game)
-    }
+
 
 
 }

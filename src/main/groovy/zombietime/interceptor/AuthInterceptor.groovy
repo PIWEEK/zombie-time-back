@@ -12,6 +12,7 @@ import org.springframework.messaging.MessageChannel
 import org.springframework.messaging.simp.stomp.StompCommand
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor
 import org.springframework.messaging.support.ChannelInterceptorAdapter
+import zombietime.service.GameEngineService
 import zombietime.service.GameService
 
 @Slf4j
@@ -24,7 +25,7 @@ class AuthInterceptor extends ChannelInterceptorAdapter {
     GameRepository gameRepository
 
     @Autowired
-    GameService gameService
+    GameEngineService gameEngineService
 
 
     @Override
@@ -56,7 +57,7 @@ class AuthInterceptor extends ChannelInterceptorAdapter {
             }
 
             //User join game
-            gameService.addUserToGame(user, game)
+            gameEngineService.addUserToGame(user, game)
         }
 
 

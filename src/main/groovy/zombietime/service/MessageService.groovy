@@ -41,13 +41,9 @@ class MessageService {
     }
 
 
-    void sendFullGameMessage(Game game) {
-        def data = game.missionStatus.asMap()
-        data.playerTurn = game.playerTurn ? game.playerTurn.username : ''
-        data.slots = game.slots
-        data.numPlayers = game.players.size()
+    void sendFullGameMessage(Map data) {
         sendMessage(new Message(
-                game: game.id,
+                game: data.gameId,
                 user: '',
                 type: MessageType.FULL_GAME,
                 data: data
@@ -86,11 +82,11 @@ class MessageService {
     }
 
 
-    void sendConnectMessage(Game game) {
+    void sendConnectMessage(Map data) {
         Timer timer = new Timer()
         TimerTask action = new TimerTask() {
             public void run() {
-                sendFullGameMessage(game)
+                sendFullGameMessage(data)
             }
         }
 

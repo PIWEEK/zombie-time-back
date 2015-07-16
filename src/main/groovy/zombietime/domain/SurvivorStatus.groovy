@@ -7,9 +7,10 @@ class SurvivorStatus {
     Integer remainingActions
     Integer remainingInventory
     Integer remainingDefense
+    Integer remainingMovement
 
-    Status weapon
-    Status defense
+    WeaponStatus weapon
+    DefenseStatus defense
 
     List<Status> inventory = []
 
@@ -37,6 +38,8 @@ class SurvivorStatus {
                 currentActions  : remainingActions,
                 currentInventory: remainingInventory,
                 currentDefense  : remainingDefense,
+                currentMovement : remainingMovement,
+                baseMovement    : survivor.movement,
                 baseLife        : survivor.life,
                 baseActions     : survivor.actions,
                 baseInventory   : survivor.inventory,
