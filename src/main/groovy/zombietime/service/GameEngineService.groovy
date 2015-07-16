@@ -53,7 +53,7 @@ class GameEngineService {
 
     void processMessage(Message message, User user) {
         def game = gameRepository.get(message.game)
-        if ((game) && ((user in game.players))) {
+        if ((game) && (!game.hasFinished) && ((user in game.players))) {
             switch (message.type) {
                 case MessageType.CHAT:
                     processChatMessage(game, user, message.data)
@@ -194,29 +194,16 @@ class GameEngineService {
                 messageService.sendZombieAttackMessage(game, survivor.id, zombies.size(), death)
 
                 if (game.missionStatus.survivors.count { it.leader == true } == 0) {
-                    messageService.sendEndGameMessage(game, false)
+                    def missions = _personalMissionInfo(game)
+                    messageService.sendEndGameMessage(game, false, missions)
+                    game.hasFinished = true
                 }
 
             }
             if (_victory(game)) {
-
-                def missions = []
-                game.players.each {
-                    def srv = game.missionStatus.survivors.findAll { it.leader == true && it.player == player }
-                    def elements = []
-                    elements.addAll(survivor.inventory*.slug)
-                    elements << survivor.weapon?.slug
-                    elements << survivor.defense?.slug
-                    boolean success = _haveElements(it.personalMission.things, elements)
-                    missions << [
-                            player     : it.username,
-                            name       : it.personalMission.name,
-                            description: it.personalMission.description,
-                            success    : success
-                    ]
-                }
-
+                def missions = _personalMissionInfo(game)
                 messageService.sendEndGameMessage(game, true, missions)
+                game.hasFinished = true
             } else {
                 game.playerTurn = nextSurvivor.player
                 _sendFullGameMessage(game)
@@ -224,6 +211,25 @@ class GameEngineService {
 
 
         }
+    }
+
+    List _personalMissionInfo(Game game) {
+        def missions = []
+        game.players.each { player ->
+            def survivor = game.missionStatus.survivors.findAll { it.leader == true && it.player == player }
+            def elements = []
+            elements.addAll(survivor.inventory*.slug)
+            elements << survivor.weapon?.slug
+            elements << survivor.defense?.slug
+            boolean success = _haveElements(player.personalMission.things, elements)
+            missions << [
+                    player     : player.username,
+                    name       : player.personalMission.name,
+                    description: player.personalMission.description,
+                    success    : success
+            ]
+        }
+        return missions
     }
 
     boolean _victory(Game game) {
