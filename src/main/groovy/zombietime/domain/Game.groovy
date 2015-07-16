@@ -15,4 +15,9 @@ class Game {
 
     MissionStatus missionStatus
 
+
+    Integer getWidth(){
+        return this.missionStatus.mission.mapWidth
+    }
+
 }

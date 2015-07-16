@@ -63,7 +63,7 @@ class MessageService {
         ))
     }
 
-    void sendFindItemsMessage(Game game, User user, List<Status> items, String token) {
+    void sendFindItemsMessage(Game game, User user, List<Status> items, String token = '') {
         sendMessage(new Message(
                 game: game.id,
                 user: user.username,
@@ -94,7 +94,7 @@ class MessageService {
             }
         }
 
-        timer.schedule(action, 5000)
+        timer.schedule(action, 2000)
     }
 
 

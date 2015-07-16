@@ -183,7 +183,8 @@ class FixturesService {
                     up: tile.up,
                     right: tile.right,
                     down: tile.down,
-                    left: tile.left
+                    left: tile.left,
+                    search: tile.search
             )
         }
 

@@ -8,6 +8,7 @@ import zombietime.domain.Point
 import zombietime.domain.SurvivorStatus
 import zombietime.domain.Tile
 import zombietime.domain.User
+import zombietime.domain.ZombieStatus
 import zombietime.repository.DefenseRepository
 import zombietime.repository.GameRepository
 import zombietime.repository.ItemRepository
@@ -126,13 +127,19 @@ class GameEngineService {
                 survivor.remainingActions > 0
         ) {
 
-            Integer width = game.missionStatus.mission.mapWidth
+
+            Integer width = game.getWidth()
 
             Integer startFlatPoint = survivor.point.getFlatPoint(width)
             Integer endFlatPoint = Integer.parseInt(data.point)
 
             Point startPoint = survivor.point
             Point endPoint = Point.getPointFromFlatPoint(endFlatPoint, width)
+
+            //If there is zombies on the player position, can't move
+            if (_zombiesOnFlatPoint(game, startFlatPoint)) {
+                return
+            }
 
             if (_canMove(game, startPoint, endPoint, startFlatPoint, endFlatPoint)) {
                 survivor.remainingActions--
@@ -159,7 +166,8 @@ class GameEngineService {
                 survivor.remainingActions--
                 def item = game.missionStatus.remainingObjects.first()
                 game.token = UUID.randomUUID()
-                messageService.sendFindItemsMessage(game, survivor.id, [item], game.token)
+                messageService.sendFullGameMessage(game)
+                messageService.sendFindItemsMessage(game, survivor.player, [item], game.token)
             }
         }
     }
@@ -175,10 +183,22 @@ class GameEngineService {
             if (_canSearch(game, startPoint)) {
                 def item1 = game.missionStatus.remainingObjects[0]
                 def item2 = game.missionStatus.remainingObjects[1]
-                messageService.sendFindItemsMessage(game, survivor.id, [item1, item2])
+                messageService.sendFindItemsMessage(game, survivor.player, [item1, item2])
                 game.token = ''
             }
         }
+    }
+
+    boolean _canSearch(Game game, Point point) {
+        Integer flatPoint = point.getFlatPoint(game.getWidth())
+
+        //If there is zombies on the player position, can't search
+        if (_zombiesOnFlatPoint(game, flatPoint)) {
+            return false
+        }
+
+        Tile tile = _getTileFromFlatPoint(game, flatPoint)
+        return tile.search
     }
 
 
@@ -242,6 +262,15 @@ class GameEngineService {
         }
 
         return element
+    }
+
+
+    List<ZombieStatus> _zombiesOnFlatPoint(Game game, Integer flatPoint) {
+        return game.missionStatus.zombies.findAll { it.point.getFlatPoint(game.width) == flatPoint }
+    }
+
+    List<SurvivorStatus> _survivorsOnFlatPoint(Game game, Integer flatPoint) {
+        return game.missionStatus.survivors.findAll { it.point.getFlatPoint(game.width) == flatPoint }
     }
 
 

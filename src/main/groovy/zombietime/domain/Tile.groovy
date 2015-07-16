@@ -6,6 +6,7 @@ class Tile {
     boolean right = false
     boolean down = false
     boolean left = false
+    boolean search = false
 }
 
 
