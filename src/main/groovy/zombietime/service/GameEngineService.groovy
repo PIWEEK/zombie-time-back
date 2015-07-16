@@ -64,6 +64,9 @@ class GameEngineService {
                 case MessageType.SEARCH_MORE:
                     processSearchMoreMessage(game, user, message.data)
                     return
+                case MessageType.GET_OBJECT:
+                    processGetObjectMessage(game, user, message.data)
+                    return
             }
         }
     }
@@ -117,7 +120,6 @@ class GameEngineService {
 
 
     void processMoveMessage(Game game, User player, Map data) {
-        println "------>processMoveMessage"
         def survivor = _getPlayerCurrentSurvivor(game, player)
         if (game.hasStarted &&
                 game.playerTurn == player &&
@@ -150,10 +152,9 @@ class GameEngineService {
         def survivor = _getPlayerCurrentSurvivor(game, player)
         if (game.hasStarted &&
                 game.playerTurn == player &&
-                survivor.remainingActions > 0
+                survivor.remainingActions > 0 &&
+                survivor.inventory.size() < survivor.remainingInventory
         ) {
-
-
             Point startPoint = survivor.point
 
             if (_canSearch(game, startPoint)) {
@@ -180,6 +181,29 @@ class GameEngineService {
                 messageService.sendFindItemsMessage(game, survivor.player, [item1, item2])
                 game.token = ''
             }
+        }
+    }
+
+
+    void processGetObjectMessage(Game game, User player, Map data) {
+        def survivor = _getPlayerCurrentSurvivor(game, player)
+        if (game.hasStarted &&
+                game.playerTurn == player
+        ) {
+            def item1 = game.missionStatus.remainingObjects[0]
+            def item2 = game.missionStatus.remainingObjects[1]
+
+            game.missionStatus.remainingObjects.remove(item1)
+            game.missionStatus.remainingObjects.remove(item2)
+            if (data.item == item1.id) {
+                survivor.inventory << item1
+                game.missionStatus.remainingObjects << item2
+
+            } else if (data.item == item2.id) {
+                survivor.inventory << item2
+                game.missionStatus.remainingObjects << item1
+            }
+            _sendFullGameMessage(game)
         }
     }
 
@@ -376,7 +400,7 @@ class GameEngineService {
             def attackable = _attackableFlatPoints(game, flatPoint, survivor.weapon.weapon.longRange)
             data.survivors[i].canMoveTo = reacheable
             data.survivors[i].canAttackTo = attackable
-            data.survivors[i].canSearch = _canSearch(game, survivor.point)
+            data.survivors[i].canSearch = (survivor.inventory.size() < survivor.remainingInventory) && _canSearch(game, survivor.point)
         }
         return data
     }
