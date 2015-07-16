@@ -179,7 +179,6 @@ class GameEngineService {
                 boolean death = false
                 survivor.remainingLife -= zombies.size()
 
-
                 if (survivor.remainingLife <= 0) {
                     //Kill!
                     death = true
@@ -206,6 +205,7 @@ class GameEngineService {
                 game.hasFinished = true
             } else {
                 game.playerTurn = nextSurvivor.player
+                messageService.sendEndTurnMessage(game, nextSurvivor.player.username, nextSurvivor.survivor.slug)
                 _sendFullGameMessage(game)
             }
 

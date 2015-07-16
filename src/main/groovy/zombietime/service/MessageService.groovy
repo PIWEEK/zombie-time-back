@@ -107,6 +107,19 @@ class MessageService {
         ))
     }
 
+    void sendEndTurnMessage(Game game, String username, String survivor) {
+        sendMessage(new Message(
+                game: game.id,
+                user: '',
+                type: MessageType.END_TURN,
+                data: [
+                        username: username,
+                        survivor: survivor
+                ]
+        ))
+    }
+
+
     void sendEndGameMessage(Game game, Boolean win, List missions = []) {
         sendMessage(new Message(
                 game: game.id,

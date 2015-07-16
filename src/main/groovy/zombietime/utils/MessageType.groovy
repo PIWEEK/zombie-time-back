@@ -20,11 +20,12 @@ enum MessageType {
     USE_OBJECT,
     EQUIP,
     UNEQUIP,
-    END_TURN,
+
 
     //Both
     CHAT,
     DISCONNECT,
+    END_TURN,
 
     /////////////////////////
     //  Output messages    //
