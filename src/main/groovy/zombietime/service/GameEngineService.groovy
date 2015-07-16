@@ -623,12 +623,18 @@ class GameEngineService {
         data.gameId = game.id
 
         game.missionStatus.survivors.eachWithIndex { survivor, i ->
-            def flatPoint = survivor.point.getFlatPoint(game.getWidth())
-            def reacheable = _reacheableFlatPoints(game, flatPoint, survivor.remainingMovement)
-            def attackable = _attackableFlatPoints(game, flatPoint, survivor.weapon.remainingAmmo ? survivor.weapon.weapon.longRange : false)
-            data.survivors[i].canMoveTo = reacheable
-            data.survivors[i].canAttackTo = attackable
-            data.survivors[i].canSearch = (survivor.inventory.size() < survivor.remainingInventory) && _canSearch(game, survivor.point)
+            if (survivor.remainingActions > 0) {
+                def flatPoint = survivor.point.getFlatPoint(game.getWidth())
+                def reacheable = _reacheableFlatPoints(game, flatPoint, survivor.remainingMovement)
+                def attackable = _attackableFlatPoints(game, flatPoint, survivor.weapon.remainingAmmo ? survivor.weapon.weapon.longRange : false)
+                data.survivors[i].canMoveTo = reacheable
+                data.survivors[i].canAttackTo = attackable
+                data.survivors[i].canSearch = (survivor.inventory.size() < survivor.remainingInventory) && _canSearch(game, survivor.point)
+            } else {
+                data.survivors[i].canMoveTo = []
+                data.survivors[i].canAttackTo = []
+                data.survivors[i].canSearch = false
+            }
         }
 
         def missions = []
