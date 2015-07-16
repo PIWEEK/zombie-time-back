@@ -179,44 +179,70 @@ class GameEngineService {
             survivor.remainingActions = survivor.survivor.actions
             survivor.remainingMovement = survivor.survivor.movement
             survivor.remainingNoise = survivor.survivor.noise
-            def zombies = _zombiesOnFlatPoint(game, survivor.point.getFlatPoint(game.getWidth()))
 
-            if (zombies) {
-                boolean death = false
-                survivor.remainingLife -= zombies.size()
 
-                if (survivor.remainingLife <= 0) {
-                    //Kill!
-                    death = true
-                    game.missionStatus.survivors.remove(survivor)
-                    def newSurvivor = game.missionStatus.survivors.find { it.player == survivor.player }
-                    if (newSurvivor) {
-                        newSurvivor.leader = true
-                        newSurvivor.point = game.missionStatus.mission.startSurvivalPoints[random.nextInt(game.missionStatus.mission.startSurvivalPoints.size())]
-                    }
-                }
+            def (damage, death) = _attackSurvivor(game, survivor)
 
-                messageService.sendZombieAttackMessage(game, survivor.id, zombies.size(), death)
-
-                if (game.missionStatus.survivors.count { it.leader == true } == 0) {
-                    def missions = _personalMissionInfo(game)
-                    messageService.sendEndGameMessage(game, false, missions)
-                    game.hasFinished = true
-                }
-
-            }
-            if (_victory(game)) {
-                def missions = _personalMissionInfo(game)
-                messageService.sendEndGameMessage(game, true, missions)
-                game.hasFinished = true
-            } else {
-                game.playerTurn = nextSurvivor.player
-                messageService.sendEndTurnMessage(game, nextSurvivor.player.username, nextSurvivor.survivor.slug)
+            if (damage) {
+                messageService.sendZombieAttackMessage(game, survivor.id, damage, death)
                 _sendFullGameMessage(game)
+                _checkAllDead(game)
+            } else {
+                if (_victory(game)) {
+                    def missions = _personalMissionInfo(game)
+                    messageService.sendEndGameMessage(game, true, missions)
+                    game.hasFinished = true
+                } else {
+                    game.playerTurn = nextSurvivor.player
+                    messageService.sendEndTurnMessage(game, nextSurvivor.player.username, nextSurvivor.survivor.slug)
+                    _sendFullGameMessage(game)
+                }
             }
-
-
         }
+    }
+
+    void _checkAllDead(Game game) {
+        if (game.missionStatus.survivors.count { it.leader == true } == 0) {
+            def missions = _personalMissionInfo(game)
+            messageService.sendEndGameMessage(game, false, missions)
+            game.hasFinished = true
+        }
+    }
+
+    def zombieTime() {
+
+    }
+
+
+    def _attackSurvivor(Game game, SurvivorStatus survivor) {
+        boolean death = false
+        int damage = 0
+        def zombies = _zombiesOnFlatPoint(game, survivor.point.getFlatPoint(game.getWidth()))
+        if (zombies) {
+            damage = zombies.size() - survivor.remainingDefense
+            if (survivor.defense) {
+                if (survivor.defense.remainingLevel > damage) {
+                    survivor.defense.remainingLevel -= damage
+                    damage = 0
+                } else {
+                    damage -= survivor.defense.remainingLevel
+                    survivor.defense = null
+                }
+            }
+            survivor.remainingLife -= damage
+
+            if (survivor.remainingLife <= 0) {
+                //Kill!
+                death = true
+                game.missionStatus.survivors.remove(survivor)
+                def newSurvivor = game.missionStatus.survivors.find { it.player == survivor.player }
+                if (newSurvivor) {
+                    newSurvivor.leader = true
+                    newSurvivor.point = game.missionStatus.mission.startSurvivalPoints[random.nextInt(game.missionStatus.mission.startSurvivalPoints.size())]
+                }
+            }
+        }
+        return [damage, death]
     }
 
     List _personalMissionInfo(Game game) {

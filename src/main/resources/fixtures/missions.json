@@ -260,11 +260,10 @@
       }
     ],
     "objects": [
-      "skates",
-      "skates",
-      "skates",
-      "skates",
-      "skates"
+      "biker-suit",
+      "biker-suit",
+      "biker-suit",
+      "biker-suit"
     ],
     "victoryConditions": [
       {
