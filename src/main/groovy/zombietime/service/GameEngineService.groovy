@@ -207,8 +207,7 @@ class GameEngineService {
 
     boolean _victory(Game game) {
         boolean victory = true
-        Integer totalSurvivors = game.missionStatus.survivors.size()
-        Integer notOnVPSurvivors = totalSurvivors
+        Integer notOnVPSurvivors = game.missionStatus.survivors.count { it.leader == true }
         game.missionStatus.mission.victoryConditions.each { vc ->
             println "--->Checking VP ${vc.point.x}, ${vc.point.y}"
             def survivors = game.missionStatus.survivors.findAll {
@@ -230,13 +229,12 @@ class GameEngineService {
                 needThings.remove(it)
             }
 
-            def missingItems = vc.things - groupThings
-
             println "--->Need: ${vc.things}"
             println "--->Have: ${groupThings}"
-            println "--->Ok: ${missingItems.empty}"
+            println "--->Ok: ${needThings.empty}"
+            println "--->notOnVPSurvivors: ${notOnVPSurvivors}"
 
-            victory = victory && missingItems.empty
+            victory = victory && needThings.empty
         }
 
         return victory && (notOnVPSurvivors == 0)
