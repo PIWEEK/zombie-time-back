@@ -260,33 +260,11 @@
       }
     ],
     "objects": [
-      "gas",
-      "gas",
-      "gas",
-      "gas",
-      "gas",
-      "gas",
-      "medicine",
-      "medicine",
-      "medicine",
-      "medicine",
-      "medicine",
-      "medicine",
-      "medicine",
-      "medicine",
-      "gun",
-      "gun",
-      "gun",
-      "riffle",
-      "riffle",
-      "baseball-bat",
-      "baseball-bat",
       "skates",
-      "long-bow",
-      "leather-jacket",
-      "leather-jacket",
-      "leather-jacket",
-      "biker-suit"
+      "skates",
+      "skates",
+      "skates",
+      "skates"
     ],
     "victoryConditions": [
       {

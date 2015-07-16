@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import zombietime.domain.DefenseStatus
 import zombietime.domain.Game
+import zombietime.domain.ItemStatus
 import zombietime.domain.Message
 import zombietime.domain.Noise
 import zombietime.domain.Point
@@ -94,6 +95,9 @@ class GameEngineService {
                 case MessageType.END_TURN:
                     processEndTurnMessage(game, user, message.data)
                     return
+                case MessageType.USE_OBJECT:
+                    processUseObjectMessage(game, user, message.data)
+                    return
             }
         }
     }
@@ -173,6 +177,8 @@ class GameEngineService {
             def nextSurvivor = leaderes[(leaderes.indexOf(survivor) + 1) % leaderes.size()]
 
             survivor.remainingActions = survivor.survivor.actions
+            survivor.remainingMovement = survivor.survivor.movement
+            survivor.remainingNoise = survivor.survivor.noise
             def zombies = _zombiesOnFlatPoint(game, survivor.point.getFlatPoint(game.getWidth()))
 
             if (zombies) {
@@ -390,6 +396,53 @@ class GameEngineService {
             survivor.inventory.remove(item)
             game.missionStatus.remainingObjects << item
             _sendFullGameMessage(game)
+        }
+    }
+
+    void processUseObjectMessage(Game game, User player, Map data) {
+        def survivor = _getPlayerCurrentSurvivor(game, player)
+        if (game.hasStarted &&
+                game.playerTurn == player
+        ) {
+            def item = survivor.inventory.find { it.id == data.item }
+
+            if (item instanceof WeaponStatus) {
+                processEquipObjectMessage(game, player, data)
+            } else if (item instanceof WeaponStatus) {
+                processEquipObjectMessage(game, player, data)
+            } else if (item instanceof ItemStatus) {
+                if (item.item.addsLife()) {
+                    if (survivor.remainingLife < survivor.survivor.life) {
+                        survivor.remainingLife += item.item.life
+                        survivor.inventory.remove(item)
+                    }
+                } else if (item.item.addsAmmo()) {
+                    if (survivor.weapon?.weapon.longRange && survivor.weapon?.weapon.slug != 'molotov-cocktail') {
+                        if (survivor.weapon.remainingAmmo < survivor.weapon.weapon.ammo) {
+                            survivor.weapon.remainingAmmo = survivor.weapon.weapon.ammo
+                            survivor.inventory.remove(item)
+                        }
+                    }
+                } else if (item.item.addsGas()) {
+                    if (survivor.weapon?.weapon.slug == 'molotov-cocktail') {
+                        if (survivor.weapon.remainingAmmo < survivor.weapon.weapon.ammo) {
+                            survivor.weapon.remainingAmmo = survivor.weapon.weapon.ammo
+                            survivor.inventory.remove(item)
+                        }
+                    }
+                } else if (item.item.addsMovement()) {
+                    if (survivor.remainingActions > 0) {
+                        survivor.remainingMovement += item.item.movement
+                        survivor.inventory.remove(item)
+                    }
+                } else if (item.item.makesNoise()) {
+                    if (survivor.remainingActions > 0) {
+                        survivor.remainingNoise += item.item.noise
+                        survivor.inventory.remove(item)
+                    }
+                }
+                _sendFullGameMessage(game)
+            }
         }
     }
 
