@@ -5,6 +5,7 @@ import zombietime.domain.Mission
 import zombietime.domain.Point
 import zombietime.domain.VictoryCondition
 import zombietime.repository.MissionRepository
+import zombietime.repository.PersonalMissionRepository
 import zombietime.repository.TileRepository
 
 import javax.annotation.PostConstruct
@@ -35,6 +36,8 @@ class FixturesService {
     MissionRepository missionRepository
     @Autowired
     TileRepository tileRepository
+    @Autowired
+    PersonalMissionRepository personalMissionRepository
 
     @PostConstruct
     def loadFixtures() {
@@ -217,6 +220,17 @@ class FixturesService {
                     startZombiePoints,
                     entryZombiePoints,
                     victoryConditions
+            )
+        }
+
+        // Personal missions
+        File personalMissions = new File('src/main/resources/fixtures/personal_missions.json')
+        result = jsonSlurper.parseText(personalMissions.text)
+        for (mission in result) {
+            personalMissionRepository.create(
+                    name: mission.name,
+                    description: mission.description,
+                    things: mission.things
             )
         }
 

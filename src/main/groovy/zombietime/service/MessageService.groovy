@@ -107,13 +107,14 @@ class MessageService {
         ))
     }
 
-    void sendEndGameMessage(Game game, Boolean win) {
+    void sendEndGameMessage(Game game, Boolean win, List missions = []) {
         sendMessage(new Message(
                 game: game.id,
                 user: '',
                 type: MessageType.END_GAME,
                 data: [
-                        win: win
+                        win     : win,
+                        missions: missions
                 ]
         ))
     }

@@ -1,16 +1,16 @@
 [
-    {
-        "name": "Gas",
-        "slug": "gas",
-        "avatar": 324,
-        "life": 0,
-        "gas": 1,
-        "ammo": 0,
-        "movement": 0,
-        "noise": 0,
-        "defense": 0,
-        "inventory": 0,
-        "action": 0,
-        "persistent": false
-    }
+  {
+    "name": "Gas can",
+    "slug": "gas",
+    "avatar": 324,
+    "life": 0,
+    "gas": 1,
+    "ammo": 0,
+    "movement": 0,
+    "noise": 0,
+    "defense": 0,
+    "inventory": 0,
+    "action": 0,
+    "persistent": false
+  }
 ]

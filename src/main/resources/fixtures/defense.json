@@ -3,13 +3,13 @@
     "name": "Leather jacket",
     "slug": "leather-jacket",
     "avatar": 328,
-    "level": 1
+    "level": 2
   },
   {
     "name": "Biker suit",
     "slug": "biker-suit",
     "avatar": 334,
-    "level": 1
+    "level": 3
   },
   {
     "name": "Hockey mask",

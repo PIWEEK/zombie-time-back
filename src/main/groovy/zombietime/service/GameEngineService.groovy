@@ -15,6 +15,7 @@ import zombietime.domain.ZombieStatus
 import zombietime.repository.DefenseRepository
 import zombietime.repository.GameRepository
 import zombietime.repository.ItemRepository
+import zombietime.repository.PersonalMissionRepository
 import zombietime.repository.WeaponRepository
 import zombietime.repository.SurvivorRepository
 import zombietime.repository.TileRepository
@@ -43,6 +44,9 @@ class GameEngineService {
 
     @Autowired
     private WeaponRepository weaponRepository
+
+    @Autowired
+    private PersonalMissionRepository personalMissionRepository
 
     Random random = new Random()
 
@@ -195,7 +199,24 @@ class GameEngineService {
 
             }
             if (_victory(game)) {
-                messageService.sendEndGameMessage(game, true)
+
+                def missions = []
+                game.players.each {
+                    def srv = game.missionStatus.survivors.findAll { it.leader == true && it.player == player }
+                    def elements = []
+                    elements.addAll(survivor.inventory*.slug)
+                    elements << survivor.weapon?.slug
+                    elements << survivor.defense?.slug
+                    boolean success = _haveElements(it.personalMission.things, elements)
+                    missions << [
+                            player     : it.username,
+                            name       : it.personalMission.name,
+                            description: it.personalMission.description,
+                            success    : success
+                    ]
+                }
+
+                messageService.sendEndGameMessage(game, true, missions)
             } else {
                 game.playerTurn = nextSurvivor.player
                 _sendFullGameMessage(game)
@@ -209,9 +230,8 @@ class GameEngineService {
         boolean victory = true
         Integer notOnVPSurvivors = game.missionStatus.survivors.count { it.leader == true }
         game.missionStatus.mission.victoryConditions.each { vc ->
-            println "--->Checking VP ${vc.point.x}, ${vc.point.y}"
             def survivors = game.missionStatus.survivors.findAll {
-                vc.point.x == it.point.x && vc.point.y == it.point.y
+                vc.point.x == it.point.x && vc.point.y == it.point.y && it.leader == true
             }
             notOnVPSurvivors -= survivors.size()
 
@@ -221,23 +241,20 @@ class GameEngineService {
                 groupThings << it.weapon?.slug
                 groupThings << it.defense?.slug
             }
-
-            def needThings = []
-            needThings.addAll(vc.things)
-
-            groupThings.each {
-                needThings.remove(it)
-            }
-
-            println "--->Need: ${vc.things}"
-            println "--->Have: ${groupThings}"
-            println "--->Ok: ${needThings.empty}"
-            println "--->notOnVPSurvivors: ${notOnVPSurvivors}"
-
-            victory = victory && needThings.empty
+            victory = victory && _haveElements(vc.things, groupThings)
         }
 
         return victory && (notOnVPSurvivors == 0)
+    }
+
+    boolean _haveElements(List need, List have) {
+        def aux = []
+        aux.addAll(need)
+
+        have.each {
+            aux.remove(it)
+        }
+        return aux.empty
     }
 
 
@@ -592,6 +609,7 @@ class GameEngineService {
     }
 
     void addUserToGame(User user, Game game) {
+        user.personalMission = personalMissionRepository.getRandom()
         game.players << user
         def data = _getFullGameData(game)
         messageService.sendConnectMessage(data)
@@ -612,6 +630,18 @@ class GameEngineService {
             data.survivors[i].canAttackTo = attackable
             data.survivors[i].canSearch = (survivor.inventory.size() < survivor.remainingInventory) && _canSearch(game, survivor.point)
         }
+
+        def missions = []
+        game.players.each {
+            missions << [
+                    player     : it.username,
+                    name       : it.personalMission.name,
+                    description: it.personalMission.description
+            ]
+        }
+
+        data.missions = missions
+
         return data
     }
 
