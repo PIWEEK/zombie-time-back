@@ -203,7 +203,9 @@ class FixturesService {
             mission.victoryConditions.each { vc ->
                 victoryConditions << new VictoryCondition(
                         point: new Point(x: vc.point.x, y: vc.point.y),
-                        things: vc.things
+                        things: vc.things,
+                        name: vc.name,
+                        description: vc.description
                 )
             }
 

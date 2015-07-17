@@ -759,6 +759,7 @@ class GameEngineService {
 
     void zombieTime(Game game) {
         if (game.hasStarted && (!game.hasFinished)) {
+            def numNewZombies = 0
             def damages = []
             def zombies = []
             zombies.addAll(game.missionStatus.zombies.clone())
@@ -805,8 +806,8 @@ class GameEngineService {
             //Add new zombies
             Zombie zombie = zombieRepository.get('zombie1')
             def noiseTotal = (game.missionStatus.noise?.level?.sum()) ?: 0
-            def num = leaderes.size() + noiseTotal
-            num.times {
+            numNewZombies = leaderes.size() + noiseTotal
+            numNewZombies.times {
                 def entryPoint = game.missionStatus.mission.entryZombiePoints[it % game.missionStatus.mission.entryZombiePoints.size()]
                 def z = zombie.createZombieStatus(entryPoint.x, entryPoint.y)
 
@@ -816,7 +817,7 @@ class GameEngineService {
             //Eliminate noise
             game.missionStatus.noise.clear()
 
-            messageService.sendZombieTimeMessage(game, damages)
+            messageService.sendZombieTimeMessage(game, damages, numNewZombies)
             _sendFullGameMessage(game)
 
             //New zombietime

@@ -267,6 +267,8 @@
     ],
     "victoryConditions": [
       {
+        "name": "Get the gas!",
+        "description": "All the survivor must reach the red car, with 4 gas cans (between all). The car must be clean of zombies!",
         "point": {
           "x": 0,
           "y": 1

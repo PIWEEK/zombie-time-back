@@ -133,12 +133,12 @@ class MessageService {
     }
 
 
-    void sendZombieTimeMessage(Game game, List damages) {
+    void sendZombieTimeMessage(Game game, List damages, Integer numNewZombies) {
         sendMessage(new Message(
                 game: game.id,
                 user: '',
                 type: MessageType.ZOMBIE_TIME,
-                data: [damages: damages]
+                data: [damages: damages, numNewZombies: numNewZombies]
         ))
     }
 
