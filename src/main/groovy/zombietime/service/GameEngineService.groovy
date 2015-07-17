@@ -725,14 +725,12 @@ class GameEngineService {
             }
         }
 
-        def missions = []
+        def missions = [:]
         game.players.each {
-            missions << [
-                    "${it.username}": [
-                            player     : it.username,
-                            name       : it.personalMission.name,
-                            description: it.personalMission.description
-                    ]
+            missions["${it.username}"] = [
+                    player     : it.username,
+                    name       : it.personalMission.name,
+                    description: it.personalMission.description
             ]
         }
 
