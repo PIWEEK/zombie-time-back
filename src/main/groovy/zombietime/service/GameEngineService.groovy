@@ -812,7 +812,7 @@ class GameEngineService {
             //Add new zombies
             Zombie zombie = zombieRepository.get('zombie1')
             def noiseTotal = (game.missionStatus.noise?.level?.sum()) ?: 0
-            numNewZombies = leaderes.size() + noiseTotal
+            numNewZombies = (leaderes.size() * 2) + noiseTotal
             numNewZombies.times {
                 def entryPoint = game.missionStatus.mission.entryZombiePoints[it % game.missionStatus.mission.entryZombiePoints.size()]
                 def z = zombie.createZombieStatus(entryPoint.x, entryPoint.y)
