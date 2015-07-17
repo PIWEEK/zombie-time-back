@@ -9,6 +9,7 @@ class ItemStatus implements Status {
         return [
                 id         : id,
                 name       : item.name,
+                slug       : item.slug,
                 avatar     : item.avatar,
                 persistent : item.persistent,
                 description: item.description

@@ -10,6 +10,7 @@ class WeaponStatus implements Status {
     Map asMap() {
         return [
                 id         : id,
+                slug       : weapon.slug,
                 currentAmmo: remainingAmmo,
                 maxAmmo    : weapon.ammo,
                 name       : weapon.name,

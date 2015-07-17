@@ -10,6 +10,7 @@ class DefenseStatus {
     Map asMap() {
         return [
                 id          : id,
+                slug        : defense.slug,
                 name        : defense.name,
                 avatar      : defense.avatar,
                 maxLevel    : defense.level,
