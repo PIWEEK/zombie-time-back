@@ -742,6 +742,15 @@ class GameEngineService {
 
         data.missions = missions
 
+
+
+        data.catchedSurvivors = [:]
+        game.missionStatus.survivors.each {
+            data.catchedSurvivors[it.survivor.slug] = data.catchedSurvivors[it.survivor.slug] ?: []
+            data.catchedSurvivors[it.survivor.slug] << it.player.username
+        }
+
+
         return data
     }
 
