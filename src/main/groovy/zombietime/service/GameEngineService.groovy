@@ -147,9 +147,15 @@ class GameEngineService {
 
             if ((game.players.size() == game.slots) &&
                     (game.missionStatus.survivors.count { !it.player.ready } == 0)) {
-                messageService.sendStartGameMessage(game)
+
+
                 game.hasStarted = true
                 game.playerTurn = game.players.first()
+                messageService.sendStartGameMessage(game)
+
+                _sendFullGameMessage(game)
+
+
                 scheduleEndGame(game)
                 scheduleZombieTime(game)
             }
