@@ -196,9 +196,13 @@ class GameEngineService {
 
             def (damage, death) = _attackSurvivor(game, survivor)
 
-            if (damage) {
+            def zombies = _zombiesOnFlatPoint(game, survivor.point.getFlatPoint(game.getWidth()))
+            if (zombies) {
                 messageService.sendZombieAttackMessage(game, survivor.id, damage, death)
                 _sendFullGameMessage(game)
+            }
+
+            if (damage) {
                 _checkAllDead(game)
             } else {
                 if (_victory(game)) {
@@ -441,7 +445,7 @@ class GameEngineService {
 
             if (item instanceof WeaponStatus) {
                 processEquipObjectMessage(game, player, data)
-            } else if (item instanceof WeaponStatus) {
+            } else if (item instanceof DefenseStatus) {
                 processEquipObjectMessage(game, player, data)
             } else if (item instanceof ItemStatus) {
                 if (item.item.addsLife()) {
