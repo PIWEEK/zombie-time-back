@@ -12,6 +12,7 @@ import zombietime.domain.SurvivorStatus
 import zombietime.domain.Tile
 import zombietime.domain.User
 import zombietime.domain.WeaponStatus
+import zombietime.domain.Zombie
 import zombietime.domain.ZombieStatus
 import zombietime.repository.DefenseRepository
 import zombietime.repository.GameRepository
@@ -20,6 +21,7 @@ import zombietime.repository.PersonalMissionRepository
 import zombietime.repository.WeaponRepository
 import zombietime.repository.SurvivorRepository
 import zombietime.repository.TileRepository
+import zombietime.repository.ZombieRepository
 import zombietime.utils.MessageType
 
 @Service
@@ -48,6 +50,9 @@ class GameEngineService {
 
     @Autowired
     private PersonalMissionRepository personalMissionRepository
+    @Autowired
+    private ZombieRepository zombieRepository
+
 
     Random random = new Random()
 
@@ -145,6 +150,8 @@ class GameEngineService {
                 messageService.sendStartGameMessage(game)
                 game.hasStarted = true
                 game.playerTurn = game.players.first()
+                scheduleEndGame(game)
+                scheduleZombieTime(game)
             }
         }
     }
@@ -203,14 +210,8 @@ class GameEngineService {
 
     void _checkAllDead(Game game) {
         if (game.missionStatus.survivors.count { it.leader == true } == 0) {
-            def missions = _personalMissionInfo(game)
-            messageService.sendEndGameMessage(game, false, missions)
-            game.hasFinished = true
+            endGame(game)
         }
-    }
-
-    def zombieTime() {
-
     }
 
 
@@ -532,18 +533,20 @@ class GameEngineService {
     }
 
 
-    boolean _canMove(Game game, Integer startFlatPoint, Integer endFlatPoint) {
+    boolean _canMove(Game game, Integer startFlatPoint, Integer endFlatPoint, boolean isZombie = false) {
         Point startPoint = Point.getPointFromFlatPoint(startFlatPoint, game.getWidth())
         Point endPoint = Point.getPointFromFlatPoint(endFlatPoint, game.getWidth())
 
-        return _canMove(game, startPoint, endPoint, startFlatPoint, endFlatPoint)
+        return _canMove(game, startPoint, endPoint, startFlatPoint, endFlatPoint, isZombie)
     }
 
-    boolean _canMove(Game game, Point startPoint, Point endPoint, Integer startFlatPoint, Integer endFlatPoint) {
+    boolean _canMove(Game game, Point startPoint, Point endPoint, Integer startFlatPoint, Integer endFlatPoint, boolean isZombie = false) {
 
-        //If there is zombies on the player position, can't move
-        if (_zombiesOnFlatPoint(game, startFlatPoint)) {
-            return false
+        if (!isZombie) {
+            //If is a survivor and there is zombies on the player position, can't move
+            if (_zombiesOnFlatPoint(game, startFlatPoint)) {
+                return false
+            }
         }
 
         Tile startTile = _getTileFromFlatPoint(game, startFlatPoint)
@@ -613,7 +616,7 @@ class GameEngineService {
     }
 
 
-    List<Integer> _reacheableFlatPoints(Game game, Integer startPoint, int numMoves) {
+    List<Integer> _reacheableFlatPoints(Game game, Integer startPoint, int numMoves, boolean isZombie = false) {
         if (numMoves > 0) {
             def reacheablePoints = [
                     _getFlatPointUp(game, startPoint),
@@ -622,7 +625,7 @@ class GameEngineService {
                     _getFlatPointRight(game, startPoint)
             ]
             reacheablePoints = reacheablePoints.findAll {
-                (it != -1) && _canMove(game, startPoint, it)
+                (it != -1) && _canMove(game, startPoint, it, isZombie)
             }
             def finalPoints = []
             finalPoints.addAll(reacheablePoints)
@@ -743,6 +746,124 @@ class GameEngineService {
             game.missionStatus.noise << noise
         }
         noise.level += level
+    }
+
+    void endGame(Game game) {
+        if (game.hasStarted && (!game.hasFinished)) {
+            def missions = _personalMissionInfo(game)
+            messageService.sendEndGameMessage(game, false, missions)
+            game.hasFinished = true
+        }
+    }
+
+
+    void zombieTime(Game game) {
+        if (game.hasStarted && (!game.hasFinished)) {
+            def damages = []
+            def zombies = []
+            zombies.addAll(game.missionStatus.zombies.clone())
+
+            //First attack
+            getCurrentLeaderes(game).each { survivor ->
+                def point = survivor.point.getFlatPoint(game.getWidth())
+                zombies = zombies - _zombiesOnFlatPoint(game, point)
+                def (damage, death) = _attackSurvivor(game, survivor)
+                damages << [
+                        player  : survivor.player.username,
+                        survivor: survivor.survivor.slug,
+                        damage  : damage,
+                        death   : death
+                ]
+            }
+
+
+            def leaderes = getCurrentLeaderes(game)
+            def points = leaderes.collect {
+                it.point.getFlatPoint(game.getWidth())
+            }
+
+            //Then move
+            zombies.each { z ->
+
+                def point = z.point.getFlatPoint(game.getWidth())
+                def reacheable = _reacheableFlatPoints(game, point, 1, true).sort { Math.random() }
+
+                //Move to survivor
+                def newPoint = reacheable.find { it in points }
+
+
+                if (!newPoint) {
+                    newPoint = reacheable.max { _calcNoise(game, it) }
+                }
+
+                def p = Point.getPointFromFlatPoint(newPoint, game.getWidth())
+
+                z.point.x = p.x
+                z.point.y = p.y
+            }
+
+            //Add new zombies
+            Zombie zombie = zombieRepository.get('zombie1')
+            def noiseTotal = (game.missionStatus.noise?.level?.sum()) ?: 0
+            def num = leaderes.size() + noiseTotal
+            num.times {
+                def entryPoint = game.missionStatus.mission.entryZombiePoints[it % game.missionStatus.mission.entryZombiePoints.size()]
+                def z = zombie.createZombieStatus(entryPoint.x, entryPoint.y)
+
+                game.missionStatus.zombies << z
+            }
+
+            //Eliminate noise
+            game.missionStatus.noise.clear()
+
+            messageService.sendZombieTimeMessage(game, damages)
+            _sendFullGameMessage(game)
+
+            //New zombietime
+            scheduleZombieTime(game)
+
+            _checkAllDead(game)
+        }
+
+    }
+
+
+    void scheduleZombieTime(Game game) {
+        Timer timer = new Timer()
+        TimerTask action = new TimerTask() {
+            public void run() {
+                zombieTime(game)
+            }
+        }
+
+        timer.schedule(action, game.zombieTimeInterval * 1000)
+    }
+
+    void scheduleEndGame(Game game) {
+        Timer timer = new Timer()
+        TimerTask action = new TimerTask() {
+            public void run() {
+                endGame(game)
+            }
+        }
+
+        timer.schedule(action, 900000) //15 min
+    }
+
+    List<SurvivorStatus> getCurrentLeaderes(Game game) {
+        return game.missionStatus.survivors.findAll { it.leader == true }
+    }
+
+    double _calcNoise(Game game, Integer flatPoint) {
+        def p = Point.getPointFromFlatPoint(flatPoint, game.getWidth())
+        double sum = 0
+        game.missionStatus.noise.each {
+            def np = Point.getPointFromFlatPoint(it.flatPoint, game.getWidth())
+            def dist = Math.sqrt((np.x - p.x)**2 + (np.y - p.y)**2)
+            def level = it.level - dist
+            sum += (level > 0) ? level : 0
+        }
+        return sum
     }
 
 

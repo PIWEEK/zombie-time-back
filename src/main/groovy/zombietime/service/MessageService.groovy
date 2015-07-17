@@ -133,6 +133,16 @@ class MessageService {
     }
 
 
+    void sendZombieTimeMessage(Game game, List damages) {
+        sendMessage(new Message(
+                game: game.id,
+                user: '',
+                type: MessageType.ZOMBIE_TIME,
+                data: [damages: damages]
+        ))
+    }
+
+
     void sendConnectMessage(Map data) {
         Timer timer = new Timer()
         TimerTask action = new TimerTask() {
