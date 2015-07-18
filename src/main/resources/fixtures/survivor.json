@@ -4,8 +4,8 @@
     "slug": "pablo",
     "avatar": 308,
     "life": 3,
-    "actions": 10,
-    "inventory": 4,
+    "actions": 3,
+    "inventory": 3,
     "defense": 0,
     "movement": 1,
     "noise": 4
@@ -16,16 +16,16 @@
     "avatar": 307,
     "life": 3,
     "actions": 3,
-    "inventory": 3,
+    "inventory": 4,
     "defense": 0,
-    "movement": 3,
+    "movement": 1,
     "noise": 2
   },
   {
     "name": "Laura",
     "slug": "laura",
     "avatar": 306,
-    "life": 3,
+    "life": 4,
     "actions": 3,
     "inventory": 3,
     "defense": 0,
@@ -36,10 +36,10 @@
     "name": "yami",
     "slug": "yami",
     "avatar": 310,
-    "life": 3,
+    "life": 2,
     "actions": 3,
     "inventory": 3,
-    "defense": 0,
+    "defense": 1,
     "movement": 1,
     "noise": 2
   },
@@ -51,7 +51,7 @@
     "actions": 3,
     "inventory": 3,
     "defense": 0,
-    "movement": 1,
+    "movement": 2,
     "noise": 2
   },
   {
@@ -62,7 +62,7 @@
     "actions": 3,
     "inventory": 3,
     "defense": 0,
-    "movement": 1,
+    "movement": 2,
     "noise": 2
   }
 ]
