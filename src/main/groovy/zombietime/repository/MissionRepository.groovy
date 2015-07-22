@@ -3,6 +3,7 @@ package zombietime.repository
 import org.springframework.stereotype.Component
 import zombietime.domain.Mission
 import zombietime.domain.Point
+import zombietime.domain.SearchPoint
 import zombietime.domain.VictoryCondition
 
 import java.util.concurrent.ConcurrentHashMap
@@ -30,7 +31,8 @@ class MissionRepository {
 
     Mission create(String slug, Integer mapWidth, Integer mapHeight, List<Integer> mapFloorTiles, List<Integer> mapWallTiles,
                    List<Integer> mapItemTiles, List<Object> objects, List<Point> startSurvivalPoints,
-                   List<Point> startZombiePoints, List<Point> entryZombiePoints, List<VictoryCondition> victoryConditions) {
+                   List<Point> startZombiePoints, List<Point> entryZombiePoints, List<VictoryCondition> victoryConditions,
+                   List<SearchPoint> searchPoints) {
 
         Mission mission = new Mission(
                 slug: slug,
@@ -43,7 +45,8 @@ class MissionRepository {
                 startSurvivalPoints: startSurvivalPoints,
                 startZombiePoints: startZombiePoints,
                 entryZombiePoints: entryZombiePoints,
-                victoryConditions: victoryConditions
+                victoryConditions: victoryConditions,
+                searchPoints: searchPoints
         )
 
 

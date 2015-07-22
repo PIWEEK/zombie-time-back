@@ -8,6 +8,7 @@ import zombietime.domain.ItemStatus
 import zombietime.domain.Message
 import zombietime.domain.Noise
 import zombietime.domain.Point
+import zombietime.domain.SearchPoint
 import zombietime.domain.SurvivorStatus
 import zombietime.domain.Tile
 import zombietime.domain.User
@@ -372,13 +373,27 @@ class GameEngineService {
             Point startPoint = survivor.point
 
             if (_canSearch(game, startPoint)) {
+                def item
+                def searchPoint = _getSearchPoint(game, startPoint)
+                if (searchPoint) {
+                    item = searchPoint.thing.createStatus()
+                } else {
+                    item = game.missionStatus.remainingObjects.first()
+                }
+
+
                 survivor.remainingActions--
                 game.missionStatus.remainingObjects = game.missionStatus.remainingObjects.sort { Math.random() }
-                def item = game.missionStatus.remainingObjects.first()
                 game.token = UUID.randomUUID()
                 _sendFullGameMessage(game)
                 messageService.sendFindItemsMessage(game, survivor.player, [item], game.token)
             }
+        }
+    }
+
+    SearchPoint _getSearchPoint(Game game, Point point) {
+        return game.missionStatus.mission.searchPoints.find {
+            it.point.x == point.x && it.point.y == point.y
         }
     }
 
@@ -407,19 +422,18 @@ class GameEngineService {
         if (game.hasStarted &&
                 game.playerTurn == player
         ) {
-            def item1 = game.missionStatus.remainingObjects[0]
-            def item2 = game.missionStatus.remainingObjects[1]
-
-            game.missionStatus.remainingObjects.remove(item1)
-            game.missionStatus.remainingObjects.remove(item2)
-            if (data.item == item1.id) {
-                survivor.inventory << item1
-                game.missionStatus.remainingObjects << item2
-
-            } else if (data.item == item2.id) {
-                survivor.inventory << item2
-                game.missionStatus.remainingObjects << item1
+            def item
+            Point startPoint = survivor.point
+            def searchPoint = _getSearchPoint(game, startPoint)
+            if (searchPoint) {
+                item = searchPoint.thing.createStatus()
+            } else {
+                item = game.missionStatus.remainingObjects.find { it.id == data.item }
+                game.missionStatus.remainingObjects.remove(item)
             }
+            survivor.inventory << item
+
+
             _sendFullGameMessage(game)
         }
     }
@@ -665,7 +679,10 @@ class GameEngineService {
                     _getFlatPointRight(game, startPoint)
             ]
             points.each { p ->
-                if (_zombiesOnFlatPoint(game, p)) {
+
+                println "--->$p: ${_zombiesOnFlatPoint(game, p)} ${_canMove(game, startPoint, p, true)}"
+
+                if (_zombiesOnFlatPoint(game, p) && _canMove(game, startPoint, p, true)) {
                     attackableFlatPoints << p
                 }
             }

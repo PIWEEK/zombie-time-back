@@ -15,6 +15,7 @@ class Mission {
     List<Point> entryZombiePoints = []
 
     List<VictoryCondition> victoryConditions = []
+    List<SearchPoint> searchPoints = []
 
 
 }

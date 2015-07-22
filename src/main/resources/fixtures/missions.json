@@ -142,7 +142,7 @@
         259,
         0,
         0,
-        212,
+        297,
         241,
         242,
         245,
@@ -264,17 +264,11 @@
       "biker-suit",
       "biker-suit",
       "biker-suit",
-      "gas",
-      "gas",
-      "gas",
-      "gas",
-      "gas",
-      "gas",
-      "gas",
-      "gas",
-      "gas",
-      "gas",
-      "gas",
+      "skates",
+      "skates",
+      "skates",
+      "skates",
+      "skates",
       "gun",
       "gun",
       "gun",
@@ -319,6 +313,15 @@
         "things": [
           "gas"
         ]
+      }
+    ],
+    "searchPoints": [
+      {
+        "point": {
+          "x": 7,
+          "y": 2
+        },
+        "thing": "gas"
       }
     ]
   }

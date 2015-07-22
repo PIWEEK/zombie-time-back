@@ -3,6 +3,7 @@ package zombietime.service
 import groovy.json.JsonSlurper
 import zombietime.domain.Mission
 import zombietime.domain.Point
+import zombietime.domain.SearchPoint
 import zombietime.domain.VictoryCondition
 import zombietime.repository.MissionRepository
 import zombietime.repository.PersonalMissionRepository
@@ -209,6 +210,14 @@ class FixturesService {
                 )
             }
 
+            def searchPoints = []
+            mission.searchPoints.each { sp ->
+                searchPoints << new SearchPoint(
+                        point: new Point(x: sp.point.x, y: sp.point.y),
+                        thing: _findElementBySlug(sp.thing)
+                )
+            }
+
 
             Mission m = missionRepository.create(
                     mission.slug,
@@ -221,7 +230,8 @@ class FixturesService {
                     startSurvivalPoints,
                     startZombiePoints,
                     entryZombiePoints,
-                    victoryConditions
+                    victoryConditions,
+                    searchPoints
             )
         }
 

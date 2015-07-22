@@ -15,7 +15,8 @@ class WeaponStatus implements Status {
                 maxAmmo    : weapon.ammo,
                 name       : weapon.name,
                 avatar     : weapon.avatar,
-                damage     : weapon.damage
+                damage     : weapon.damage,
+                longRange  : weapon.longRange
         ]
     }
 
