@@ -5,7 +5,7 @@
     "avatar": 308,
     "life": 3,
     "actions": 3,
-    "inventory": 3,
+    "inventory": 4,
     "defense": 0,
     "movement": 1,
     "noise": 4
@@ -16,7 +16,7 @@
     "avatar": 307,
     "life": 3,
     "actions": 3,
-    "inventory": 4,
+    "inventory": 5,
     "defense": 0,
     "movement": 1,
     "noise": 2
@@ -27,7 +27,7 @@
     "avatar": 306,
     "life": 4,
     "actions": 3,
-    "inventory": 3,
+    "inventory": 4,
     "defense": 0,
     "movement": 1,
     "noise": 2
@@ -38,7 +38,7 @@
     "avatar": 310,
     "life": 2,
     "actions": 3,
-    "inventory": 3,
+    "inventory": 4,
     "defense": 1,
     "movement": 1,
     "noise": 2
@@ -49,7 +49,7 @@
     "avatar": 309,
     "life": 3,
     "actions": 3,
-    "inventory": 3,
+    "inventory": 4,
     "defense": 0,
     "movement": 2,
     "noise": 2
@@ -60,7 +60,7 @@
     "avatar": 305,
     "life": 3,
     "actions": 3,
-    "inventory": 3,
+    "inventory": 4,
     "defense": 0,
     "movement": 2,
     "noise": 2

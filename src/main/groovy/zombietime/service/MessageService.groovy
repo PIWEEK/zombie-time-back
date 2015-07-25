@@ -60,61 +60,61 @@ class MessageService {
         ))
     }
 
-    void sendFindItemsMessage(Game game, User user, List<Status> items, String token = '') {
+    void sendFindItemsMessage(Game game, SurvivorStatus survivor, List<Status> items, String token = '') {
         sendMessage(new Message(
                 game: game.id,
-                user: user.username,
+                user: survivor.player.username,
                 type: MessageType.FIND_ITEM,
-                data: [items: items*.asMap(), token: token]
+                data: [items: items*.asMap(), survivor: survivor.survivor.slug, token: token]
         ))
     }
 
-    void sendMoveAnimationMessage(Game game, String id, Integer start, Integer end) {
+    void sendMoveAnimationMessage(Game game, SurvivorStatus survivor, Integer start, Integer end) {
         sendMessage(new Message(
                 game: game.id,
-                user: '',
+                user: survivor.player.username,
                 type: MessageType.ANIMATION_MOVE,
                 data: [
-                        id   : id,
-                        start: start,
-                        end  : end
+                        survivor: survivor.survivor.slug,
+                        start   : start,
+                        end     : end
                 ]
         ))
     }
 
-    void sendAtackAnimationMessage(Game game, String id, Integer deaths) {
+    void sendAtackAnimationMessage(Game game, SurvivorStatus survivor, Integer deaths) {
         sendMessage(new Message(
                 game: game.id,
-                user: '',
+                user: survivor.player.username,
                 type: MessageType.ANIMATION_ATTACK,
                 data: [
-                        id    : id,
-                        deaths: deaths
+                        survivor: survivor.survivor.slug,
+                        weapon  : survivor.weapon.slug,
+                        deaths  : deaths
                 ]
         ))
     }
 
-    void sendZombieAttackMessage(Game game, String id, Integer damage, Boolean death) {
+    void sendZombieAttackMessage(Game game, SurvivorStatus survivor, Integer damage, Boolean death) {
         sendMessage(new Message(
                 game: game.id,
-                user: '',
+                user: survivor.player.username,
                 type: MessageType.ZOMBIE_ATTACK,
                 data: [
-                        id    : id,
-                        damage: damage,
-                        death : death
+                        survivor: survivor.survivor.slug,
+                        damage  : damage,
+                        death   : death
                 ]
         ))
     }
 
-    void sendEndTurnMessage(Game game, String username, String survivor) {
+    void sendStartTurnMessage(Game game, SurvivorStatus survivor) {
         sendMessage(new Message(
                 game: game.id,
-                user: '',
-                type: MessageType.END_TURN,
+                user: survivor.player.username,
+                type: MessageType.START_TURN,
                 data: [
-                        username: username,
-                        survivor: survivor
+                        survivor: survivor.survivor.slug
                 ]
         ))
     }

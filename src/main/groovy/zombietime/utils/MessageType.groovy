@@ -39,5 +39,6 @@ enum MessageType {
     ZOMBIE_ATTACK,
     END_GAME,
     START_GAME,
+    START_TURN
 
 }

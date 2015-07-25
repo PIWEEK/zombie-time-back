@@ -151,8 +151,9 @@ class GameEngineService {
 
 
                 game.hasStarted = true
-                game.playerTurn = game.players.first()
+                game.playerTurn = game.players[random.nextInt(game.players.size())]
                 messageService.sendStartGameMessage(game)
+                messageService.sendStartTurnMessage(game, _getPlayerCurrentSurvivor(game, game.playerTurn))
 
                 _sendFullGameMessage(game)
 
@@ -175,7 +176,7 @@ class GameEngineService {
                 movePoint in reacheables
         ) {
             survivor.remainingActions--
-            messageService.sendMoveAnimationMessage(game, survivor.id, startPoint, movePoint)
+            messageService.sendMoveAnimationMessage(game, survivor, startPoint, movePoint)
             survivor.point = Point.getPointFromFlatPoint(movePoint, game.getWidth())
             _sendFullGameMessage(game)
         }
@@ -199,22 +200,22 @@ class GameEngineService {
 
             def zombies = _zombiesOnFlatPoint(game, survivor.point.getFlatPoint(game.getWidth()))
             if (zombies) {
-                messageService.sendZombieAttackMessage(game, survivor.id, damage, death)
+                messageService.sendZombieAttackMessage(game, survivor, damage, death)
                 _sendFullGameMessage(game)
             }
 
-            if (damage) {
-                _checkAllDead(game)
+            if (!damage && _victory(game)) {
+                def missions = _personalMissionInfo(game)
+                messageService.sendEndGameMessage(game, true, missions)
+                game.hasFinished = true
             } else {
-                if (_victory(game)) {
-                    def missions = _personalMissionInfo(game)
-                    messageService.sendEndGameMessage(game, true, missions)
-                    game.hasFinished = true
-                } else {
-                    game.playerTurn = nextSurvivor.player
-                    messageService.sendEndTurnMessage(game, nextSurvivor.player.username, nextSurvivor.survivor.slug)
-                    _sendFullGameMessage(game)
-                }
+                _checkAllDead(game)
+            }
+
+            if (!game.hasFinished) {
+                game.playerTurn = nextSurvivor.player
+                messageService.sendStartTurnMessage(game, nextSurvivor)
+                _sendFullGameMessage(game)
             }
         }
     }
@@ -358,7 +359,7 @@ class GameEngineService {
                 survivor.weapon = weaponRepository.get('fist').createStatus()
             }
 
-            messageService.sendAtackAnimationMessage(game, survivor.id, deaths)
+            messageService.sendAtackAnimationMessage(game, survivor, deaths)
             _sendFullGameMessage(game)
         }
     }
@@ -386,7 +387,7 @@ class GameEngineService {
                 game.missionStatus.remainingObjects = game.missionStatus.remainingObjects.sort { Math.random() }
                 game.token = UUID.randomUUID()
                 _sendFullGameMessage(game)
-                messageService.sendFindItemsMessage(game, survivor.player, [item], game.token)
+                messageService.sendFindItemsMessage(game, survivor, [item], game.token)
             }
         }
     }
@@ -458,9 +459,17 @@ class GameEngineService {
             def item = survivor.inventory.find { it.id == data.item }
 
             if (item instanceof WeaponStatus) {
-                processEquipObjectMessage(game, player, data)
+                if (survivor.weapon.id == data.item) {
+                    processUnEquipObjectMessage(game, player, data)
+                } else {
+                    processEquipObjectMessage(game, player, data)
+                }
             } else if (item instanceof DefenseStatus) {
-                processEquipObjectMessage(game, player, data)
+                if (survivor.defense?.id == data.item) {
+                    processUnEquipObjectMessage(game, player, data)
+                } else {
+                    processEquipObjectMessage(game, player, data)
+                }
             } else if (item instanceof ItemStatus) {
                 if (item.item.addsLife()) {
                     if (survivor.remainingLife < survivor.survivor.life) {
@@ -504,18 +513,11 @@ class GameEngineService {
         ) {
             def item = survivor.inventory.find { it.id == data.item }
             if (item instanceof WeaponStatus || item instanceof DefenseStatus) {
-                survivor.inventory.remove(item)
                 if (item instanceof WeaponStatus) {
-                    if (survivor.weapon && survivor.weapon.weapon.slug != 'fist') {
-                        survivor.inventory << survivor.weapon
-                    }
                     survivor.weapon = item
                 }
 
                 if (item instanceof DefenseStatus) {
-                    if (survivor.defense) {
-                        survivor.inventory << survivor.defense
-                    }
                     survivor.defense = item
                 }
 
@@ -530,17 +532,13 @@ class GameEngineService {
         if (game.hasStarted &&
                 game.playerTurn == player
         ) {
-            if (survivor.inventory.size() < survivor.remainingInventory) {
-                if (data.item == survivor.weapon?.id) {
-                    survivor.inventory << survivor.weapon
-                    survivor.weapon = weaponRepository.get('fist').createStatus()
-                }
-                if (data.item == survivor.defense?.id) {
-                    survivor.inventory << survivor.defense
-                    survivor.defense = null
-                }
-                _sendFullGameMessage(game)
+            if (data.item == survivor.weapon?.id) {
+                survivor.weapon = weaponRepository.get('fist').createStatus()
             }
+            if (data.item == survivor.defense?.id) {
+                survivor.defense = null
+            }
+            _sendFullGameMessage(game)
         }
     }
 
@@ -679,9 +677,6 @@ class GameEngineService {
                     _getFlatPointRight(game, startPoint)
             ]
             points.each { p ->
-
-                println "--->$p: ${_zombiesOnFlatPoint(game, p)} ${_canMove(game, startPoint, p, true)}"
-
                 if (_zombiesOnFlatPoint(game, p) && _canMove(game, startPoint, p, true)) {
                     attackableFlatPoints << p
                 }
