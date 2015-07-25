@@ -109,8 +109,8 @@ class GameEngineService {
     }
 
     void processChatMessage(Game game, User player, Map data) {
-        //echo
-        messageService.sendChatMessage(game, player, data.text)
+        SurvivorStatus survivor = _getPlayerCurrentSurvivor(game, player)
+        messageService.sendChatMessage(game, player, survivor.survivor.slug, data.text)
     }
 
 

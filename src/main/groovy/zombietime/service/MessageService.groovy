@@ -21,12 +21,12 @@ class MessageService {
     }
 
 
-    public void sendChatMessage(Game game, User user, String text) {
+    public void sendChatMessage(Game game, User user, String survivor, String text) {
         sendMessage(new Message(
                 game: game.id,
                 user: user.username,
                 type: MessageType.CHAT,
-                data: ['text': text]
+                data: ['text': text, 'survivor': survivor]
         ))
     }
 
