@@ -16,7 +16,8 @@ class WeaponStatus implements Status {
                 name       : weapon.name,
                 avatar     : weapon.avatar,
                 damage     : weapon.damage,
-                longRange  : weapon.longRange
+                longRange  : weapon.longRange,
+                description: weapon.description
         ]
     }
 

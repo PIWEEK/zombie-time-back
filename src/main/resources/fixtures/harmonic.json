@@ -1,16 +1,17 @@
 [
-    {
-        "name": "Harmonic",
-        "slug": "harmonic",
-        "avatar": 326,
-        "life": 0,
-        "gas": 0,
-        "ammo": 0,
-        "movement": 0,
-        "noise": 1,
-        "defense": 0,
-        "inventory": 0,
-        "action": 0,
-        "persistent": false
-    }
+  {
+    "name": "Harmonic",
+    "slug": "harmonic",
+    "description": "Add 3 to all your noises this turn",
+    "avatar": 326,
+    "life": 0,
+    "gas": 0,
+    "ammo": 0,
+    "movement": 0,
+    "noise": 3,
+    "defense": 0,
+    "inventory": 0,
+    "action": 0,
+    "persistent": false
+  }
 ]

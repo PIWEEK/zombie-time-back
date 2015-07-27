@@ -14,7 +14,8 @@ class DefenseStatus {
                 name        : defense.name,
                 avatar      : defense.avatar,
                 maxLevel    : defense.level,
-                currentLevel: remainingLevel
+                currentLevel: remainingLevel,
+                description : defense.description
         ]
     }
 

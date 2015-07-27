@@ -2,6 +2,7 @@
   {
     "name": "Long bow",
     "slug": "long-bow",
+    "description": "Silent and deadly",
     "avatar": 329,
     "ammo": 3,
     "damage": 1,
@@ -9,8 +10,9 @@
     "longRange": true
   },
   {
-    "name": "Riffle",
-    "slug": "riffle",
+    "name": "Machine gun",
+    "slug": "machine-gun",
+    "description": "Ho, ho, ho, now i have a machine gun",
     "avatar": 332,
     "ammo": 3,
     "damage": 3,
@@ -20,6 +22,7 @@
   {
     "name": "Molotov cocktail",
     "slug": "molotov-cocktail",
+    "description": "I love the smell of burning zombies on the morning",
     "avatar": 331,
     "ammo": 1,
     "damage": 5,
@@ -29,6 +32,7 @@
   {
     "name": "Gun",
     "slug": "gun",
+    "description": "Allways bring a gun to a zombie fight",
     "avatar": 325,
     "ammo": 5,
     "damage": 1,
@@ -38,6 +42,7 @@
   {
     "name": "Fist",
     "slug": "fist",
+    "description": "It is dangerous to punch a zombie",
     "avatar": 336,
     "ammo": 1000,
     "damage": 1,
@@ -47,27 +52,30 @@
   {
     "name": "Baseball bat",
     "slug": "baseball-bat",
+    "description": "Can you make a home-run with a zombie head?",
     "avatar": 323,
     "ammo": 4,
-    "damage": 3,
+    "damage": 2,
     "noise": 0,
     "longRange": false
   },
   {
     "name": "Axe",
     "slug": "axe",
+    "description": "Sharp. Heavy. Perfect.",
     "avatar": 322,
     "ammo": 3,
-    "damage": 4,
+    "damage": 3,
     "noise": 0,
     "longRange": false
   },
   {
     "name": "Knife",
     "slug": "knife",
+    "description": "It's something!",
     "avatar": 327,
     "ammo": 5,
-    "damage": 2,
+    "damage": 1,
     "noise": 0,
     "longRange": false
   }

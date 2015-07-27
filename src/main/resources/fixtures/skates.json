@@ -1,16 +1,17 @@
 [
-    {
-        "name": "Skates",
-        "slug": "skates",
-        "avatar": 333,
-        "life": 0,
-        "gas": 0,
-        "ammo": 0,
-        "movement": 1,
-        "noise": 0,
-        "defense": 0,
-        "inventory": 0,
-        "action": 0,
-        "persistent": true
-    }
+  {
+    "name": "Skate",
+    "slug": "skate",
+    "description": "Add 1 to all your movements this turn",
+    "avatar": 333,
+    "life": 0,
+    "gas": 0,
+    "ammo": 0,
+    "movement": 1,
+    "noise": 0,
+    "defense": 0,
+    "inventory": 0,
+    "action": 0,
+    "persistent": true
+  }
 ]

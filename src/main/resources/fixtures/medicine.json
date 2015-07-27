@@ -2,6 +2,7 @@
     {
         "name": "Medicine",
         "slug": "medicine",
+        "description": "Restores one life point",
         "avatar": 330,
         "life": 1,
         "gas": 0,

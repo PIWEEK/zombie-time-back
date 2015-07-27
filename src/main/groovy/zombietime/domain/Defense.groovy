@@ -4,6 +4,7 @@ class Defense {
 
     String name
     String slug
+    String description
     Integer avatar
     Integer level = 1
 

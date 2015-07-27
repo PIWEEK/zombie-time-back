@@ -9,6 +9,7 @@ class Weapon {
     Integer noise
     Integer ammo
     boolean longRange
+    String description
 
 
     WeaponStatus createStatus() {

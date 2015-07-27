@@ -2,18 +2,21 @@
   {
     "name": "Leather jacket",
     "slug": "leather-jacket",
+    "description": "If you have to die, at least die with style",
     "avatar": 328,
     "level": 2
   },
   {
-    "name": "Biker helmet",
+    "name": "Biker suit",
     "slug": "biker-suit",
+    "description": "Prepared for zombies and races!",
     "avatar": 334,
     "level": 3
   },
   {
     "name": "Hockey mask",
     "slug": "hockey-mask",
+    "description": "Maybe the zombies will be scared of you!",
     "avatar": 335,
     "level": 1
   }

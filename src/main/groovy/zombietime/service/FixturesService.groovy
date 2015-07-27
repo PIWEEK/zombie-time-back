@@ -83,6 +83,7 @@ class FixturesService {
             defenseRepository.create(
                     name: defense.name,
                     slug: defense.slug,
+                    description: defense.description,
                     avatar: defense.avatar,
                     level: defense.level
             )
@@ -95,6 +96,7 @@ class FixturesService {
             weaponRepository.create(
                     name: weapon.name,
                     slug: weapon.slug,
+                    description: weapon.description,
                     avatar: weapon.avatar,
                     ammo: weapon.ammo,
                     damage: weapon.damage,
@@ -109,6 +111,7 @@ class FixturesService {
         for (ammo in result) {
             itemRepository.create(
                     name: ammo.name,
+                    description: ammo.description,
                     slug: ammo.slug,
                     avatar: ammo.avatar,
                     ammo: ammo.ammo
@@ -122,6 +125,7 @@ class FixturesService {
             itemRepository.create(
                     name: gas.name,
                     slug: gas.slug,
+                    description: gas.description,
                     avatar: gas.avatar,
                     gas: gas.gas
             )
@@ -133,6 +137,7 @@ class FixturesService {
         for (harmonic in result) {
             itemRepository.create(
                     name: harmonic.name,
+                    description: harmonic.description,
                     slug: harmonic.slug,
                     avatar: harmonic.avatar,
                     noise: harmonic.noise
@@ -146,6 +151,7 @@ class FixturesService {
             itemRepository.create(
                     name: medicine.name,
                     slug: medicine.slug,
+                    description: medicine.description,
                     avatar: medicine.avatar,
                     life: medicine.life
             )
@@ -158,6 +164,7 @@ class FixturesService {
             itemRepository.create(
                     name: skate.name,
                     slug: skate.slug,
+                    description: skate.description,
                     avatar: skate.avatar,
                     movement: skate.movement,
                     persistent: skate.persistent
