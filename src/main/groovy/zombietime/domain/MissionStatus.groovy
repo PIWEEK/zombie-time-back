@@ -8,6 +8,7 @@ class MissionStatus {
     List<Status> remainingObjects = []
     List<Noise> noise = []
     Integer time = 900
+    Map searchs = [:]
 
 
     Map asMap() {
@@ -24,7 +25,9 @@ class MissionStatus {
                         wallTiles : mission.mapWallTiles,
                         itemTiles : mission.mapItemTiles
                 ],
-                victoryConditions : mission.victoryConditions*.asMap(mission.mapWidth)
+                victoryConditions : mission.victoryConditions*.asMap(mission.mapWidth),
+                searchPoints      : mission.searchPoints*.asMap(mission.mapWidth)
+
         ]
     }
 

@@ -86,9 +86,6 @@ class GameEngineService {
                 case MessageType.DISCARD_OBJECT:
                     processDiscardObjectMessage(game, user, message.data)
                     return
-                case MessageType.EQUIP:
-                    processEquipObjectMessage(game, user, message.data)
-                    return
                 case MessageType.UNEQUIP:
                     processUnEquipObjectMessage(game, user, message.data)
                     return
@@ -384,8 +381,10 @@ class GameEngineService {
 
 
                 survivor.remainingActions--
-                game.missionStatus.remainingObjects = game.missionStatus.remainingObjects.sort { Math.random() }
+                Collections.shuffle(game.missionStatus.remainingObjects)
                 game.token = UUID.randomUUID()
+                Integer flatPoint = startPoint.getFlatPoint(game.getWidth())
+                game.missionStatus.searchs[flatPoint] = game.missionStatus.searchs[flatPoint] ? game.missionStatus.searchs[flatPoint] + 1 : 1
                 _sendFullGameMessage(game)
                 messageService.sendFindItemsMessage(game, survivor, [item], game.token)
             }
@@ -447,6 +446,15 @@ class GameEngineService {
             def item = survivor.inventory.find { it.id == data.item }
             survivor.inventory.remove(item)
             game.missionStatus.remainingObjects << item
+
+            if (survivor.weapon.id == data.item) {
+                survivor.weapon = weaponRepository.get('fist').createStatus()
+            }
+
+            if (survivor.defense?.id == data.item) {
+                survivor.defense = null
+            }
+
             _sendFullGameMessage(game)
         }
     }
@@ -544,6 +552,11 @@ class GameEngineService {
 
     boolean _canSearch(Game game, Point point) {
         Integer flatPoint = point.getFlatPoint(game.getWidth())
+
+        //If the point has been searched two times, can't search
+        if (game.missionStatus.searchs[flatPoint] > 1) {
+            return false
+        }
 
         //If there is zombies on the player position, can't search
         if (_zombiesOnFlatPoint(game, flatPoint)) {

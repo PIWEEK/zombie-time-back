@@ -18,7 +18,6 @@ enum MessageType {
     DISCARD_OBJECT,
     //GIVE_OBJECT,
     USE_OBJECT,
-    EQUIP,
     UNEQUIP,
 
 
