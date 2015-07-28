@@ -114,7 +114,7 @@ class GameEngineService {
     void processSelectSurvivorMessage(Game game, User player, Map data) {
         if (!game.hasStarted) {
 
-            boolean leader = (data.leader == 'true')
+            boolean leader = (data.leader == true)
             def oldSurvivor = game.missionStatus.survivors.find { (it.player == player) && (it.leader == leader) }
             game.missionStatus.survivors.remove(oldSurvivor)
 
@@ -132,6 +132,7 @@ class GameEngineService {
             survivorStatus.point.y = startPoint.y
 
             game.missionStatus.survivors << survivorStatus
+            _sendPreGameMessage(game)
             _sendFullGameMessage(game)
         }
     }
@@ -144,16 +145,13 @@ class GameEngineService {
             }
 
             if ((game.players.size() == game.slots) &&
-                    (game.missionStatus.survivors.count { !it.player.ready } == 0)) {
-
-
+                    (game.players.count { !it.ready } == 0)) {
                 game.hasStarted = true
                 game.playerTurn = game.players[random.nextInt(game.players.size())]
                 messageService.sendStartGameMessage(game)
                 messageService.sendStartTurnMessage(game, _getPlayerCurrentSurvivor(game, game.playerTurn))
 
                 _sendFullGameMessage(game)
-
 
                 scheduleEndGame(game)
                 scheduleZombieTime(game)
@@ -734,7 +732,7 @@ class GameEngineService {
     void addUserToGame(User user, Game game) {
         user.personalMission = personalMissionRepository.getRandom()
         game.players << user
-        def data = _getFullGameData(game)
+        def data = _getPreGameData(game)
         messageService.sendConnectMessage(data)
     }
 
@@ -782,6 +780,31 @@ class GameEngineService {
 
         return data
     }
+
+
+    void _sendPreGameMessage(Game game) {
+        def data = _getPreGameData(game)
+        messageService.sendPreGameMessage(data)
+    }
+
+    Map _getPreGameData(Game game) {
+        def data = [:]
+        data.gameId = game.id
+        def survivorList = survivorRepository.list()
+        data.survivors = []
+        def pickedSurvivors = game.missionStatus.survivors
+        survivorList.each { s ->
+            def survivorData = s.asMap()
+            def pickedSurvivor = pickedSurvivors.find { it.survivor.slug == s.slug }
+            survivorData.player = pickedSurvivor ? pickedSurvivor.player.username : ""
+            survivorData.leader = pickedSurvivor ? pickedSurvivor.leader : false
+            data.survivors << survivorData
+        }
+
+
+        return data
+    }
+
 
     void _addNoise(Game game, Integer flatPoint, Integer level) {
         Noise noise = game.missionStatus.noise.find { it.flatPoint == flatPoint }

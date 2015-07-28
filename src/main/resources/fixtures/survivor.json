@@ -1,7 +1,8 @@
 [
   {
-    "name": "Pablo",
+    "name": "Pablo (Bluesman)",
     "slug": "pablo",
+    "description": "Can play the blues harp to make four levels of noise",
     "avatar": 308,
     "life": 3,
     "actions": 3,
@@ -11,8 +12,9 @@
     "noise": 4
   },
   {
-    "name": "Miguel",
+    "name": "Miguel (Deep pockets)",
     "slug": "miguel",
+    "description": "Carry more things. Five inventory slots",
     "avatar": 307,
     "life": 3,
     "actions": 3,
@@ -22,8 +24,9 @@
     "noise": 2
   },
   {
-    "name": "Laura",
+    "name": "Laura (Healthy)",
     "slug": "laura",
+    "description": "Have four life points",
     "avatar": 306,
     "life": 4,
     "actions": 3,
@@ -33,8 +36,9 @@
     "noise": 2
   },
   {
-    "name": "yami",
+    "name": "Yami (Though gal)",
     "slug": "yami",
+    "description": "Receives one less damage by attack, but only has two life points",
     "avatar": 310,
     "life": 2,
     "actions": 3,
@@ -44,8 +48,9 @@
     "noise": 2
   },
   {
-    "name": "Xenia",
+    "name": "Xenia (Fast)",
     "slug": "xenia",
+    "description": "She is fast! Moves two squares every time",
     "avatar": 309,
     "life": 3,
     "actions": 3,
@@ -55,13 +60,86 @@
     "noise": 2
   },
   {
-    "name": "Alex",
+    "name": "Alex (Though guy)",
     "slug": "alex",
+    "description": "Receives one less damage by attack, but only has two life points",
     "avatar": 305,
-    "life": 3,
+    "life": 2,
     "actions": 3,
     "inventory": 4,
-    "defense": 0,
+    "defense": 1,
+    "movement": 2,
+    "noise": 2
+  },
+  {
+    "name": "Paul  (Though guy)",
+    "slug": "paul",
+    "description": "Receives one less damage by attack, but only has two life points",
+    "avatar": 316,
+    "life": 2,
+    "actions": 3,
+    "inventory": 4,
+    "defense": 1,
+    "movement": 2,
+    "noise": 2
+  },
+  {
+    "name": "Antonio  (Though guy)",
+    "slug": "antonio",
+    "description": "Receives one less damage by attack, but only has two life points",
+    "avatar": 312,
+    "life": 2,
+    "actions": 3,
+    "inventory": 4,
+    "defense": 1,
+    "movement": 2,
+    "noise": 2
+  },
+  {
+    "name": "Ivan  (Though guy)",
+    "slug": "ivan",
+    "description": "Receives one less damage by attack, but only has two life points",
+    "avatar": 314,
+    "life": 2,
+    "actions": 3,
+    "inventory": 4,
+    "defense": 1,
+    "movement": 2,
+    "noise": 2
+  },
+  {
+    "name": "Alejandro  (Though guy)",
+    "slug": "alejandro",
+    "description": "Receives one less damage by attack, but only has two life points",
+    "avatar": 311,
+    "life": 2,
+    "actions": 3,
+    "inventory": 4,
+    "defense": 1,
+    "movement": 2,
+    "noise": 2
+  },
+  {
+    "name": "Jesus  (Though guy)",
+    "slug": "jesus",
+    "description": "Receives one less damage by attack, but only has two life points",
+    "avatar": 315,
+    "life": 2,
+    "actions": 3,
+    "inventory": 4,
+    "defense": 1,
+    "movement": 2,
+    "noise": 2
+  },
+  {
+    "name": "David  (Though guy)",
+    "slug": "david",
+    "description": "Receives one less damage by attack, but only has two life points",
+    "avatar": 313,
+    "life": 2,
+    "actions": 3,
+    "inventory": 4,
+    "defense": 1,
     "movement": 2,
     "noise": 2
   }

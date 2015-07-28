@@ -54,6 +54,7 @@ class FixturesService {
                     name: survivor.name,
                     slug: survivor.slug,
                     avatar: survivor.avatar,
+                    description: survivor.description,
                     life: survivor.life,
                     actions: survivor.actions,
                     inventory: survivor.inventory,

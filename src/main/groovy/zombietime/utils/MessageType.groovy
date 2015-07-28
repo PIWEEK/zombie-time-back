@@ -30,6 +30,7 @@ enum MessageType {
     //  Output messages    //
     /////////////////////////
     //CHAT
+    PRE_GAME,
     ANIMATION_MOVE,
     ANIMATION_ATTACK,
     FIND_ITEM,

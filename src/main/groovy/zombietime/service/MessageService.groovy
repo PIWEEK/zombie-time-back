@@ -147,11 +147,21 @@ class MessageService {
         Timer timer = new Timer()
         TimerTask action = new TimerTask() {
             public void run() {
-                sendFullGameMessage(data)
+                sendPreGameMessage(data)
             }
         }
 
         timer.schedule(action, 2000)
+    }
+
+
+    void sendPreGameMessage(Map data) {
+        sendMessage(new Message(
+                game: data.gameId,
+                user: '',
+                type: MessageType.PRE_GAME,
+                data: data
+        ))
     }
 
 
