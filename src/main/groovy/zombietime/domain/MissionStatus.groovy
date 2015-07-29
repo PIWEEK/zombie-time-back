@@ -4,6 +4,7 @@ class MissionStatus {
     Mission mission
     Game game
     List<SurvivorStatus> survivors = []
+    List<SurvivorStatus> deads = []
     List<ZombieStatus> zombies = []
     List<Status> remainingObjects = []
     List<Noise> noise = []

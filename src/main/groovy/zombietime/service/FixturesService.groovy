@@ -250,7 +250,9 @@ class FixturesService {
             personalMissionRepository.create(
                     name: mission.name,
                     description: mission.description,
-                    things: mission.things
+                    things: mission.things,
+                    type: mission.type,
+                    value: mission.value
             )
         }
 

@@ -1,30 +1,69 @@
 [
   {
-    "name": "Sick sister",
-    "description": "You need to finish the game with two medicines on your inventary",
+    "name": "Hypochondriac",
+    "description": "You need to finish the game with two medicines on your inventory",
+    "type": "THINGS",
     "things": [
-      "gas"
-    ]
+      "medicine",
+      "medicine"
+    ],
+    "value": 0
   },
   {
     "name": "The best defense...",
-    "description": "You need to finish the game with a gun and an amunnition box in your possesion",
+    "description": "You need to finish the game with two weapons in your possession",
+    "type": "THINGS",
     "things": [
-      "gas"
-    ]
+      "gun",
+      "ammunition"
+    ],
+    "value": 0
   },
   {
     "name": "This is dangerous",
     "description": "You need to finish the game with a biker suit",
+    "type": "THINGS",
     "things": [
-      "gas"
-    ]
+      "biker-suit"
+    ],
+    "value": 0
   },
   {
     "name": "Winter is coming",
     "description": "You need to finish the game with two gas cans",
+    "type": "THINGS",
     "things": [
+      "gas",
       "gas"
-    ]
+    ],
+    "value": 0
+  },
+  {
+    "name": "Masochist",
+    "description": "You need to finish the game with only one point of life",
+    "type": "LIFE",
+    "things": [],
+    "value": 1
+  },
+  {
+    "name": "No pain tolerance",
+    "description": "You need to finish the game with all your life points intact",
+    "type": "DAMAGE",
+    "things": [],
+    "value": 0
+  },
+  {
+    "name": "Looner",
+    "description": "You need to finish the game with only one survivor on your team (the rest should dead)",
+    "type": "SURVIVORS",
+    "things": [],
+    "value": 1
+  },
+  {
+    "name": "Team Player",
+    "description": "None of your survivors can dead",
+    "type": "DEADS",
+    "things": [],
+    "value": 0
   }
 ]

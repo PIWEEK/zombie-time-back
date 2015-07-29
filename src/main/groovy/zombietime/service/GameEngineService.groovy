@@ -7,6 +7,7 @@ import zombietime.domain.Game
 import zombietime.domain.ItemStatus
 import zombietime.domain.Message
 import zombietime.domain.Noise
+import zombietime.domain.PersonalMission
 import zombietime.domain.Point
 import zombietime.domain.SearchPoint
 import zombietime.domain.SurvivorStatus
@@ -242,6 +243,7 @@ class GameEngineService {
             if (survivor.remainingLife <= 0) {
                 //Kill!
                 death = true
+                game.missionStatus.deads << survivor
                 game.missionStatus.survivors.remove(survivor)
                 def newSurvivor = game.missionStatus.survivors.find { it.player == survivor.player }
                 if (newSurvivor) {
@@ -256,20 +258,39 @@ class GameEngineService {
     List _personalMissionInfo(Game game) {
         def missions = []
         game.players.each { player ->
-            def survivor = game.missionStatus.survivors.findAll { it.leader == true && it.player == player }
+            def survivor = game.missionStatus.survivors.find { it.leader == true && it.player == player }
+            if (!survivor) {
+                survivor = game.missionStatus.deads.findAll { it.player == player }.last()
+            }
+
+
+            missions << [
+                    player     : player.username,
+                    survivor   : survivor.survivor.slug,
+                    name       : player.personalMission.name,
+                    description: player.personalMission.description,
+                    success    : _personalMissionSuccess(game, player.personalMission, survivor)
+            ]
+        }
+        return missions
+    }
+
+    boolean _personalMissionSuccess(Game game, PersonalMission mission, SurvivorStatus survivor) {
+        if ("THINGS" == mission.type) {
             def elements = []
             elements.addAll(survivor.inventory*.slug)
             elements << survivor.weapon?.slug
             elements << survivor.defense?.slug
-            boolean success = _haveElements(player.personalMission.things, elements)
-            missions << [
-                    player     : player.username,
-                    name       : player.personalMission.name,
-                    description: player.personalMission.description,
-                    success    : success
-            ]
+            return _haveElements(mission.things, elements)
+        } else if ("LIFE" == mission.type) {
+            return (survivor.remainingLife == mission.value)
+        } else if ("DAMAGE" == mission.type) {
+            return ((survivor.survivor.life - survivor.remainingLife) == mission.value)
+        } else if ("SURVIVORS" == mission.type) {
+            return (game.missionStatus.survivors.count { it.player == survivor.player } == mission.value)
+        } else if ("DEADS" == mission.type) {
+            return (game.missionStatus.deads.count { it.player == survivor.player } == mission.value)
         }
-        return missions
     }
 
     boolean _victory(Game game) {
