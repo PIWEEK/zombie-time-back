@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Zombie Time!</title>
+    <link rel="stylesheet" type="text/css" href="/assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
+    <script src="/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/vendor/bluebird/js/browser/bluebird.min.js"></script>
+    <script src="/vendor/mousetrap/mousetrap.min.js"></script>
+    <script src="/vendor/ramda/dist/ramda.min.js"></script>
+    <script src="/vendor/moment/min/moment.min.js"></script>
+    <script src="/vendor/stomp-websocket/lib/stomp.min.js"></script>
+    <script src="/vendor/sockjs-client/dist/sockjs.min.js"></script>
+  </head>
+  <body>
+    <div id="help">
+      <div id="help-content">
+        <ul>
+          <li>i => Zoom In</li>
+          <li>o => Zoom Out</li>
+          <li>r => Reset Zoom and Position</li>
+          <li>h => Show this help dialog</li>
+        </ul>
+      </div>
+    </div>
+    <div id="choose-character">
+      <div class="selected-character">
+        <div class="title">Choose your team!</div>
+        <div class="team">
+          <div title="You start playing with the leader" class="leader">Leader<img src="/assets/imgs/survivors/empty.png" class="team-photo photo-leader"></div>
+          <div title="If the leader dies, you continue playing with the follower" class="follower">Follower<img src="/assets/imgs/survivors/empty.png" class="team-photo"></div>
+          <div>Drag your characters to the team</div>
+        </div>
+        <div class="photo-container"><img class="photo"></div>
+        <div class="info">
+          <div class="name"></div>
+          <div class="description"></div>
+        </div>
+        <div class="ready">I'm ready!</div>
+      </div>
+      <div class="list-character"></div>
+    </div>
+    <div id="end-game">
+      <div class="title">Game Over</div>
+      <div class="main-mission">
+        <div class="result"></div>
+      </div>
+      <div class="personal-missions">
+        <div class="title">Personal missions:</div>
+        <div class="result"></div>
+      </div>
+      <div class="again"><a href="/">Play again?</a></div>
+    </div>
+    <!-- canvas-->
+    <div id="content"></div>
+    <div id="top-left-interface" class="interface">MISSIONS</div>
+    <div id="top-right-interface" class="interface clock"></div>
+    <div class="veil"></div>
+    <div class="lightbox">
+      <div id="close-lb"></div>
+      <div id="animation-attack" class="inner-lb">
+        <div class="header">
+          <div class="survivor"></div>
+          <div class="vs">Vs</div>
+          <div class="zombie"></div>
+        </div>
+        <div class="info">Kill 6 zombies</div>
+      </div>
+      <div id="find-item" class="inner-lb">
+        <div class="title">You have found...</div>
+        <div class="content">
+          <div class="item1">
+            <div class="damage"></div>
+            <div class="defense"></div>
+            <div class="ammo"></div>
+            <div class="image"></div>
+          </div>
+          <div class="info1">
+            <div class="item-title"></div>
+            <div class="item-description"></div>
+            <div class="item-options"><img src="/assets/imgs/want.png" class="want">
+              <!--img.searchmore(src="/assets/imgs/searchmore.png")-->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="zombie-time" class="inner-lb">
+        <div class="title">ZOMBIE TIME!</div>
+        <div class="header">
+          <div class="survivors"></div>
+          <div class="info"></div>
+        </div>
+        <div class="newzombies"><img src="/assets/imgs/survivors/zombie.png" class="zombie">
+          <div class="text"></div>
+        </div>
+      </div>
+      <div id="zombie-attack" class="inner-lb">
+        <div class="header">
+          <div class="zombie"></div>
+          <div class="vs">Vs</div>
+          <div class="survivor"></div>
+        </div>
+        <div class="info">Does 6 damage</div>
+      </div>
+      <div id="end-turn" class="inner-lb">
+        <div class="title">Next turn!</div>
+        <div class="turn"></div>
+      </div>
+      <div id="goals" class="inner-lb">
+        <div class="title">MISSIONS</div>
+        <div class="subtitle">«To have missions in life is as important as remember them»</div>
+        <div id="team-goals">
+          <div class="title">TEAM MISSION</div>
+          <div class="content"></div>
+        </div>
+        <div id="own-goals">
+          <div class="title">PERSONAL MISSION</div>
+          <div class="content"></div>
+        </div>
+      </div>
+    </div>
+    <div id="bottom-interface-wrapper" class="interface">
+      <div id="bottom-interface" class="interface">
+        <div id="user-profile" class="menu-element"><img>
+          <div class="life">
+            <div class="text">3</div>
+          </div>
+        </div>
+        <div id="inventory" class="menu-element">
+          <div class="content">
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+          </div>
+        </div>
+        <div id="attack-button" title="Attack" class="menu-element">
+          <div class="damage damage img">
+            <div class="text">3</div>
+          </div>
+          <div class="ammo"></div>
+        </div>
+        <div id="move-button" title="Move" class="menu-element"></div>
+        <div id="search-button" title="Search" class="menu-element"></div>
+        <div id="noise-button" title="Make noise" class="menu-element"></div>
+        <div id="end-turn-button" title="End turn" class="menu-element">
+          <div class="actions">3</div>
+        </div>
+        <div id="partners"></div>
+        <div id="chat-button" title="Chat" class="menu-element"></div>
+      </div>
+      <div id="bottom-interface-info">
+        <div id="inventory-info">
+          <div>
+            <div class="name"></div>
+            <div class="data"><img class="image">
+              <div class="characteristics"></div>
+            </div>
+          </div>
+          <div class="description"></div>
+          <div class="actions"></div>
+        </div>
+        <div id="log" class="small"></div>
+        <div id="chat">
+          <div class="chat-messages"></div>
+          <div>
+            <form class="chat-form">
+              <input class="chat-text">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <audio id="zt-audio" src="/assets/data/zombies.ogg"></audio>
+    <audio id="zt-music" src="/assets/data/music.ogg"></audio>
+    <audio id="zt-music-end" src="/assets/data/music-end.ogg"></audio>
+    <audio id="zt-music-survivor" src="/assets/data/music-survivor.ogg"></audio>
+    <!-- Javascript-->
+    <script src="/assets/js/transform.js"></script>
+    <script src="/assets/js/http.js"></script>
+    <script src="/assets/js/globals.js"></script>
+    <script src="/assets/js/stomp-connection.js"></script>
+    <script src="/assets/js/utils.js"></script>
+    <script src="/assets/js/sprite.js"></script>
+    <script src="/assets/js/interface.js"></script>
+    <script src="/assets/js/lightbox.js"></script>
+    <script src="/assets/js/canvas.js"></script>
+    <script src="/assets/js/map.js"></script>
+    <script src="/assets/js/game.js"></script>
+    <script src="/assets/js/main.js"></script>
+  </body>
+</html>

@@ -61,7 +61,7 @@ class GameController {
         model.addAttribute("password", password)
         model.addAttribute("gameName", game.name)
         //return "game"
-        return "redirect:http://localhost:3000?game=${gameId}&username=$username&password=$password"
+        return "redirect:/game/index.html?game=${gameId}&username=$username&password=$password"
     }
 
 
@@ -82,7 +82,7 @@ class GameController {
         model.addAttribute("password", gamePassword)
         model.addAttribute("gameName", game.name)
         //return "game"
-        return "redirect:http://localhost:3000?game=${game.id}&username=$userName&password=$gamePassword"
+        return "redirect:/game/index.html?game=${game.id}&username=$userName&password=$gamePassword"
     }
 
     @MessageMapping("/message")

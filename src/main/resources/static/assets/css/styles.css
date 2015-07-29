@@ -1,0 +1,770 @@
+@font-face {
+  font-family: 'Dead';
+  src: url("/assets/fonts/dead_font_walking.otf"); }
+
+body {
+  overflow: hidden; }
+
+#help {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 90%;
+  height: 80%;
+  background-color: red;
+  margin: 5%;
+  display: none; }
+
+#help-content {
+  margin: 20px; }
+
+#choose-character {
+  font-family: 'Dead';
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  background: white;
+  position: absolute;
+  font-size: 0; }
+  #choose-character .selected-character {
+    width: 25%;
+    height: 100%;
+    display: inline-block;
+    background-color: #550000; }
+    #choose-character .selected-character .title {
+      width: 90%;
+      margin: 5% auto;
+      text-align: center;
+      font-size: 50px;
+      color: green; }
+    #choose-character .selected-character .team {
+      width: 90%;
+      margin: 5% auto;
+      font-size: 24px;
+      color: white;
+      text-align: center; }
+      #choose-character .selected-character .team .leader, #choose-character .selected-character .team .follower {
+        width: 39%;
+        margin: 5%;
+        display: inline-block; }
+        #choose-character .selected-character .team .leader .team-photo, #choose-character .selected-character .team .follower .team-photo {
+          width: 100%; }
+    #choose-character .selected-character .photo-container {
+      width: 100%;
+      height: 30%;
+      text-align: center;
+      margin-top: 5% auto; }
+      #choose-character .selected-character .photo-container .photo {
+        height: 100%;
+        background-size: cover; }
+    #choose-character .selected-character .info {
+      width: 90%;
+      height: 20%;
+      margin: 0 auto;
+      text-align: center; }
+      #choose-character .selected-character .info .name {
+        font-size: 32px;
+        color: orange; }
+      #choose-character .selected-character .info .description {
+        font-size: 24px;
+        color: white;
+        word-wrap: break-word; }
+    #choose-character .selected-character .ready {
+      width: 50%;
+      padding: 2% 5% 2% 5%;
+      margin: 5% auto;
+      text-align: center;
+      background-color: orange;
+      font-size: 24px;
+      color: white;
+      cursor: pointer; }
+  #choose-character .list-character {
+    width: 75%;
+    height: 100%;
+    display: inline-block;
+    background-color: green;
+    position: absolute; }
+    #choose-character .list-character .container {
+      width: 20%;
+      margin: 2%;
+      position: relative;
+      display: inline-block; }
+      #choose-character .list-character .container .survivor {
+        width: 100%;
+        background-size: cover;
+        border: 3px solid green;
+        cursor: move; }
+        #choose-character .list-character .container .survivor.selected {
+          border: 3px solid coral;
+          cursor: not-allowed; }
+      #choose-character .list-character .container .player {
+        width: 100%;
+        text-align: center;
+        font-size: 58px;
+        color: coral;
+        position: absolute;
+        bottom: 0; }
+
+#choose-character2 {
+  display: none;
+  z-index: 900;
+  width: 100%;
+  height: 100%;
+  background: white; }
+
+#list-character {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 800px;
+  height: 550px; }
+  #list-character li {
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 256px;
+    height: 256px;
+    display: inline-block;
+    text-align: center;
+    float: left; }
+    #list-character li p {
+      font-family: 'Dead';
+      font-size: 30px;
+      color: #550000;
+      background-color: #FFF; }
+
+#detail-character {
+  width: 400px;
+  height: 100%;
+  margin-left: 300px; }
+  #detail-character .detail {
+    display: none;
+    background-position: center 25px;
+    background-repeat: no-repeat;
+    height: 65%;
+    position: relative; }
+    #detail-character .detail h2 {
+      margin-top: 20px;
+      text-align: center;
+      font-family: 'Dead';
+      font-size: 30px;
+      color: #550000; }
+    #detail-character .detail p {
+      margin-top: 350px;
+      margin-left: 50px;
+      font-size: 20px; }
+  #detail-character .want {
+    width: 400px;
+    height: 90px;
+    margin-left: 50px;
+    background: grey;
+    text-align: center;
+    padding-top: 20px;
+    display: none;
+    background-image: url("/assets/imgs/goals.png");
+    background-color: white;
+    background-repeat: no-repeat;
+    font-family: 'Dead';
+    font-size: 30px;
+    color: #550000; }
+
+.interface {
+  display: none; }
+
+#top-left-interface {
+  width: 400px;
+  height: 90px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  font-family: 'Dead';
+  font-size: 40px;
+  color: #550000;
+  background-image: url("/assets/imgs/goals.png");
+  background-repeat: no-repeat;
+  text-align: center;
+  padding-top: 15px; }
+
+#top-right-interface {
+  width: 192px;
+  height: 77px;
+  position: fixed;
+  top: 0;
+  right: 0; }
+  #top-right-interface.clock {
+    font-family: 'Dead';
+    font-size: 60px;
+    color: #FFF;
+    background-image: url("/assets/imgs/counter.png");
+    background-repeat: no-repeat;
+    text-align: center;
+    padding-top: 10px;
+    margin-top: 10px;
+    margin-right: 10px; }
+
+#bottom-interface-wrapper {
+  bottom: 120px;
+  left: 0;
+  height: 0px;
+  width: 100%;
+  position: absolute;
+  overflow: visible; }
+
+#bottom-interface-info {
+  margin: 0 auto;
+  width: 960px;
+  height: 210px;
+  z-index: 500;
+  position: relative;
+  bottom: 330px;
+  pointer-events: none; }
+  #bottom-interface-info #inventory-info {
+    pointer-events: all;
+    text-align: center;
+    cursor: pointer;
+    font-family: 'Dead';
+    font-size: 24px;
+    color: #550000;
+    width: 200px;
+    height: 200px;
+    border: 5px solid #550000;
+    background-color: white;
+    display: inline-block;
+    visibility: hidden;
+    float: left;
+    position: relative; }
+    #bottom-interface-info #inventory-info .name {
+      margin-top: 5px;
+      width: 100%;
+      height: 30px; }
+    #bottom-interface-info #inventory-info .data {
+      position: relative;
+      height: 100px;
+      text-align: center; }
+      #bottom-interface-info #inventory-info .data .image {
+        width: 100px;
+        height: 100px; }
+      #bottom-interface-info #inventory-info .data .characteristics {
+        width: 40px;
+        height: 100px;
+        color: black;
+        display: inline-block;
+        position: relative; }
+    #bottom-interface-info #inventory-info .description {
+      color: darkslategrey;
+      font-size: 18px;
+      padding: 3px 0 3px 0; }
+  #bottom-interface-info #log {
+    pointer-events: all;
+    cursor: pointer;
+    font-family: 'Dead';
+    font-size: 24px;
+    color: #550000;
+    width: 496px;
+    height: 200px;
+    border: 5px solid #550000;
+    background-color: white;
+    opacity: 0.8;
+    overflow-y: scroll;
+    padding-left: 20px;
+    position: relative;
+    display: inline-block;
+    margin-left: -5px;
+    float: left;
+    position: absolute;
+    bottom: 0; }
+    #bottom-interface-info #log.small {
+      height: 58px; }
+    #bottom-interface-info #log.closed {
+      height: 1px; }
+    #bottom-interface-info #log .survivor-img {
+      width: 24px;
+      height: 24px;
+      display: inline-block;
+      margin-left: 10px;
+      margin-right: 10px;
+      position: relative;
+      top: 5px; }
+  #bottom-interface-info #chat {
+    pointer-events: all;
+    width: 225px;
+    height: 200px;
+    border: 5px solid #550000;
+    background-color: white;
+    opacity: 0.8;
+    display: none;
+    margin-left: -7px;
+    position: absolute;
+    top: 0;
+    right: 0; }
+    #bottom-interface-info #chat .chat-messages {
+      width: 100%;
+      overflow-y: scroll;
+      height: 174px; }
+      #bottom-interface-info #chat .chat-messages .message {
+        margin-bottom: 10px;
+        position: relative; }
+        #bottom-interface-info #chat .chat-messages .message .survivor-img {
+          position: absolute;
+          top: 0;
+          width: 24px;
+          height: 24px;
+          display: inline-block; }
+        #bottom-interface-info #chat .chat-messages .message .text {
+          font-size: 18px;
+          margin-left: 29px;
+          width: 180px;
+          display: inline-block;
+          word-wrap: break-word;
+          min-height: 35px; }
+    #bottom-interface-info #chat .chat-text {
+      width: 221px;
+      height: 20px; }
+
+#bottom-interface {
+  background-color: #800000;
+  margin: 0 auto;
+  width: 960px;
+  height: 120px;
+  z-index: 500; }
+  #bottom-interface #user-profile {
+    position: relative; }
+    #bottom-interface #user-profile img {
+      width: 114px;
+      height: 114px; }
+    #bottom-interface #user-profile .life {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 40px;
+      height: 40px;
+      background-image: url("/assets/imgs/button-interface/heart.png"); }
+      #bottom-interface #user-profile .life .text {
+        margin-top: 8px;
+        color: white;
+        font-family: 'Dead';
+        font-size: 28px;
+        text-align: center; }
+
+.menu-element {
+  height: 114px;
+  width: 114px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  margin-left: 3px;
+  margin-right: 3px;
+  position: initial;
+  float: left; }
+
+#inventory {
+  background-color: #E8D0D0;
+  border: 2px solid white;
+  width: 110px;
+  height: 110px; }
+  #inventory .content {
+    width: 100%; }
+    #inventory .content .item {
+      text-align: center;
+      border: 1px dotted black;
+      width: 52px;
+      height: 52px;
+      margin-left: 1px;
+      display: inline-block; }
+      #inventory .content .item.selected {
+        background-color: darksalmon; }
+      #inventory .content .item.invalid {
+        background-color: gray;
+        border: solid 1px gray; }
+      #inventory .content .item img {
+        height: 52px; }
+      #inventory .content .item.item5, #inventory .content .item.item6 {
+        height: 33px; }
+        #inventory .content .item.item5 img, #inventory .content .item.item6 img {
+          height: 33px; }
+
+#attack-button {
+  position: relative;
+  background-size: cover;
+  background-image: url("/assets/imgs/button-interface/botonarma.png"); }
+  #attack-button.nouse {
+    opacity: 0.2; }
+
+#move-button {
+  background-image: url("/assets/imgs/button-interface/botonmover.png"); }
+  #move-button.nouse {
+    opacity: 0.2; }
+
+#search-button {
+  background-image: url("/assets/imgs/button-interface/botonbuscar.png"); }
+  #search-button.nouse {
+    opacity: 0.2; }
+
+#noise-button {
+  background-image: url("/assets/imgs/button-interface/botonruido.png"); }
+  #noise-button.nouse {
+    opacity: 0.2; }
+
+#chat-button {
+  position: relative;
+  background-image: url("/assets/imgs/button-interface/botonchat.png"); }
+
+#end-turn-button {
+  position: relative;
+  background-image: url("/assets/imgs/button-interface/contadorzombie.png"); }
+  #end-turn-button .actions {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+    background-color: black;
+    color: white;
+    font-family: 'Dead';
+    font-size: 40px;
+    text-align: center; }
+
+.veil {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index: 999;
+  display: none;
+  opacity: 0.7; }
+
+.lightbox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -500px;
+  margin-top: -288px;
+  z-index: 1000;
+  width: 1000px;
+  height: 576px;
+  display: none;
+  background-image: url("/assets/imgs/lightbox.png"); }
+  .lightbox #close-lb {
+    width: 160px;
+    height: 121px;
+    display: none;
+    float: right;
+    background-image: url("/assets/imgs/close-lb.png"); }
+  .lightbox #animation-attack {
+    display: none; }
+    .lightbox #animation-attack .header {
+      text-align: center;
+      width: 100%;
+      height: 256px;
+      margin-top: 121px; }
+      .lightbox #animation-attack .header .survivor {
+        width: 256px;
+        height: 256px;
+        display: inline-block; }
+      .lightbox #animation-attack .header .vs {
+        display: inline-block;
+        font-family: 'Dead';
+        font-size: 40px;
+        color: #550000;
+        width: 130px;
+        height: 256px;
+        position: relative;
+        top: -100px; }
+      .lightbox #animation-attack .header .zombie {
+        background-image: url("/assets/imgs/survivors/zombie.png");
+        width: 256px;
+        height: 256px;
+        display: inline-block; }
+    .lightbox #animation-attack .info {
+      text-align: center;
+      width: 100%;
+      margin-top: 20px;
+      font-family: 'Dead';
+      font-size: 40px;
+      color: #550000; }
+  .lightbox #find-item {
+    text-align: center;
+    font-family: 'Dead';
+    color: #550000; }
+    .lightbox #find-item .title {
+      text-align: center;
+      font-size: 96px;
+      margin-top: 70px; }
+    .lightbox #find-item .content {
+      text-align: center; }
+      .lightbox #find-item .content .item1 {
+        width: 256px;
+        height: 256px;
+        display: inline-block;
+        position: relative; }
+        .lightbox #find-item .content .item1 .image {
+          width: 100%;
+          height: 100%;
+          background-size: cover; }
+      .lightbox #find-item .content .info1 {
+        text-align: center;
+        display: inline-block;
+        width: 570px; }
+        .lightbox #find-item .content .info1 .item-title {
+          font-size: 50px; }
+        .lightbox #find-item .content .info1 .item-description {
+          margin-top: 20px;
+          color: darkslategrey;
+          font-size: 30px; }
+        .lightbox #find-item .content .info1 .item-options {
+          cursor: pointer; }
+  .lightbox #end-turn {
+    text-align: center;
+    font-family: 'Dead';
+    color: #550000; }
+    .lightbox #end-turn .title {
+      text-align: center;
+      font-size: 96px;
+      margin-top: 70px; }
+    .lightbox #end-turn .turn {
+      text-align: center;
+      font-size: 50px; }
+  .lightbox #zombie-time {
+    display: none; }
+    .lightbox #zombie-time .title {
+      text-align: center;
+      font-family: 'Dead';
+      font-size: 125px;
+      color: #550000;
+      margin-top: 70px; }
+    .lightbox #zombie-time .header {
+      text-align: center;
+      width: 100%;
+      height: 190px; }
+      .lightbox #zombie-time .header .survivors {
+        text-align: center;
+        height: 128px; }
+        .lightbox #zombie-time .header .survivors .survivor {
+          width: 128px;
+          height: 128px;
+          margin-left: 20px;
+          display: inline-block; }
+      .lightbox #zombie-time .header .info {
+        margin-top: 10px;
+        text-align: center;
+        height: 50px; }
+        .lightbox #zombie-time .header .info .survivor {
+          width: 128px;
+          height: 128px;
+          display: inline-block;
+          margin-left: 20px;
+          font-family: 'Dead';
+          font-size: 24px;
+          color: #550000; }
+    .lightbox #zombie-time .newzombies {
+      width: 100%;
+      height: 128px;
+      text-align: center; }
+      .lightbox #zombie-time .newzombies .zombie {
+        width: 128px;
+        height: 128px;
+        display: inline-block; }
+      .lightbox #zombie-time .newzombies .text {
+        margin-left: 20px;
+        font-family: 'Dead';
+        font-size: 40px;
+        color: #550000;
+        display: inline-block;
+        position: relative;
+        top: -50px; }
+  .lightbox #zombie-attack {
+    display: none; }
+    .lightbox #zombie-attack .header {
+      text-align: center;
+      width: 100%;
+      height: 256px;
+      margin-top: 121px; }
+      .lightbox #zombie-attack .header .survivor {
+        width: 256px;
+        height: 256px;
+        display: inline-block; }
+      .lightbox #zombie-attack .header .vs {
+        display: inline-block;
+        font-family: 'Dead';
+        font-size: 40px;
+        color: #550000;
+        width: 130px;
+        height: 256px;
+        position: relative;
+        top: -100px; }
+      .lightbox #zombie-attack .header .zombie {
+        background-image: url("/assets/imgs/survivors/zombie.png");
+        width: 256px;
+        height: 256px;
+        display: inline-block; }
+    .lightbox #zombie-attack .info {
+      text-align: center;
+      width: 100%;
+      margin-top: 20px;
+      font-family: 'Dead';
+      font-size: 40px;
+      color: #550000; }
+  .lightbox #goals {
+    display: none;
+    font-family: 'Dead';
+    text-align: center; }
+    .lightbox #goals .title {
+      text-align: center;
+      font-size: 88px;
+      color: #550000;
+      margin-top: 35px;
+      padding-left: 80px; }
+    .lightbox #goals .subtitle {
+      text-align: center;
+      font-size: 40px;
+      color: darkgreen;
+      margin-top: 20px; }
+    .lightbox #goals #team-goals .title, .lightbox #goals #own-goals .title {
+      padding-left: 0px;
+      font-size: 40px; }
+    .lightbox #goals #team-goals .content, .lightbox #goals #own-goals .content {
+      font-size: 30px;
+      color: black;
+      padding: 0 40px; }
+
+#end-game {
+  display: none;
+  font-family: 'Dead';
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  background: black;
+  position: absolute; }
+  #end-game .title {
+    text-align: center;
+    font-size: 96px;
+    margin-top: 30px;
+    color: #550000; }
+  #end-game .main-mission .title, #end-game .personal-missions .title {
+    font-size: 55px;
+    margin-top: 30px; }
+  #end-game .main-mission .result, #end-game .personal-missions .result {
+    text-align: center;
+    font-size: 70px;
+    margin-top: 10px;
+    color: orange; }
+    #end-game .main-mission .result .mission, #end-game .personal-missions .result .mission {
+      width: 24%;
+      padding: 2%;
+      font-size: 24px;
+      display: inline-block; }
+      #end-game .main-mission .result .mission .name, #end-game .personal-missions .result .mission .name {
+        text-decoration: underline; }
+      #end-game .main-mission .result .mission .success, #end-game .personal-missions .result .mission .success {
+        color: green; }
+      #end-game .main-mission .result .mission .fail, #end-game .personal-missions .result .mission .fail {
+        color: red; }
+  #end-game .again {
+    text-align: center; }
+    #end-game .again a {
+      font-size: 24px;
+      text-decoration: none;
+      color: white; }
+
+audio {
+  display: none; }
+
+.pablo {
+  background-image: url("/assets/imgs/survivors/pablo.png");
+  background-size: cover; }
+
+.yami {
+  background-image: url("/assets/imgs/survivors/yami.png");
+  background-size: cover; }
+
+.miguel {
+  background-image: url("/assets/imgs/survivors/miguel.png");
+  background-size: cover; }
+
+.laura {
+  background-image: url("/assets/imgs/survivors/laura.png");
+  background-size: cover; }
+
+.xenia {
+  background-image: url("/assets/imgs/survivors/xenia.png");
+  background-size: cover; }
+
+.alex {
+  background-image: url("/assets/imgs/survivors/alex.png");
+  background-size: cover; }
+
+.paul {
+  background-image: url("/assets/imgs/survivors/paul.png");
+  background-size: cover; }
+
+.alejandro {
+  background-image: url("/assets/imgs/survivors/alejandro.png");
+  background-size: cover; }
+
+.antonio {
+  background-image: url("/assets/imgs/survivors/antonio.png");
+  background-size: cover; }
+
+.david {
+  background-image: url("/assets/imgs/survivors/david.png");
+  background-size: cover; }
+
+.jesus {
+  background-image: url("/assets/imgs/survivors/jesus.png");
+  background-size: cover; }
+
+.zombie {
+  background-image: url("/assets/imgs/survivors/zombie.png");
+  background-size: cover; }
+
+.ammo {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 40px;
+  height: 40px;
+  background-size: cover; }
+  .ammo.bullet1 {
+    background-image: url("/assets/imgs/button-interface/bullet1.png"); }
+  .ammo.bullet2 {
+    background-image: url("/assets/imgs/button-interface/bullet2.png"); }
+  .ammo.bullet3 {
+    background-image: url("/assets/imgs/button-interface/bullet3.png"); }
+  .ammo.bullet4 {
+    background-image: url("/assets/imgs/button-interface/bullet4.png"); }
+  .ammo.bullet5 {
+    background-image: url("/assets/imgs/button-interface/bullet5.png"); }
+  .ammo.hit1 {
+    background-image: url("/assets/imgs/button-interface/hit1.png"); }
+  .ammo.hit2 {
+    background-image: url("/assets/imgs/button-interface/hit2.png"); }
+  .ammo.hit3 {
+    background-image: url("/assets/imgs/button-interface/hit3.png"); }
+  .ammo.hit4 {
+    background-image: url("/assets/imgs/button-interface/hit4.png"); }
+  .ammo.hit5 {
+    background-image: url("/assets/imgs/button-interface/hit5.png"); }
+
+.damage, .defense {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 40px;
+  height: 40px;
+  background-size: cover; }
+  .damage .text, .defense .text {
+    line-height: 43px;
+    color: black;
+    font-family: 'Dead';
+    font-size: 25px;
+    text-align: center; }
+
+.damage {
+  background-image: url("/assets/imgs/button-interface/pow.png"); }
+
+.defense {
+  background-image: url("/assets/imgs/button-interface/defense.png"); }
+
+.hidden {
+  display: none; }
