@@ -11,7 +11,7 @@
   },
   {
     "name": "The best defense...",
-    "description": "You need to finish the game with two weapons in your possession",
+    "description": "You need to finish the game with a gun and an ammunition in your possession",
     "type": "THINGS",
     "things": [
       "gun",
