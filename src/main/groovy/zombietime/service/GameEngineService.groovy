@@ -333,6 +333,7 @@ class GameEngineService {
         ) {
             survivor.remainingActions--
             _addNoise(game, survivor.point.getFlatPoint(game.getWidth()), survivor.remainingNoise)
+            messageService.sendNoiseAnimationMessage(game, survivor)
             _sendFullGameMessage(game)
         }
     }

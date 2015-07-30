@@ -8,7 +8,7 @@ var Lightbox = (function () {
   function Lightbox() {
     _classCallCheck(this, Lightbox);
 
-    this.lb = document.querySelector('.lightbox');
+    this.lb = document.querySelector(".lightbox");
     this.lbs = document.querySelectorAll('.inner-lb');
     this.close = document.querySelector('#close-lb');
   }
@@ -17,18 +17,18 @@ var Lightbox = (function () {
     key: 'hideAll',
     value: function hideAll() {
       var hideFn = function hideFn(el) {
-        return el.style.display = 'none';
+        return el.style.display = "none";
       };
       R.forEach(hideFn, R.concat(this.lbs, R.concat([this.lb], [this.close])));
-      document.querySelector('.veil').style.display = 'none';
+      document.querySelector('.veil').style.display = "none";
     }
   }, {
     key: 'show',
     value: function show(id) {
-      this.lb.style.display = 'block';
-      this.close.style.display = 'block';
-      document.querySelector('' + id).style.display = 'block';
-      document.querySelector('.veil').style.display = 'block';
+      this.lb.style.display = "block";
+      this.close.style.display = "block";
+      document.querySelector('' + id).style.display = "block";
+      document.querySelector('.veil').style.display = "block";
     }
   }]);
 

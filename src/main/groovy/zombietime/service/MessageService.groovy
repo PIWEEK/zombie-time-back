@@ -82,6 +82,18 @@ class MessageService {
         ))
     }
 
+
+    void sendNoiseAnimationMessage(Game game, SurvivorStatus survivor) {
+        sendMessage(new Message(
+                game: game.id,
+                user: survivor.player.username,
+                type: MessageType.ANIMATION_NOISE,
+                data: [
+                        survivor: survivor.survivor.slug
+                ]
+        ))
+    }
+
     void sendAtackAnimationMessage(Game game, SurvivorStatus survivor, Integer deaths) {
         sendMessage(new Message(
                 game: game.id,

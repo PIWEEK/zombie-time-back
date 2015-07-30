@@ -32,6 +32,7 @@ enum MessageType {
     //CHAT
     PRE_GAME,
     ANIMATION_MOVE,
+    ANIMATION_NOISE,
     ANIMATION_ATTACK,
     FIND_ITEM,
     FULL_GAME,

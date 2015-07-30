@@ -14,7 +14,7 @@ var Canvas = (function () {
     this.gameSprite = new Sprite(conf.serverUrl + "/assets/imgs/tile.png", conf.tileWidth, conf.tileHeight, conf.spriteSizeX, conf.spriteSizeY);
     var el = document.createElement("canvas");
     el.id = "mainCanvas";
-    document.querySelector("#content").appendChild(el);
+    document.querySelector('#content').appendChild(el);
     this.el = el;
     this.ctx = el.getContext("2d");
     this.currentScale = 1;
@@ -374,15 +374,15 @@ var Canvas = (function () {
       /**********************************************
        * Keybindings
        **********************************************/
-      Mousetrap.bind("i", function () {
+      Mousetrap.bind('i', function () {
         _this3.zoomIn(0.4);
       });
 
-      Mousetrap.bind("o", function () {
+      Mousetrap.bind('o', function () {
         _this3.zoomOut(0.4);
       });
 
-      Mousetrap.bind("r", function () {
+      Mousetrap.bind('r', function () {
         _this3.zoomReset();
       });
 
