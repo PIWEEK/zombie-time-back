@@ -343,7 +343,9 @@ class GameEngineService {
 
         def attackableFlatPoints = _attackableFlatPoints(game,
                 survivor.point.getFlatPoint(game.getWidth()),
-                survivor.weapon.remainingAmmo ? survivor.weapon.weapon.longRange : false)
+                survivor.weapon.weapon.longRange,
+                survivor.weapon.remainingAmmo
+        )
 
         Integer attackPoint = Integer.parseInt(data.point)
 
@@ -357,7 +359,7 @@ class GameEngineService {
             if (survivor.weapon.weapon.noise) {
                 _addNoise(game, survivor.point.getFlatPoint(game.getWidth()), survivor.weapon.weapon.noise)
             }
-            int damage = survivor.weapon.remainingAmmo ? survivor.weapon.weapon.damage : 1
+            int damage = survivor.weapon.weapon.damage
             int deaths = 0
             def zombies = _zombiesOnFlatPoint(game, attackPoint)
             damage.times {
@@ -370,10 +372,6 @@ class GameEngineService {
 
             if (survivor.weapon.remainingAmmo) {
                 survivor.weapon.remainingAmmo--
-            }
-
-            if (survivor.weapon.remainingAmmo == 0 && (!survivor.weapon.weapon.longRange)) {
-                survivor.weapon = weaponRepository.get('fist').createStatus()
             }
 
             messageService.sendAtackAnimationMessage(game, survivor, deaths)
@@ -696,25 +694,27 @@ class GameEngineService {
 
     }
 
-    List<Integer> _attackableFlatPoints(Game game, Integer startPoint, boolean longRange) {
+    List<Integer> _attackableFlatPoints(Game game, Integer startPoint, boolean longRange, Integer ammo) {
         def attackableFlatPoints = []
-        if (_zombiesOnFlatPoint(game, startPoint)) {
-            attackableFlatPoints << startPoint
-        }
-
-        if (longRange) {
-            def points = [
-                    _getFlatPointUp(game, startPoint),
-                    _getFlatPointLeft(game, startPoint),
-                    _getFlatPointDown(game, startPoint),
-                    _getFlatPointRight(game, startPoint)
-            ]
-            points.each { p ->
-                if (_zombiesOnFlatPoint(game, p) && _canMove(game, startPoint, p, true)) {
-                    attackableFlatPoints << p
-                }
+        if (ammo) {
+            if (_zombiesOnFlatPoint(game, startPoint)) {
+                attackableFlatPoints << startPoint
             }
 
+            if (longRange) {
+                def points = [
+                        _getFlatPointUp(game, startPoint),
+                        _getFlatPointLeft(game, startPoint),
+                        _getFlatPointDown(game, startPoint),
+                        _getFlatPointRight(game, startPoint)
+                ]
+                points.each { p ->
+                    if (_zombiesOnFlatPoint(game, p) && _canMove(game, startPoint, p, true)) {
+                        attackableFlatPoints << p
+                    }
+                }
+
+            }
         }
 
         return attackableFlatPoints
@@ -769,7 +769,7 @@ class GameEngineService {
             if (survivor.remainingActions > 0) {
                 def flatPoint = survivor.point.getFlatPoint(game.getWidth())
                 def reacheable = _reacheableFlatPoints(game, flatPoint, survivor.remainingMovement)
-                def attackable = _attackableFlatPoints(game, flatPoint, survivor.weapon.remainingAmmo ? survivor.weapon.weapon.longRange : false)
+                def attackable = _attackableFlatPoints(game, flatPoint, survivor.weapon.weapon.longRange, survivor.weapon.remainingAmmo)
                 data.survivors[i].canMoveTo = reacheable
                 data.survivors[i].canAttackTo = attackable
                 data.survivors[i].canSearch = (survivor.inventory.size() < survivor.remainingInventory) && _canSearch(game, survivor.point)

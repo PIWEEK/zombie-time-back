@@ -67,7 +67,7 @@
     "life": 1,
     "actions": 4,
     "inventory": 4,
-    "defense": 1,
+    "defense": 0,
     "movement": 1,
     "noise": 2
   },
@@ -79,7 +79,7 @@
     "life": 1,
     "actions": 4,
     "inventory": 4,
-    "defense": 1,
+    "defense": 0,
     "movement": 1,
     "noise": 2
   },
