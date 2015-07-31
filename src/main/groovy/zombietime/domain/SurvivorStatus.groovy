@@ -9,6 +9,7 @@ class SurvivorStatus {
     Integer remainingDefense
     Integer remainingMovement
     Integer remainingNoise
+    Integer kills = 0
 
     WeaponStatus weapon
     DefenseStatus defense
@@ -47,6 +48,7 @@ class SurvivorStatus {
                 baseInventory   : survivor.inventory,
                 baseDefense     : survivor.defense,
                 baseNoise       : survivor.noise,
+                kills           : kills,
                 point           : leader ? point.getFlatPoint(mapWidth) : -1,
                 weapon          : weapon.asMap(),
                 defense         : defense ? defense.asMap() : [:],

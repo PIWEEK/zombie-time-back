@@ -271,6 +271,7 @@ class GameEngineService {
                     survivor   : survivor.survivor.slug,
                     name       : player.personalMission.name,
                     description: player.personalMission.description,
+                    kills      : survivor.kills,
                     success    : _personalMissionSuccess(game, player.personalMission, survivor)
             ]
         }
@@ -292,6 +293,10 @@ class GameEngineService {
             return (game.missionStatus.survivors.count { it.player == survivor.player } == mission.value)
         } else if ("DEADS" == mission.type) {
             return (game.missionStatus.deads.count { it.player == survivor.player } == mission.value)
+        } else if ("ZOMBIES_MIN" == mission.type) {
+            return (survivor.kills >= mission.value)
+        } else if ("ZOMBIES_MAX" == mission.type) {
+            return (survivor.kills <= mission.value)
         }
     }
 
@@ -377,6 +382,7 @@ class GameEngineService {
             }
 
             messageService.sendAtackAnimationMessage(game, survivor, deaths)
+            survivor.kills += deaths
             _sendFullGameMessage(game)
         }
     }

@@ -65,5 +65,19 @@
     "type": "DEADS",
     "things": [],
     "value": 0
+  },
+  {
+    "name": "Killer",
+    "description": "You must kill 15 zombies",
+    "type": "ZOMBIES_MIN",
+    "things": [],
+    "value": 15
+  },
+  {
+    "name": "Pacifist",
+    "description": "You can't kill more than 5 zombies",
+    "type": "ZOMBIES_MAX",
+    "things": [],
+    "value": 5
   }
 ]
