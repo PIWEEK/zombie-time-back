@@ -156,6 +156,8 @@ class GameEngineService {
 
                 scheduleEndGame(game)
                 scheduleZombieTime(game)
+            } else {
+                _sendPreGameMessage(game)
             }
         }
     }
@@ -822,6 +824,9 @@ class GameEngineService {
             survivorData.leader = pickedSurvivor ? pickedSurvivor.leader : false
             data.survivors << survivorData
         }
+
+        data.ready = game.players.findAll { it.ready }.username
+        data.slots = game.slots
 
 
         return data
