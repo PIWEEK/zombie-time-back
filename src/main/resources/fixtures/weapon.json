@@ -78,5 +78,15 @@
     "damage": 1,
     "noise": 0,
     "longRange": false
+  },
+  {
+    "name": "Chain saw",
+    "slug": "chain-saw",
+    "description": "Bring them on!",
+    "avatar": 327,
+    "ammo": 2,
+    "damage": 4,
+    "noise": 2,
+    "longRange": false
   }
 ]

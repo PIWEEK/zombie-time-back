@@ -2,7 +2,7 @@
   {
     "name": "Gas can",
     "slug": "gas",
-    "description": "You can refill a molotov cocktail with this",
+    "description": "You can refill the chainsaw and the molotov cocktail with this",
     "avatar": 324,
     "life": 0,
     "gas": 1,

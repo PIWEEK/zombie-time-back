@@ -305,7 +305,7 @@
     "victoryConditions": [
       {
         "name": "Get the gas!",
-        "description": "All the survivor must reach the red car, with 4 gas cans (between all). The car must be clean of zombies!",
+        "description": "The red card still works! We only need to reach it carring 4 gas cans (between all of us). The car must be clean of zombies! The gas cans are on the yellow search spots.",
         "point": {
           "x": 3,
           "y": 0

@@ -30,7 +30,7 @@
   },
   {
     "name": "Winter is coming",
-    "description": "You need to finish the game with two gas cans",
+    "description": "You need to finish the game with two gas cans in your inventory",
     "type": "THINGS",
     "things": [
       "gas",
@@ -53,8 +53,8 @@
     "value": 0
   },
   {
-    "name": "Looner",
-    "description": "You need to finish the game with only one survivor on your team (the rest should dead)",
+    "name": "Lone Wolf",
+    "description": "You need to finish the game with the follower (the leader should dead)",
     "type": "SURVIVORS",
     "things": [],
     "value": 1
