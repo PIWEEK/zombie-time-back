@@ -5,7 +5,7 @@
  **********************************************/
 'use strict';
 
-var imageSrc = "/assets/imgs/tile.png",
+var imageSrc = '/assets/imgs/tile.png',
     game = new Game();
 
 /**********************************************
@@ -22,7 +22,7 @@ Mousetrap.bind('h', function () {
 Mousetrap.bind('3 1 4 w e e k', function () {
   game.canvas.zombieTime = true;
   console.log('--------------------------------------');
-  console.log(" >> IT'S ZOMBIE TIME!!");
+  console.log(' >> IT\'S ZOMBIE TIME!!');
   console.log('--------------------------------------');
   game.canvas.redraw();
   document.querySelector('#zt-audio').play();
@@ -31,7 +31,7 @@ Mousetrap.bind('3 1 4 w e e k', function () {
 Mousetrap.bind('3 1 4 e n d', function () {
   game.canvas.zombieTime = false;
   console.log('--------------------------------------');
-  console.log(" >> ZOMBIE TIME IS OVER");
+  console.log(' >> ZOMBIE TIME IS OVER');
   console.log('--------------------------------------');
   game.canvas.redraw();
 });
@@ -40,17 +40,17 @@ Mousetrap.bind('3 1 4 e n d', function () {
  * Click
  **********************************************/
 var close = document.querySelector('#close-lb');
-close.addEventListener("click", function (e) {
+close.addEventListener('click', function (e) {
   game.lightbox.hideAll();
 });
 
 var goals = document.querySelector('#top-left-interface');
-goals.addEventListener("click", function (e) {
+goals.addEventListener('click', function (e) {
   game.lightbox.hideAll();
   game.lightbox.show('#goals');
 });
 
 var want = document.querySelector('#find-item .want');
-want.addEventListener("click", function (e) {
+want.addEventListener('click', function (e) {
   game.getItem();
 });

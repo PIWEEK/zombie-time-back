@@ -58,20 +58,24 @@ var Interface = (function () {
         w.trigger("buttonClick.ready.zt");
       });
 
+      document.querySelector("#music-button").addEventListener("click", function () {
+        w.trigger("buttonClick.music.zt");
+      });
+
       document.querySelector("#inventory-info").addEventListener("mouseleave", function () {
-        document.querySelector("#inventory-info").style.visibility = 'hidden';
+        document.querySelector("#inventory-info").style.visibility = "hidden";
       });
 
       document.querySelector("#user-profile").addEventListener("mouseenter", function () {
-        document.querySelector("#inventory-info").style.visibility = 'hidden';
+        document.querySelector("#inventory-info").style.visibility = "hidden";
       });
 
       document.querySelector("#attack-button").addEventListener("mouseenter", function () {
-        document.querySelector("#inventory-info").style.visibility = 'hidden';
+        document.querySelector("#inventory-info").style.visibility = "hidden";
       });
 
       document.querySelector("#log").addEventListener("mouseenter", function () {
-        document.querySelector("#inventory-info").style.visibility = 'hidden';
+        document.querySelector("#inventory-info").style.visibility = "hidden";
       });
 
       document.querySelector(".leader .team-photo").addEventListener("drop", function (ev) {
@@ -92,25 +96,38 @@ var Interface = (function () {
         ev.preventDefault();
       });
 
-      Mousetrap.bind('m', function () {
-        w.trigger("buttonClick.interface.zt", 'move');
-      }, 'keydown');
+      Mousetrap.bind("w", function () {
+        w.trigger("buttonClick.interface.zt", "moveUp");
+      }, "keydown");
+      Mousetrap.bind("s", function () {
+        w.trigger("buttonClick.interface.zt", "moveDown");
+      }, "keydown");
+      Mousetrap.bind("a", function () {
+        w.trigger("buttonClick.interface.zt", "moveLeft");
+      }, "keydown");
+      Mousetrap.bind("d", function () {
+        w.trigger("buttonClick.interface.zt", "moveRight");
+      }, "keydown");
 
-      Mousetrap.bind('a', function () {
-        w.trigger("buttonClick.interface.zt", 'attack');
-      }, 'keydown');
+      Mousetrap.bind("1", function () {
+        w.trigger("buttonClick.interface.zt", "attack");
+      }, "keydown");
 
-      Mousetrap.bind('s', function () {
-        w.trigger("buttonClick.interface.zt", 'search');
-      }, 'keydown');
+      Mousetrap.bind("2", function () {
+        w.trigger("buttonClick.interface.zt", "search");
+      }, "keydown");
 
-      Mousetrap.bind('n', function () {
-        w.trigger("buttonClick.interface.zt", 'noise');
-      }, 'keydown');
+      Mousetrap.bind("3", function () {
+        w.trigger("buttonClick.interface.zt", "noise");
+      }, "keydown");
 
-      Mousetrap.bind('c', function () {
-        w.trigger("buttonClick.interface.zt", 'chat');
-      }, 'keydown');
+      Mousetrap.bind("c", function () {
+        w.trigger("buttonClick.interface.zt", "chat");
+      }, "keydown");
+
+      Mousetrap.bind("space", function () {
+        w.trigger("buttonClick.interface.zt", "endTurn");
+      }, "keydown");
     }
   }]);
 

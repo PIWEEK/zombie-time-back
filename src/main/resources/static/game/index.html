@@ -26,17 +26,21 @@
     <div id="choose-character">
       <div class="selected-character">
         <div class="title">Choose your team!</div>
+        <div class="ready">
+          <div class="button">I'm ready!</div>
+          <div class="info"></div>
+        </div>
         <div class="team">
-          <div title="You start playing with the leader" class="leader">Leader<img src="/assets/imgs/survivors/empty.png" class="team-photo photo-leader"></div>
-          <div title="If the leader dies, you continue playing with the follower" class="follower">Follower<img src="/assets/imgs/survivors/empty.png" class="team-photo"></div>
+          <div class="leader">Leader<img src="/assets/imgs/survivors/empty.png" class="team-photo photo-leader"></div>
+          <div class="follower">Follower<img src="/assets/imgs/survivors/empty.png" class="team-photo"></div>
           <div>Drag your characters to the team</div>
         </div>
+        <div class="explain">You start playing with the leader. If the leader dies, you continue playing with the follower</div>
         <div class="photo-container"><img class="photo"></div>
         <div class="info">
           <div class="name"></div>
           <div class="description"></div>
         </div>
-        <div class="ready">I'm ready!</div>
       </div>
       <div class="list-character"></div>
     </div>
@@ -49,12 +53,15 @@
         <div class="title">Personal missions:</div>
         <div class="result"></div>
       </div>
-      <div class="again"><a href="/">Play again?</a></div>
+      <div class="again"><a href="/#section2">Play again?</a></div>
     </div>
     <!-- canvas-->
     <div id="content"></div>
     <div id="top-left-interface" class="interface">MISSIONS</div>
+    <div id="music-button"></div>
     <div id="top-right-interface" class="interface clock"></div>
+    <div id="your-turn" class="blink">YOUR TURN!</div>
+    <div id="error-message"></div>
     <div class="veil"></div>
     <div class="lightbox">
       <div id="close-lb"></div>
@@ -124,6 +131,9 @@
         <div id="user-profile" class="menu-element"><img>
           <div class="life">
             <div class="text">3</div>
+          </div>
+          <div class="defense">
+            <div class="text">0</div>
           </div>
         </div>
         <div id="inventory" class="menu-element">

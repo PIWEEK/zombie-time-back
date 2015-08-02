@@ -31,14 +31,14 @@ var StompConnection = (function () {
       },
           onError = function onError(error) {
         _this.isConnected = false;
-        console.log('======================================');
-        console.log('= ERROR IN STOMP CONNECTION');
+        console.log("======================================");
+        console.log("= ERROR IN STOMP CONNECTION");
         console.log(error);
-        console.log('======================================');
+        console.log("======================================");
       };
 
       this.game = game;
-      this.socket = new SockJS(conf.websocketsUrl + '/message');
+      this.socket = new SockJS(conf.websocketsUrl + "/message");
       this.client = Stomp.over(this.socket);
       this.client.connect(headers, onConnect, onError);
     }

@@ -50,6 +50,12 @@ body {
         display: inline-block; }
         #choose-character .selected-character .team .leader .team-photo, #choose-character .selected-character .team .follower .team-photo {
           width: 100%; }
+    #choose-character .selected-character .explain {
+      font-size: 20px;
+      color: gray;
+      text-align: center;
+      margin-bottom: 25px;
+      padding: 0 20px; }
     #choose-character .selected-character .photo-container {
       width: 100%;
       height: 30%;
@@ -71,14 +77,20 @@ body {
         color: white;
         word-wrap: break-word; }
     #choose-character .selected-character .ready {
+      padding: 5px;
       width: 50%;
       padding: 2% 5% 2% 5%;
       margin: 5% auto;
       text-align: center;
-      background-color: orange;
-      font-size: 24px;
-      color: white;
-      cursor: pointer; }
+      font-size: 24px; }
+      #choose-character .selected-character .ready .button {
+        background-color: orange;
+        color: white;
+        cursor: pointer; }
+      #choose-character .selected-character .ready .info {
+        background-color: gray;
+        color: black;
+        display: none; }
   #choose-character .list-character {
     width: 75%;
     height: 100%;
@@ -184,6 +196,16 @@ body {
   background-repeat: no-repeat;
   text-align: center;
   padding-top: 15px; }
+
+#music-button {
+  position: absolute;
+  top: 10px;
+  left: 420px;
+  width: 50px;
+  height: 50px;
+  background-size: cover;
+  background-image: url("/assets/imgs/music.png");
+  cursor: pointer; }
 
 #top-right-interface {
   width: 192px;
@@ -321,6 +343,36 @@ body {
       width: 221px;
       height: 20px; }
 
+#your-turn {
+  pointer-events: none;
+  font-family: 'Dead';
+  font-size: 150px;
+  color: #550000;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -365px;
+  margin-top: -65px;
+  z-index: 2000;
+  width: 730px;
+  height: 130px;
+  display: none; }
+
+#error-message {
+  pointer-events: none;
+  font-family: 'Dead';
+  font-size: 70px;
+  color: #550000;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -365px;
+  margin-top: -35px;
+  z-index: 2001;
+  width: 730px;
+  height: 70px;
+  display: none; }
+
 #bottom-interface {
   background-color: #800000;
   margin: 0 auto;
@@ -332,19 +384,25 @@ body {
     #bottom-interface #user-profile img {
       width: 114px;
       height: 114px; }
-    #bottom-interface #user-profile .life {
+    #bottom-interface #user-profile .life, #bottom-interface #user-profile .defense {
       position: absolute;
-      right: 0;
-      bottom: 0;
       width: 40px;
-      height: 40px;
-      background-image: url("/assets/imgs/button-interface/heart.png"); }
-      #bottom-interface #user-profile .life .text {
-        margin-top: 8px;
+      height: 40px; }
+      #bottom-interface #user-profile .life .text, #bottom-interface #user-profile .defense .text {
         color: white;
         font-family: 'Dead';
         font-size: 28px;
         text-align: center; }
+    #bottom-interface #user-profile .life {
+      background-image: url("/assets/imgs/button-interface/heart.png");
+      right: 0;
+      bottom: 0; }
+      #bottom-interface #user-profile .life .text {
+        margin-top: 8px; }
+    #bottom-interface #user-profile .defense {
+      background-image: url("/assets/imgs/button-interface/defense.png");
+      left: 0;
+      top: 75px; }
 
 .menu-element {
   height: 114px;
@@ -660,6 +718,8 @@ body {
         color: green; }
       #end-game .main-mission .result .mission .fail, #end-game .personal-missions .result .mission .fail {
         color: red; }
+      #end-game .main-mission .result .mission .kills, #end-game .personal-missions .result .mission .kills {
+        color: white; }
   #end-game .again {
     text-align: center; }
     #end-game .again a {
@@ -755,7 +815,7 @@ audio {
   background-size: cover; }
   .damage .text, .defense .text {
     line-height: 43px;
-    color: black;
+    color: white;
     font-family: 'Dead';
     font-size: 25px;
     text-align: center; }
@@ -768,3 +828,23 @@ audio {
 
 .hidden {
   display: none; }
+
+@keyframes blink {
+  0% {
+    opacity: 1.0; }
+  50% {
+    opacity: 0.0; }
+  100% {
+    opacity: 1.0; } }
+
+@-webkit-keyframes blink {
+  0% {
+    opacity: 1.0; }
+  50% {
+    opacity: 0.0; }
+  100% {
+    opacity: 1.0; } }
+
+.blink {
+  animation: blink 1s step-start 0s infinite;
+  -webkit-animation: blink 1s step-start 0s infinite; }
