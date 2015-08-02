@@ -180,14 +180,36 @@ class GameEngineService {
         }
     }
 
+    SurvivorStatus _nextTurnSurvivor(Game game, SurvivorStatus survivor) {
+        def leaderes = game.missionStatus.survivors.findAll { it.leader == true }
+        if (leaderes) {
+            return leaderes[(leaderes.indexOf(survivor) + 1) % leaderes.size()]
+        } else {
+            return null
+        }
+    }
+
+    void _changeTurnNextSurvivor(Game game, SurvivorStatus nextSurvivor) {
+        game.playerTurn = nextSurvivor.player
+        messageService.sendStartTurnMessage(game, nextSurvivor)
+        _sendFullGameMessage(game)
+    }
+
+    void _changeTurn(Game game) {
+        def currentSurvivor = _getPlayerCurrentSurvivor(game, game.playerTurn)
+        def nextSurvivor = _nextTurnSurvivor(game, currentSurvivor)
+        if (nextSurvivor) {
+            _changeTurnNextSurvivor(game, nextSurvivor)
+        }
+    }
+
     void processEndTurnMessage(Game game, User player, Map data) {
         def survivor = _getPlayerCurrentSurvivor(game, player)
         if (game.hasStarted &&
                 game.playerTurn == player
         ) {
 
-            def leaderes = game.missionStatus.survivors.findAll { it.leader == true }
-            def nextSurvivor = leaderes[(leaderes.indexOf(survivor) + 1) % leaderes.size()]
+            def nextSurvivor = _nextTurnSurvivor(game, survivor)
 
             survivor.remainingActions = survivor.survivor.actions
             survivor.remainingMovement = survivor.survivor.movement
@@ -211,9 +233,7 @@ class GameEngineService {
             }
 
             if (!game.hasFinished) {
-                game.playerTurn = nextSurvivor.player
-                messageService.sendStartTurnMessage(game, nextSurvivor)
-                _sendFullGameMessage(game)
+                _changeTurnNextSurvivor(game, nextSurvivor)
             }
         }
     }
@@ -237,6 +257,7 @@ class GameEngineService {
                     damage = 0
                 } else {
                     damage -= survivor.defense.remainingLevel
+                    survivor.inventory.remove(survivor.defense)
                     survivor.defense = null
                 }
             }
@@ -862,6 +883,7 @@ class GameEngineService {
             def numNewZombies = 0
             def damages = []
             def zombies = []
+            boolean changeTurn = false
             zombies.addAll(game.missionStatus.zombies.clone())
 
             //First attack
@@ -875,6 +897,9 @@ class GameEngineService {
                         damage  : damage,
                         death   : death
                 ]
+                if (survivor.player == game.playerTurn && death) {
+                    changeTurn = true
+                }
             }
 
 
@@ -924,6 +949,10 @@ class GameEngineService {
             scheduleZombieTime(game)
 
             _checkAllDead(game)
+
+            if (!game.hasFinished && changeTurn) {
+                _changeTurn(game)
+            }
         }
 
     }
